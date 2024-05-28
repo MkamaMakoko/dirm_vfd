@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:dirm_vfd/objects/_.dart';
+import 'package:dirm_vfd/utils/_.dart';
+import 'package:dirm_vfd/utils/validate_cutomer_id.dart';
 import 'package:dirm_vfd/utils/validate_email.dart';
 import 'package:dirm_vfd/utils/validate_name.dart';
 import 'package:dirm_vfd/utils/validate_password.dart';
 import 'package:dirm_vfd/utils/validate_phone.dart';
-import 'package:dirm_vfd/utils/validate_tin.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -20,6 +21,11 @@ part 'sign_up/state.dart';
 part 'user.dart';
 part 'new_receipt/state.dart';
 part 'new_receipt/provider.dart';
+part 'items/provider.dart';
+part 'items/state.dart';
+part 'customers/state.dart';
+part 'customers/provider.dart';
+part 'receipts.dart';
 
 Future<http.Response> _post(
     {required String endpoint,

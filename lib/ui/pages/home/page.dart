@@ -2,13 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/objects/_.dart';
 import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/routes/router.gr.dart';
+import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 part 'menu_button.dart';
-part 'search_anchor.dart';
 part 'drawer.dart';
 
 @RoutePage()
@@ -32,44 +32,44 @@ class HomePage extends ConsumerWidget {
                 builder: (context) => IconButton(
                     onPressed: () => Scaffold.of(context).openDrawer(),
                     icon: const Icon(Icons.person_rounded))),
-            actions: const [_SearchAnchor()],
+            actions: const [AppSearchAnchor()],
           ),
-          const SliverPadding(
-            padding: EdgeInsets.all(edgeInsertValue / 2),
+          SliverPadding(
+            padding: const EdgeInsets.all(edgeInsertValue / 2),
             sliver: SliverGrid(
                 delegate: SliverChildListDelegate.fixed([
-                  _BigMenuButton(
+                  const _BigMenuButton(
                     label: 'New receipt',
                     iconData: Icons.create_rounded,
                     route: NewReceiptRoute(),
                   ),
-                  _BigMenuButton(
+                  const _BigMenuButton(
                     label: 'My receipts',
                     iconData: Icons.receipt_long_rounded,
                     route: MyReceiptsRoute(),
                   ),
-                  _BigMenuButton(
+                  const _BigMenuButton(
                     label: 'Customers',
                     iconData: Icons.people_rounded,
-                    route: MyReceiptsRoute(),
+                    route: CustomersRoute(),
                   ),
                   _BigMenuButton(
                     label: 'Products & Services',
                     iconData: Icons.shopping_cart_rounded,
-                    route: MyReceiptsRoute(),
+                    route: ItemsRoute(pickMode: false),
                   ),
-                  _BigMenuButton(
+                  const _BigMenuButton(
                     label: 'Z Reports',
                     iconData: Icons.show_chart_rounded,
                     route: ZReportsRoute(),
                   ),
-                  _BigMenuButton(
+                  const _BigMenuButton(
                     label: 'My VFD',
                     iconData: Icons.print_rounded,
-                    route: MyReceiptsRoute(),
+                    route: null,
                   ),
                 ]),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: edgeInsertValue / 4,
                     crossAxisSpacing: edgeInsertValue / 4)),

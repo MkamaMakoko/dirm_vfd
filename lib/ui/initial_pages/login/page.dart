@@ -3,6 +3,7 @@ import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/routes/router.gr.dart';
 import 'package:dirm_vfd/ui/widgets/in_button_progress_indicator.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
+import 'package:dirm_vfd/utils/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,8 +17,7 @@ class InitialLoginPage extends ConsumerWidget {
     ref.listen(loginProvider, (_, state) {
       if (state case AsyncError(:final error, :final stackTrace)) {
         print(stackTrace);
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text(error.toString())));
+        context.snackBar(message: error.toString(), error: true);
       }
     });
     final state = ref.watch(loginProvider);

@@ -426,11 +426,10 @@ abstract class _SignUpState extends SignUpState {
 /// @nodoc
 mixin _$NewReceiptState {
   int get currentStep => throw _privateConstructorUsedError;
-  String get customerName => throw _privateConstructorUsedError;
-  String get customerId => throw _privateConstructorUsedError;
-  String get customerMobile => throw _privateConstructorUsedError;
-  IdType get idType => throw _privateConstructorUsedError;
+  CustomersState get customersState => throw _privateConstructorUsedError;
   PaymentType get paymentType => throw _privateConstructorUsedError;
+  List<({double discount, Item item, int quantity})> get items =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NewReceiptStateCopyWith<NewReceiptState> get copyWith =>
@@ -445,11 +444,11 @@ abstract class $NewReceiptStateCopyWith<$Res> {
   @useResult
   $Res call(
       {int currentStep,
-      String customerName,
-      String customerId,
-      String customerMobile,
-      IdType idType,
-      PaymentType paymentType});
+      CustomersState customersState,
+      PaymentType paymentType,
+      List<({double discount, Item item, int quantity})> items});
+
+  $CustomersStateCopyWith<$Res> get customersState;
 }
 
 /// @nodoc
@@ -466,38 +465,36 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
   @override
   $Res call({
     Object? currentStep = null,
-    Object? customerName = null,
-    Object? customerId = null,
-    Object? customerMobile = null,
-    Object? idType = null,
+    Object? customersState = null,
     Object? paymentType = null,
+    Object? items = null,
   }) {
     return _then(_value.copyWith(
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      customerName: null == customerName
-          ? _value.customerName
-          : customerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerId: null == customerId
-          ? _value.customerId
-          : customerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerMobile: null == customerMobile
-          ? _value.customerMobile
-          : customerMobile // ignore: cast_nullable_to_non_nullable
-              as String,
-      idType: null == idType
-          ? _value.idType
-          : idType // ignore: cast_nullable_to_non_nullable
-              as IdType,
+      customersState: null == customersState
+          ? _value.customersState
+          : customersState // ignore: cast_nullable_to_non_nullable
+              as CustomersState,
       paymentType: null == paymentType
           ? _value.paymentType
           : paymentType // ignore: cast_nullable_to_non_nullable
               as PaymentType,
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<({double discount, Item item, int quantity})>,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $CustomersStateCopyWith<$Res> get customersState {
+    return $CustomersStateCopyWith<$Res>(_value.customersState, (value) {
+      return _then(_value.copyWith(customersState: value) as $Val);
+    });
   }
 }
 
@@ -511,11 +508,12 @@ abstract class _$$NewReceiptStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {int currentStep,
-      String customerName,
-      String customerId,
-      String customerMobile,
-      IdType idType,
-      PaymentType paymentType});
+      CustomersState customersState,
+      PaymentType paymentType,
+      List<({double discount, Item item, int quantity})> items});
+
+  @override
+  $CustomersStateCopyWith<$Res> get customersState;
 }
 
 /// @nodoc
@@ -530,37 +528,27 @@ class __$$NewReceiptStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentStep = null,
-    Object? customerName = null,
-    Object? customerId = null,
-    Object? customerMobile = null,
-    Object? idType = null,
+    Object? customersState = null,
     Object? paymentType = null,
+    Object? items = null,
   }) {
     return _then(_$NewReceiptStateImpl(
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
-      customerName: null == customerName
-          ? _value.customerName
-          : customerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerId: null == customerId
-          ? _value.customerId
-          : customerId // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerMobile: null == customerMobile
-          ? _value.customerMobile
-          : customerMobile // ignore: cast_nullable_to_non_nullable
-              as String,
-      idType: null == idType
-          ? _value.idType
-          : idType // ignore: cast_nullable_to_non_nullable
-              as IdType,
+      customersState: null == customersState
+          ? _value.customersState
+          : customersState // ignore: cast_nullable_to_non_nullable
+              as CustomersState,
       paymentType: null == paymentType
           ? _value.paymentType
           : paymentType // ignore: cast_nullable_to_non_nullable
               as PaymentType,
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<({double discount, Item item, int quantity})>,
     ));
   }
 }
@@ -571,35 +559,33 @@ class _$NewReceiptStateImpl extends _NewReceiptState
     with DiagnosticableTreeMixin {
   const _$NewReceiptStateImpl(
       {this.currentStep = 0,
-      this.customerName = '',
-      this.customerId = '',
-      this.customerMobile = '',
-      this.idType = IdType.tin,
-      this.paymentType = PaymentType.cash})
-      : super._();
+      required this.customersState,
+      this.paymentType = PaymentType.cash,
+      final List<({double discount, Item item, int quantity})> items =
+          const []})
+      : _items = items,
+        super._();
 
   @override
   @JsonKey()
   final int currentStep;
   @override
-  @JsonKey()
-  final String customerName;
-  @override
-  @JsonKey()
-  final String customerId;
-  @override
-  @JsonKey()
-  final String customerMobile;
-  @override
-  @JsonKey()
-  final IdType idType;
+  final CustomersState customersState;
   @override
   @JsonKey()
   final PaymentType paymentType;
+  final List<({double discount, Item item, int quantity})> _items;
+  @override
+  @JsonKey()
+  List<({double discount, Item item, int quantity})> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NewReceiptState(currentStep: $currentStep, customerName: $customerName, customerId: $customerId, customerMobile: $customerMobile, idType: $idType, paymentType: $paymentType)';
+    return 'NewReceiptState(currentStep: $currentStep, customersState: $customersState, paymentType: $paymentType, items: $items)';
   }
 
   @override
@@ -608,11 +594,9 @@ class _$NewReceiptStateImpl extends _NewReceiptState
     properties
       ..add(DiagnosticsProperty('type', 'NewReceiptState'))
       ..add(DiagnosticsProperty('currentStep', currentStep))
-      ..add(DiagnosticsProperty('customerName', customerName))
-      ..add(DiagnosticsProperty('customerId', customerId))
-      ..add(DiagnosticsProperty('customerMobile', customerMobile))
-      ..add(DiagnosticsProperty('idType', idType))
-      ..add(DiagnosticsProperty('paymentType', paymentType));
+      ..add(DiagnosticsProperty('customersState', customersState))
+      ..add(DiagnosticsProperty('paymentType', paymentType))
+      ..add(DiagnosticsProperty('items', items));
   }
 
   @override
@@ -622,20 +606,16 @@ class _$NewReceiptStateImpl extends _NewReceiptState
             other is _$NewReceiptStateImpl &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
-            (identical(other.customerName, customerName) ||
-                other.customerName == customerName) &&
-            (identical(other.customerId, customerId) ||
-                other.customerId == customerId) &&
-            (identical(other.customerMobile, customerMobile) ||
-                other.customerMobile == customerMobile) &&
-            (identical(other.idType, idType) || other.idType == idType) &&
+            (identical(other.customersState, customersState) ||
+                other.customersState == customersState) &&
             (identical(other.paymentType, paymentType) ||
-                other.paymentType == paymentType));
+                other.paymentType == paymentType) &&
+            const DeepCollectionEquality().equals(other._items, _items));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentStep, customerName,
-      customerId, customerMobile, idType, paymentType);
+  int get hashCode => Object.hash(runtimeType, currentStep, customersState,
+      paymentType, const DeepCollectionEquality().hash(_items));
 
   @JsonKey(ignore: true)
   @override
@@ -647,28 +627,520 @@ class _$NewReceiptStateImpl extends _NewReceiptState
 
 abstract class _NewReceiptState extends NewReceiptState {
   const factory _NewReceiptState(
-      {final int currentStep,
-      final String customerName,
-      final String customerId,
-      final String customerMobile,
-      final IdType idType,
-      final PaymentType paymentType}) = _$NewReceiptStateImpl;
+          {final int currentStep,
+          required final CustomersState customersState,
+          final PaymentType paymentType,
+          final List<({double discount, Item item, int quantity})> items}) =
+      _$NewReceiptStateImpl;
   const _NewReceiptState._() : super._();
 
   @override
   int get currentStep;
   @override
-  String get customerName;
-  @override
-  String get customerId;
-  @override
-  String get customerMobile;
-  @override
-  IdType get idType;
+  CustomersState get customersState;
   @override
   PaymentType get paymentType;
   @override
+  List<({double discount, Item item, int quantity})> get items;
+  @override
   @JsonKey(ignore: true)
   _$$NewReceiptStateImplCopyWith<_$NewReceiptStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$ItemsState {
+  List<Item> get items => throw _privateConstructorUsedError;
+  List<SelectedItemState> get selectedItems =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ItemsStateCopyWith<ItemsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ItemsStateCopyWith<$Res> {
+  factory $ItemsStateCopyWith(
+          ItemsState value, $Res Function(ItemsState) then) =
+      _$ItemsStateCopyWithImpl<$Res, ItemsState>;
+  @useResult
+  $Res call({List<Item> items, List<SelectedItemState> selectedItems});
+}
+
+/// @nodoc
+class _$ItemsStateCopyWithImpl<$Res, $Val extends ItemsState>
+    implements $ItemsStateCopyWith<$Res> {
+  _$ItemsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? selectedItems = null,
+  }) {
+    return _then(_value.copyWith(
+      items: null == items
+          ? _value.items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Item>,
+      selectedItems: null == selectedItems
+          ? _value.selectedItems
+          : selectedItems // ignore: cast_nullable_to_non_nullable
+              as List<SelectedItemState>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ItemsStateImplCopyWith<$Res>
+    implements $ItemsStateCopyWith<$Res> {
+  factory _$$ItemsStateImplCopyWith(
+          _$ItemsStateImpl value, $Res Function(_$ItemsStateImpl) then) =
+      __$$ItemsStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<Item> items, List<SelectedItemState> selectedItems});
+}
+
+/// @nodoc
+class __$$ItemsStateImplCopyWithImpl<$Res>
+    extends _$ItemsStateCopyWithImpl<$Res, _$ItemsStateImpl>
+    implements _$$ItemsStateImplCopyWith<$Res> {
+  __$$ItemsStateImplCopyWithImpl(
+      _$ItemsStateImpl _value, $Res Function(_$ItemsStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? items = null,
+    Object? selectedItems = null,
+  }) {
+    return _then(_$ItemsStateImpl(
+      items: null == items
+          ? _value._items
+          : items // ignore: cast_nullable_to_non_nullable
+              as List<Item>,
+      selectedItems: null == selectedItems
+          ? _value._selectedItems
+          : selectedItems // ignore: cast_nullable_to_non_nullable
+              as List<SelectedItemState>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ItemsStateImpl extends _ItemsState with DiagnosticableTreeMixin {
+  const _$ItemsStateImpl(
+      {final List<Item> items = const [],
+      final List<SelectedItemState> selectedItems = const []})
+      : _items = items,
+        _selectedItems = selectedItems,
+        super._();
+
+  final List<Item> _items;
+  @override
+  @JsonKey()
+  List<Item> get items {
+    if (_items is EqualUnmodifiableListView) return _items;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_items);
+  }
+
+  final List<SelectedItemState> _selectedItems;
+  @override
+  @JsonKey()
+  List<SelectedItemState> get selectedItems {
+    if (_selectedItems is EqualUnmodifiableListView) return _selectedItems;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_selectedItems);
+  }
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'ItemsState(items: $items, selectedItems: $selectedItems)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ItemsState'))
+      ..add(DiagnosticsProperty('items', items))
+      ..add(DiagnosticsProperty('selectedItems', selectedItems));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ItemsStateImpl &&
+            const DeepCollectionEquality().equals(other._items, _items) &&
+            const DeepCollectionEquality()
+                .equals(other._selectedItems, _selectedItems));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_items),
+      const DeepCollectionEquality().hash(_selectedItems));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ItemsStateImplCopyWith<_$ItemsStateImpl> get copyWith =>
+      __$$ItemsStateImplCopyWithImpl<_$ItemsStateImpl>(this, _$identity);
+}
+
+abstract class _ItemsState extends ItemsState {
+  const factory _ItemsState(
+      {final List<Item> items,
+      final List<SelectedItemState> selectedItems}) = _$ItemsStateImpl;
+  const _ItemsState._() : super._();
+
+  @override
+  List<Item> get items;
+  @override
+  List<SelectedItemState> get selectedItems;
+  @override
+  @JsonKey(ignore: true)
+  _$$ItemsStateImplCopyWith<_$ItemsStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$SelectedItemState {
+  Item get item => throw _privateConstructorUsedError;
+  double get discount => throw _privateConstructorUsedError;
+  double get quantity => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $SelectedItemStateCopyWith<SelectedItemState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SelectedItemStateCopyWith<$Res> {
+  factory $SelectedItemStateCopyWith(
+          SelectedItemState value, $Res Function(SelectedItemState) then) =
+      _$SelectedItemStateCopyWithImpl<$Res, SelectedItemState>;
+  @useResult
+  $Res call({Item item, double discount, double quantity});
+}
+
+/// @nodoc
+class _$SelectedItemStateCopyWithImpl<$Res, $Val extends SelectedItemState>
+    implements $SelectedItemStateCopyWith<$Res> {
+  _$SelectedItemStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? item = null,
+    Object? discount = null,
+    Object? quantity = null,
+  }) {
+    return _then(_value.copyWith(
+      item: null == item
+          ? _value.item
+          : item // ignore: cast_nullable_to_non_nullable
+              as Item,
+      discount: null == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as double,
+      quantity: null == quantity
+          ? _value.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SelectedItemStateImplCopyWith<$Res>
+    implements $SelectedItemStateCopyWith<$Res> {
+  factory _$$SelectedItemStateImplCopyWith(_$SelectedItemStateImpl value,
+          $Res Function(_$SelectedItemStateImpl) then) =
+      __$$SelectedItemStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({Item item, double discount, double quantity});
+}
+
+/// @nodoc
+class __$$SelectedItemStateImplCopyWithImpl<$Res>
+    extends _$SelectedItemStateCopyWithImpl<$Res, _$SelectedItemStateImpl>
+    implements _$$SelectedItemStateImplCopyWith<$Res> {
+  __$$SelectedItemStateImplCopyWithImpl(_$SelectedItemStateImpl _value,
+      $Res Function(_$SelectedItemStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? item = null,
+    Object? discount = null,
+    Object? quantity = null,
+  }) {
+    return _then(_$SelectedItemStateImpl(
+      item: null == item
+          ? _value.item
+          : item // ignore: cast_nullable_to_non_nullable
+              as Item,
+      discount: null == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as double,
+      quantity: null == quantity
+          ? _value.quantity
+          : quantity // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$SelectedItemStateImpl extends _SelectedItemState
+    with DiagnosticableTreeMixin {
+  const _$SelectedItemStateImpl(
+      {required this.item, required this.discount, required this.quantity})
+      : super._();
+
+  @override
+  final Item item;
+  @override
+  final double discount;
+  @override
+  final double quantity;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'SelectedItemState(item: $item, discount: $discount, quantity: $quantity)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SelectedItemState'))
+      ..add(DiagnosticsProperty('item', item))
+      ..add(DiagnosticsProperty('discount', discount))
+      ..add(DiagnosticsProperty('quantity', quantity));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SelectedItemStateImpl &&
+            (identical(other.item, item) || other.item == item) &&
+            (identical(other.discount, discount) ||
+                other.discount == discount) &&
+            (identical(other.quantity, quantity) ||
+                other.quantity == quantity));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, item, discount, quantity);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SelectedItemStateImplCopyWith<_$SelectedItemStateImpl> get copyWith =>
+      __$$SelectedItemStateImplCopyWithImpl<_$SelectedItemStateImpl>(
+          this, _$identity);
+}
+
+abstract class _SelectedItemState extends SelectedItemState {
+  const factory _SelectedItemState(
+      {required final Item item,
+      required final double discount,
+      required final double quantity}) = _$SelectedItemStateImpl;
+  const _SelectedItemState._() : super._();
+
+  @override
+  Item get item;
+  @override
+  double get discount;
+  @override
+  double get quantity;
+  @override
+  @JsonKey(ignore: true)
+  _$$SelectedItemStateImplCopyWith<_$SelectedItemStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$CustomersState {
+  List<Customer> get customers => throw _privateConstructorUsedError;
+  Customer? get customer => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $CustomersStateCopyWith<CustomersState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CustomersStateCopyWith<$Res> {
+  factory $CustomersStateCopyWith(
+          CustomersState value, $Res Function(CustomersState) then) =
+      _$CustomersStateCopyWithImpl<$Res, CustomersState>;
+  @useResult
+  $Res call({List<Customer> customers, Customer? customer});
+}
+
+/// @nodoc
+class _$CustomersStateCopyWithImpl<$Res, $Val extends CustomersState>
+    implements $CustomersStateCopyWith<$Res> {
+  _$CustomersStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? customers = null,
+    Object? customer = freezed,
+  }) {
+    return _then(_value.copyWith(
+      customers: null == customers
+          ? _value.customers
+          : customers // ignore: cast_nullable_to_non_nullable
+              as List<Customer>,
+      customer: freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as Customer?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CustomersStateImplCopyWith<$Res>
+    implements $CustomersStateCopyWith<$Res> {
+  factory _$$CustomersStateImplCopyWith(_$CustomersStateImpl value,
+          $Res Function(_$CustomersStateImpl) then) =
+      __$$CustomersStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<Customer> customers, Customer? customer});
+}
+
+/// @nodoc
+class __$$CustomersStateImplCopyWithImpl<$Res>
+    extends _$CustomersStateCopyWithImpl<$Res, _$CustomersStateImpl>
+    implements _$$CustomersStateImplCopyWith<$Res> {
+  __$$CustomersStateImplCopyWithImpl(
+      _$CustomersStateImpl _value, $Res Function(_$CustomersStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? customers = null,
+    Object? customer = freezed,
+  }) {
+    return _then(_$CustomersStateImpl(
+      customers: null == customers
+          ? _value._customers
+          : customers // ignore: cast_nullable_to_non_nullable
+              as List<Customer>,
+      customer: freezed == customer
+          ? _value.customer
+          : customer // ignore: cast_nullable_to_non_nullable
+              as Customer?,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$CustomersStateImpl extends _CustomersState
+    with DiagnosticableTreeMixin {
+  const _$CustomersStateImpl(
+      {final List<Customer> customers = const [], this.customer})
+      : _customers = customers,
+        super._();
+
+  final List<Customer> _customers;
+  @override
+  @JsonKey()
+  List<Customer> get customers {
+    if (_customers is EqualUnmodifiableListView) return _customers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_customers);
+  }
+
+  @override
+  final Customer? customer;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'CustomersState(customers: $customers, customer: $customer)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CustomersState'))
+      ..add(DiagnosticsProperty('customers', customers))
+      ..add(DiagnosticsProperty('customer', customer));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CustomersStateImpl &&
+            const DeepCollectionEquality()
+                .equals(other._customers, _customers) &&
+            (identical(other.customer, customer) ||
+                other.customer == customer));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_customers), customer);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CustomersStateImplCopyWith<_$CustomersStateImpl> get copyWith =>
+      __$$CustomersStateImplCopyWithImpl<_$CustomersStateImpl>(
+          this, _$identity);
+}
+
+abstract class _CustomersState extends CustomersState {
+  const factory _CustomersState(
+      {final List<Customer> customers,
+      final Customer? customer}) = _$CustomersStateImpl;
+  const _CustomersState._() : super._();
+
+  @override
+  List<Customer> get customers;
+  @override
+  Customer? get customer;
+  @override
+  @JsonKey(ignore: true)
+  _$$CustomersStateImplCopyWith<_$CustomersStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

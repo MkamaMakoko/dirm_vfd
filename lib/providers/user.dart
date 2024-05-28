@@ -2,10 +2,10 @@ part of '_.dart';
 
 @Riverpod(keepAlive: true)
 class User extends _$User {
-  final _box = Hive.box('user');
+  final _box = Hive.box(hiveKeys.user);
   @override
   FutureOr<UserInfo?> build() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 2));
     if (_box.isEmpty || _box.values.elementAt(0) == null) {
       return null;
     } else {

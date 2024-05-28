@@ -21,7 +21,7 @@ final loginProvider =
 );
 
 typedef _$Login = AutoDisposeAsyncNotifier<LoginState>;
-String _$signUpHash() => r'ab66801acce85fa63db6b0086de4187bb2440bcd';
+String _$signUpHash() => r'300f14126f769c7574195c4f1f5653c7bbb182d5';
 
 /// See also [SignUp].
 @ProviderFor(SignUp)
@@ -36,7 +36,7 @@ final signUpProvider =
 );
 
 typedef _$SignUp = AutoDisposeAsyncNotifier<SignUpState>;
-String _$userHash() => r'4e0db34be6f6b67b35e15fe782a7ed55bd8ecad3';
+String _$userHash() => r'a6781a60f77cb51b4d270c974df443e5acad4a5c';
 
 /// See also [User].
 @ProviderFor(User)
@@ -50,7 +50,7 @@ final userProvider = AsyncNotifierProvider<User, UserInfo?>.internal(
 );
 
 typedef _$User = AsyncNotifier<UserInfo?>;
-String _$newReceiptHash() => r'72a4b6c2c4cdd5254839ba38afab5fdff699c143';
+String _$newReceiptHash() => r'de863f45ee9c3c061221f28aa311432b5641c055';
 
 /// See also [NewReceipt].
 @ProviderFor(NewReceipt)
@@ -65,5 +65,35 @@ final newReceiptProvider =
 );
 
 typedef _$NewReceipt = AsyncNotifier<NewReceiptState>;
+String _$itemsHash() => r'bbb75a6f9d5c64c6790330d90c98e4da2ab8598b';
+
+/// See also [Items].
+@ProviderFor(Items)
+final itemsProvider =
+    AutoDisposeStreamNotifierProvider<Items, ItemsState>.internal(
+  Items.new,
+  name: r'itemsProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$itemsHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Items = AutoDisposeStreamNotifier<ItemsState>;
+String _$customersHash() => r'2d525ace204d7429caabf3be2641f22707504483';
+
+/// See also [Customers].
+@ProviderFor(Customers)
+final customersProvider =
+    StreamNotifierProvider<Customers, CustomersState>.internal(
+  Customers.new,
+  name: r'customersProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$customersHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$Customers = StreamNotifier<CustomersState>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

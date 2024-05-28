@@ -8,7 +8,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter().then((_) async {
-    await Hive.openBox('user');
+    await Hive.openBox(hiveKeys.user);
+    await Hive.openBox(hiveKeys.items);
+    await Hive.openBox(hiveKeys.customers);
   });
   runApp(const ProviderScope(child: MyApp()));
 }

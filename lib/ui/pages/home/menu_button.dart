@@ -3,7 +3,7 @@ part of 'page.dart';
 class _BigMenuButton extends StatelessWidget {
   final String label;
   final IconData iconData;
-  final PageRouteInfo route;
+  final PageRouteInfo? route;
   const _BigMenuButton(
       {required this.iconData, required this.label, required this.route});
 
@@ -11,7 +11,7 @@ class _BigMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => context.router.push(route),
+        onTap:route!=null? () => context.router.push(route!):null,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

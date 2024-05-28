@@ -3,22 +3,32 @@ part of '../_.dart';
 @Riverpod(keepAlive: true)
 class NewReceipt extends _$NewReceipt {
   @override
-  FutureOr<NewReceiptState> build() => const NewReceiptState();
+  FutureOr<NewReceiptState> build() async {
+    return NewReceiptState(
+        customersState: await ref.watch(customersProvider.future));
+  }
 
   void changeCurrentStep(int index) =>
       update((cb) => cb.copyWith(currentStep: index));
 
-  void changeCustomerName(String text) =>
-      update((cb) => cb.copyWith(customerName: text));
-
-  void changeCustomerId(String text) =>
-      update((cb) => cb.copyWith(customerId: text));
-
-  void changeCustomerMobile(String text) =>
-      update((cb) => cb.copyWith(customerMobile: text));
-
-  void changeIdType(IdType type) => update((cb) => cb.copyWith(idType: type));
-
   void changePaymentType(PaymentType type) =>
       update((cb) => cb.copyWith(paymentType: type));
+
+  // void addItem(Item item, int quantity, double discount) =>
+  //     update((cb) => cb.copyWith(items: [
+  //           ...cb.items,
+  //           (item: item, quantity: quantity, discount: discount)
+  //         ]));
+
+  // void removeItem(int index) {
+  //   update((cb) {
+  //     final items = [...cb.items]..removeAt(index);
+  //     return cb.copyWith(items: items);
+  //   });
+  // }
+
+  void clearState() {
+    ref.invalidateSelf();
+    ref.invalidate(customersProvider);
+  }
 }

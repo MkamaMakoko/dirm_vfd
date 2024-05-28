@@ -44,7 +44,12 @@ class SignUp extends _$SignUp {
         }).then((value) => _response(value));
         final bodyStatusCode = response.bodyStatusCode;
         if (bodyStatusCode != 200) {
-          final message = response.data['message'];
+          var message;
+          try {
+            message = response.data['message'];
+          } catch (e) {
+            message = null;
+          }
           throw message ?? response.statusDesc ?? 'Unexpected error occurred';
         } else {
           final message = response.data['message'];

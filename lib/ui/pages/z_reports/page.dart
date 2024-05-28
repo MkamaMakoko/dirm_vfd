@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,7 @@ class ZReportsPage extends StatelessWidget {
             actions: [
               IconButton(
                   onPressed: () {}, icon: const Icon(Icons.clear_all_rounded)),
-              IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.search_rounded)),
+              const AppSearchAnchor.zReprts(),
             ],
           ),
           SliverList.builder(

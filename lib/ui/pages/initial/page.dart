@@ -14,13 +14,11 @@ class InitialPage extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     ref.listen(userProvider, (_, state) {
       final router = context.router;
-      print(state);
       switch (state) {
         case AsyncError(:final error, :final stackTrace):
           {
             print(stackTrace);
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(error.toString())));
+            context.snackBar(message: error.toString(), error: true);
           }
         case AsyncData(:final value):
           {

@@ -6,6 +6,7 @@ class _Drawer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final userState = ref.watch(userProvider);
+    final notifier = ref.watch(userProvider.notifier);
     const tileStyle = ListTileStyle.drawer;
     return Drawer(
       child: Column(
@@ -81,7 +82,7 @@ class _Drawer extends ConsumerWidget {
                       icon: const Icon(Icons.admin_panel_settings_rounded),
                     ),
                     TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () => notifier.changeValue(null),
                       label: const Text('Logout'),
                       icon: const Icon(Icons.logout_rounded),
                     ),

@@ -11,3 +11,12 @@ enum IdType {
   final String label, value;
   const IdType(this.label, this.value);
 }
+
+extension StringExtensionForIdType on String {
+  IdType get toIdType {
+    for (final value in IdType.values) {
+      if (value.name == this) return value;
+    }
+    return IdType.others;
+  }
+}

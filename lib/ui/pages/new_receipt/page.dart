@@ -4,11 +4,19 @@ import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
+import 'package:dirm_vfd/utils/validate_cutomer_id.dart';
+import 'package:dirm_vfd/utils/validate_name.dart';
+import 'package:dirm_vfd/utils/validate_phone.dart';
+import 'package:dirm_vfd/utils/validate_vrn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 part 'customer_info.dart';
+part 'add_customer_info.dart';
 part 'payment_type.dart';
 part 'items.dart';
+part 'add_item_dialog.dart';
+part 'add_item.dart';
 
 @RoutePage()
 class NewReceiptPage extends ConsumerWidget {
@@ -19,17 +27,11 @@ class NewReceiptPage extends ConsumerWidget {
     final notifier = ref.watch(newReceiptProvider.notifier);
     final state = ref.watch(newReceiptProvider);
     final value = state.value;
+    final activeInputs = state is! AsyncLoading;
     return Scaffold(
-      floatingActionButton: value?.currentStep == 1
-          ? FloatingActionButton.extended(
-              onPressed: () {},
-              label: const Text('Add item'),
-              icon: const Icon(Icons.add_rounded),
-            )
-          : null,
       persistentFooterButtons: [
         TextButton.icon(
-          onPressed: () {},
+          onPressed: activeInputs ? notifier.clearState : null,
           label: const Text('Clear'),
           icon: const Icon(Icons.clear_all_rounded),
         ),
@@ -80,8 +82,11 @@ class NewReceiptPage extends ConsumerWidget {
               title: const Text('Customer information'),
               content: const _CustomerInfo(),
               isActive: true),
-          const Step(
-              title: Text('Items (3)'), content: _Items(), isActive: true),
+          Step(
+              state: value?.step1State ?? StepState.indexed,
+              title: Text('Items (${value?.items.length ?? 0})'),
+              content: const _Items(),
+              isActive: true),
           const Step(
               title: Text('Payment information'),
               content: _PaymentType(),
