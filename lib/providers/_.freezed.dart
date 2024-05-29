@@ -428,8 +428,7 @@ mixin _$NewReceiptState {
   int get currentStep => throw _privateConstructorUsedError;
   CustomersState get customersState => throw _privateConstructorUsedError;
   PaymentType get paymentType => throw _privateConstructorUsedError;
-  List<({double discount, Item item, int quantity})> get items =>
-      throw _privateConstructorUsedError;
+  ItemsState get itemsState => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NewReceiptStateCopyWith<NewReceiptState> get copyWith =>
@@ -446,9 +445,10 @@ abstract class $NewReceiptStateCopyWith<$Res> {
       {int currentStep,
       CustomersState customersState,
       PaymentType paymentType,
-      List<({double discount, Item item, int quantity})> items});
+      ItemsState itemsState});
 
   $CustomersStateCopyWith<$Res> get customersState;
+  $ItemsStateCopyWith<$Res> get itemsState;
 }
 
 /// @nodoc
@@ -467,7 +467,7 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
     Object? currentStep = null,
     Object? customersState = null,
     Object? paymentType = null,
-    Object? items = null,
+    Object? itemsState = null,
   }) {
     return _then(_value.copyWith(
       currentStep: null == currentStep
@@ -482,10 +482,10 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
           ? _value.paymentType
           : paymentType // ignore: cast_nullable_to_non_nullable
               as PaymentType,
-      items: null == items
-          ? _value.items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<({double discount, Item item, int quantity})>,
+      itemsState: null == itemsState
+          ? _value.itemsState
+          : itemsState // ignore: cast_nullable_to_non_nullable
+              as ItemsState,
     ) as $Val);
   }
 
@@ -494,6 +494,14 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
   $CustomersStateCopyWith<$Res> get customersState {
     return $CustomersStateCopyWith<$Res>(_value.customersState, (value) {
       return _then(_value.copyWith(customersState: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ItemsStateCopyWith<$Res> get itemsState {
+    return $ItemsStateCopyWith<$Res>(_value.itemsState, (value) {
+      return _then(_value.copyWith(itemsState: value) as $Val);
     });
   }
 }
@@ -510,10 +518,12 @@ abstract class _$$NewReceiptStateImplCopyWith<$Res>
       {int currentStep,
       CustomersState customersState,
       PaymentType paymentType,
-      List<({double discount, Item item, int quantity})> items});
+      ItemsState itemsState});
 
   @override
   $CustomersStateCopyWith<$Res> get customersState;
+  @override
+  $ItemsStateCopyWith<$Res> get itemsState;
 }
 
 /// @nodoc
@@ -530,7 +540,7 @@ class __$$NewReceiptStateImplCopyWithImpl<$Res>
     Object? currentStep = null,
     Object? customersState = null,
     Object? paymentType = null,
-    Object? items = null,
+    Object? itemsState = null,
   }) {
     return _then(_$NewReceiptStateImpl(
       currentStep: null == currentStep
@@ -545,10 +555,10 @@ class __$$NewReceiptStateImplCopyWithImpl<$Res>
           ? _value.paymentType
           : paymentType // ignore: cast_nullable_to_non_nullable
               as PaymentType,
-      items: null == items
-          ? _value._items
-          : items // ignore: cast_nullable_to_non_nullable
-              as List<({double discount, Item item, int quantity})>,
+      itemsState: null == itemsState
+          ? _value.itemsState
+          : itemsState // ignore: cast_nullable_to_non_nullable
+              as ItemsState,
     ));
   }
 }
@@ -561,10 +571,8 @@ class _$NewReceiptStateImpl extends _NewReceiptState
       {this.currentStep = 0,
       required this.customersState,
       this.paymentType = PaymentType.cash,
-      final List<({double discount, Item item, int quantity})> items =
-          const []})
-      : _items = items,
-        super._();
+      required this.itemsState})
+      : super._();
 
   @override
   @JsonKey()
@@ -574,18 +582,12 @@ class _$NewReceiptStateImpl extends _NewReceiptState
   @override
   @JsonKey()
   final PaymentType paymentType;
-  final List<({double discount, Item item, int quantity})> _items;
   @override
-  @JsonKey()
-  List<({double discount, Item item, int quantity})> get items {
-    if (_items is EqualUnmodifiableListView) return _items;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_items);
-  }
+  final ItemsState itemsState;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NewReceiptState(currentStep: $currentStep, customersState: $customersState, paymentType: $paymentType, items: $items)';
+    return 'NewReceiptState(currentStep: $currentStep, customersState: $customersState, paymentType: $paymentType, itemsState: $itemsState)';
   }
 
   @override
@@ -596,7 +598,7 @@ class _$NewReceiptStateImpl extends _NewReceiptState
       ..add(DiagnosticsProperty('currentStep', currentStep))
       ..add(DiagnosticsProperty('customersState', customersState))
       ..add(DiagnosticsProperty('paymentType', paymentType))
-      ..add(DiagnosticsProperty('items', items));
+      ..add(DiagnosticsProperty('itemsState', itemsState));
   }
 
   @override
@@ -610,12 +612,13 @@ class _$NewReceiptStateImpl extends _NewReceiptState
                 other.customersState == customersState) &&
             (identical(other.paymentType, paymentType) ||
                 other.paymentType == paymentType) &&
-            const DeepCollectionEquality().equals(other._items, _items));
+            (identical(other.itemsState, itemsState) ||
+                other.itemsState == itemsState));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentStep, customersState,
-      paymentType, const DeepCollectionEquality().hash(_items));
+  int get hashCode => Object.hash(
+      runtimeType, currentStep, customersState, paymentType, itemsState);
 
   @JsonKey(ignore: true)
   @override
@@ -627,11 +630,10 @@ class _$NewReceiptStateImpl extends _NewReceiptState
 
 abstract class _NewReceiptState extends NewReceiptState {
   const factory _NewReceiptState(
-          {final int currentStep,
-          required final CustomersState customersState,
-          final PaymentType paymentType,
-          final List<({double discount, Item item, int quantity})> items}) =
-      _$NewReceiptStateImpl;
+      {final int currentStep,
+      required final CustomersState customersState,
+      final PaymentType paymentType,
+      required final ItemsState itemsState}) = _$NewReceiptStateImpl;
   const _NewReceiptState._() : super._();
 
   @override
@@ -641,7 +643,7 @@ abstract class _NewReceiptState extends NewReceiptState {
   @override
   PaymentType get paymentType;
   @override
-  List<({double discount, Item item, int quantity})> get items;
+  ItemsState get itemsState;
   @override
   @JsonKey(ignore: true)
   _$$NewReceiptStateImplCopyWith<_$NewReceiptStateImpl> get copyWith =>

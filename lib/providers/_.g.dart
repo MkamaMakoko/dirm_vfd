@@ -65,12 +65,11 @@ final newReceiptProvider =
 );
 
 typedef _$NewReceipt = AsyncNotifier<NewReceiptState>;
-String _$itemsHash() => r'bbb75a6f9d5c64c6790330d90c98e4da2ab8598b';
+String _$itemsHash() => r'6d8ac09b9fdb43683fa8ef62021b61bca73da4a8';
 
 /// See also [Items].
 @ProviderFor(Items)
-final itemsProvider =
-    AutoDisposeStreamNotifierProvider<Items, ItemsState>.internal(
+final itemsProvider = StreamNotifierProvider<Items, ItemsState>.internal(
   Items.new,
   name: r'itemsProvider',
   debugGetCreateSourceHash:
@@ -79,7 +78,7 @@ final itemsProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$Items = AutoDisposeStreamNotifier<ItemsState>;
+typedef _$Items = StreamNotifier<ItemsState>;
 String _$customersHash() => r'2d525ace204d7429caabf3be2641f22707504483';
 
 /// See also [Customers].

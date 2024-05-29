@@ -1,6 +1,6 @@
 part of '../_.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 class Items extends _$Items {
   final _box = Hive.box(hiveKeys.items);
 
@@ -67,6 +67,11 @@ class Items extends _$Items {
           ...cb.selectedItems,
           SelectedItemState(item: item, discount: discount, quantity: quantity)
         ];
+        return cb.copyWith(selectedItems: items);
+      });
+
+  void unselectedItem(SelectedItemState itemState) => update((cb) {
+        final items = [...cb.selectedItems]..remove(itemState);
         return cb.copyWith(selectedItems: items);
       });
 }

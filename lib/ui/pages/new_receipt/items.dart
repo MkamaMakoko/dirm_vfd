@@ -5,38 +5,99 @@ class _Items extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final notifier = ref.watch(newReceiptProvider.notifier);
-    final state = ref.watch(newReceiptProvider);
-    final value = state.value;
+    final unselect = ref
+        .watch(itemsProvider.notifier.select((value) => value.unselectedItem));
+    // final state = ref.watch(newReceiptProvider);
+    // final value = state.value;
+    final items = ref.watch(
+        itemsProvider.select((state) => state.value?.selectedItems ?? []));
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         ListView.separated(
             separatorBuilder: (context, index) => const Divider(height: 0),
-            itemCount: value?.items.length ?? 0,
+            itemCount: items.length,
             shrinkWrap: true,
-            // physics: const ClampingScrollPhysics(),
+            physics: const ClampingScrollPhysics(),
             itemBuilder: (context, index) {
-              final item = value?.items[index];
-              if (item == null) return const SizedBox.shrink();
+              final item = items[index];
               return ListTile(
+                onTap: () async {
+                  await showAdaptiveDialog(
+                      context: context,
+                      builder: (context) => _ItemDialog(item)).then((delete) {
+                    if (delete != null) {
+                      unselect(item);
+                    }
+                  });
+                },
                 contentPadding: EdgeInsets.zero,
+                visualDensity: VisualDensity.compact,
                 trailing: IconButton(
-                    // onPressed: () => notifier.removeItem(index),
-                    onPressed: (){},
+                    onPressed: () => unselect(item),
                     icon: const Icon(Icons.clear_rounded)),
                 title: Text(item.item.name),
                 subtitle: Text(
-                  'Price: Tsh ${item.item.price}'
-                  '\nQuantity: ${item.quantity} ${item.item.unit}'
-                  '\nDiscount: Tsh ${item.discount}'
+                  'Quantity: ${item.quantity} ${item.item.unit}'
                   '\nTotal price: Tsh ${(item.item.price * item.quantity) - item.discount}',
                 ),
                 // onTap: () {},
               );
             }),
-            const _AddItem()
+        const SpaceBetween(),
+        Container(
+            padding: const EdgeInsets.all(edgeInsertValue/2),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(edgeInsertValue),
+                color: context.colorScheme.secondaryContainer.withOpacity(.5)),
+            child: const _AddItem())
       ],
+    );
+  }
+}
+
+class _ItemDialog extends StatelessWidget {
+  final SelectedItemState item;
+  const _ItemDialog(this.item);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog.adaptive(
+      title: Text(item.item.name),
+      actions: [
+        OutlinedButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close')),
+        FilledButton.tonal(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Remove')),
+      ],
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (item.item.description.isNotEmpty) ...[
+              Text(item.item.description, style: context.textTheme.bodySmall),
+              const SpaceBetween(),
+            ],
+            Text('Tax code: ${item.item.taxCode.label}',
+                style: context.textTheme.bodyLarge),
+            Text('Price per ${item.item.unit}: ${item.item.price}',
+                style: context.textTheme.bodyLarge),
+            Text('Quantity: ${item.quantity} ${item.item.unit}',
+                style: context.textTheme.bodyLarge),
+            if (item.discount > 0)
+              Text('Discount: ${item.discount}',
+                  style: context.textTheme.bodyLarge),
+            const SpaceBetween(),
+            Text(
+                'Total: Tshs ${(item.item.price * item.quantity) - item.discount}',
+                style: context.textTheme.bodyLarge
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+          ],
+        ),
+      ),
     );
   }
 }

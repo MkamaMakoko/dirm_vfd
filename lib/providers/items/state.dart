@@ -7,6 +7,14 @@ class ItemsState with _$ItemsState {
     @Default([]) List<Item> items,
     @Default([]) List<SelectedItemState> selectedItems,
   }) = _ItemsState;
+
+  double get totalPrice {
+    double total = 0;
+    for (final item in selectedItems) {
+      total += item.totalPrice;
+    }
+    return total;
+  }
 }
 
 @freezed
@@ -17,4 +25,6 @@ class SelectedItemState with _$SelectedItemState {
     required double discount,
     required double quantity,
   }) = _SelectedItemState;
+
+  double get totalPrice => (item.price * quantity) - discount;
 }

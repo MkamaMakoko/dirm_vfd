@@ -7,7 +7,7 @@ class NewReceiptState with _$NewReceiptState {
     @Default(0) int currentStep,
     required CustomersState customersState,
     @Default(PaymentType.cash) PaymentType paymentType,
-    @Default([]) List<({Item item, int quantity, double discount})> items,
+    required ItemsState itemsState,
   }) = _NewReceiptState;
 
   // String? get nameValidator => validateName(customerName);
@@ -30,9 +30,10 @@ class NewReceiptState with _$NewReceiptState {
   }
 
   StepState get step1State {
-    if (currentStep == 0) return StepState.indexed;
+    final emptyItems = itemsState.selectedItems.isEmpty;
+    if (currentStep == 0 && emptyItems) return StepState.indexed;
     if (currentStep == 1) return StepState.editing;
-    if (items.isEmpty) return StepState.error;
+    if (emptyItems) return StepState.error;
     return StepState.complete;
   }
 }

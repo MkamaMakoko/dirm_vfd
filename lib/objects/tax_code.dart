@@ -16,10 +16,10 @@ enum TaxCode {
       };
 
   String get label => switch (this) {
-        TaxCode.a => 'Standard (CODE A)',
-        TaxCode.b => 'Special rate (CODE B)',
-        TaxCode.c => 'Zero rated (CODE C)',
-        TaxCode.d => 'Special relief (CODE D)',
-        TaxCode.e => 'Exempted (CODE E)',
+        TaxCode.a => 'CODE A (Standard)',
+        TaxCode.b => 'CODE B (Special rate)',
+        TaxCode.c => 'CODE C (Zero rated)',
+        TaxCode.d => 'CODE D (Special relief)',
+        TaxCode.e => 'CODE E (Exempted)',
       };
 }

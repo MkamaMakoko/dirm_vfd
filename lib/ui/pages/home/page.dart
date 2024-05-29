@@ -34,21 +34,21 @@ class HomePage extends ConsumerWidget {
                     icon: const Icon(Icons.person_rounded))),
             actions: const [AppSearchAnchor()],
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(edgeInsertValue / 2),
+          const SliverPadding(
+            padding: EdgeInsets.all(edgeInsertValue / 2),
             sliver: SliverGrid(
                 delegate: SliverChildListDelegate.fixed([
-                  const _BigMenuButton(
+                  _BigMenuButton(
                     label: 'New receipt',
                     iconData: Icons.create_rounded,
                     route: NewReceiptRoute(),
                   ),
-                  const _BigMenuButton(
+                  _BigMenuButton(
                     label: 'My receipts',
                     iconData: Icons.receipt_long_rounded,
                     route: MyReceiptsRoute(),
                   ),
-                  const _BigMenuButton(
+                  _BigMenuButton(
                     label: 'Customers',
                     iconData: Icons.people_rounded,
                     route: CustomersRoute(),
@@ -56,20 +56,20 @@ class HomePage extends ConsumerWidget {
                   _BigMenuButton(
                     label: 'Products & Services',
                     iconData: Icons.shopping_cart_rounded,
-                    route: ItemsRoute(pickMode: false),
+                    route: ItemsRoute(),
                   ),
-                  const _BigMenuButton(
+                  _BigMenuButton(
                     label: 'Z Reports',
                     iconData: Icons.show_chart_rounded,
                     route: ZReportsRoute(),
                   ),
-                  const _BigMenuButton(
+                  _BigMenuButton(
                     label: 'My VFD',
                     iconData: Icons.print_rounded,
                     route: null,
                   ),
                 ]),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     mainAxisSpacing: edgeInsertValue / 4,
                     crossAxisSpacing: edgeInsertValue / 4)),

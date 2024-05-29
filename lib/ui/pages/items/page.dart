@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/objects/_.dart';
 import 'package:dirm_vfd/providers/_.dart';
-import 'package:dirm_vfd/ui/routes/router.gr.dart';
 import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
@@ -12,8 +11,7 @@ part 'item_info.dart';
 
 @RoutePage()
 class ItemsPage extends ConsumerWidget {
-  final bool pickMode;
-  const ItemsPage({super.key, required this.pickMode});
+  const ItemsPage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -22,24 +20,18 @@ class ItemsPage extends ConsumerWidget {
     final value = state.value;
     final activeInputs = state is! AsyncLoading;
     return Scaffold(
-      floatingActionButton: activeInputs
-          ? FloatingActionButton.extended(
-              icon: const Icon(Icons.add_rounded),
-              onPressed: () => context.router.push(NewItemRoute()),
-              label: const Text('New item'))
-          : null,
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.medium(
+          const SliverAppBar.medium(
             title:
-                Text(pickMode ? 'Pick product/service' : 'Products & Services'),
-                actions: const [AppSearchAnchor.items()],
+                Text('Products & Services'),
+            actions: [AppSearchAnchor.items()],
           ),
           if (state is AsyncLoading)
             const SliverToBoxAdapter(
               child: LinearProgressIndicator(),
             ),
-          if (value?.isEmpty ?? true)
+          if (value?.items.isEmpty ?? true)
             const SliverToBoxAdapter(
                 child: Padding(
               padding: EdgeInsets.all(edgeInsertValue),
@@ -52,51 +44,41 @@ class ItemsPage extends ConsumerWidget {
               ),
             )),
           SliverList.separated(
-              itemCount: value?.length ?? 0,
+              itemCount: value?.items.length ?? 0,
               itemBuilder: (context, index) {
-                final item = value?[index];
+                final item = value?.items[index];
                 if (item != null) {
                   return ListTile(
-                      subtitle: Text('Tax code: ${item.taxCode}'),
-                      onTap: pickMode && activeInputs
-                          ? () => context.router.maybePop(item)
-                          : null,
+                      subtitle: Text('Tax code: ${item.taxCode.label}'),
                       title: Text(item.name),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                              onPressed: () => showAdaptiveDialog(
+                      onTap: () => showAdaptiveDialog(
                                   context: context,
                                   builder: (context) => _ItemInfoDialog(item)),
-                              icon: const Icon(Icons.info_rounded)),
-                          IconButton(
-                              onPressed: activeInputs
-                                  ? () async => await showAdaptiveDialog(
-                                      context: context,
-                                      builder: (context) =>
-                                          AlertDialog.adaptive(
-                                            title: const Text('Delete item'),
-                                            content: const Text('Are you sure '
-                                                'you want to delete '
-                                                'this item?'),
-                                            actions: [
-                                              OutlinedButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  child: const Text('Cancel')),
-                                              FilledButton.tonal(
-                                                  onPressed: () {
-                                                    notifier.deleteItem(index);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('Delete')),
-                                            ],
-                                          ))
-                                  : null,
-                              icon: const Icon(Icons.delete_forever_rounded)),
-                        ],
-                      ));
+                      trailing: IconButton(
+                          onPressed: activeInputs
+                              ? () async => await showAdaptiveDialog(
+                                  context: context,
+                                  builder: (context) =>
+                                      AlertDialog.adaptive(
+                                        title: const Text('Delete item'),
+                                        content: const Text('Are you sure '
+                                            'you want to delete '
+                                            'this item?'),
+                                        actions: [
+                                          OutlinedButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: const Text('Cancel')),
+                                          FilledButton.tonal(
+                                              onPressed: () {
+                                                notifier.deleteItem(index);
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('Delete')),
+                                        ],
+                                      ))
+                              : null,
+                          icon: const Icon(Icons.delete_forever_rounded)));
                 }
                 return const SizedBox.shrink();
               },

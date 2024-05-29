@@ -2,9 +2,20 @@ part of '../_.dart';
 
 @Riverpod(keepAlive: true)
 class NewReceipt extends _$NewReceipt {
+  bool _firstRun = true;
+
   @override
   FutureOr<NewReceiptState> build() async {
+    final int currentStep;
+    if (_firstRun) {
+      _firstRun = false;
+      currentStep = 0;
+    } else {
+      currentStep = state.value?.currentStep ?? 0;
+    }
     return NewReceiptState(
+      currentStep: currentStep,
+        itemsState: await ref.watch(itemsProvider.future),
         customersState: await ref.watch(customersProvider.future));
   }
 
