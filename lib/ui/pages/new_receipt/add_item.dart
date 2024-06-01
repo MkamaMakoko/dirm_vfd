@@ -62,7 +62,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
             unitTEC.clear();
             priceTEC.clear();
             discountTEC.clear();
-            quantityTEC.clear();
+            quantityTEC.text = '1';
             setState(() => item = null);
           }
         : null;
@@ -190,7 +190,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
           // validator: (_) => value?.priceValidator,
           // onEditingComplete: onSubmit,
           decoration: InputDecoration(
-            labelText: 'Quantity per ${item?.unit ?? 'Units'}',
+            labelText: 'Quantity in ${item?.unit ?? 'Units'}',
             prefixIcon: const Icon(Icons.numbers_rounded),
           ),
         ),

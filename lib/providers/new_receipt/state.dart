@@ -8,18 +8,8 @@ class NewReceiptState with _$NewReceiptState {
     required CustomersState customersState,
     @Default(PaymentType.cash) PaymentType paymentType,
     required ItemsState itemsState,
+    ReceiptResult? result,
   }) = _NewReceiptState;
-
-  // String? get nameValidator => validateName(customerName);
-
-  // String? get phoneValidator => validatePhone(customerMobile);
-
-  // String? get customerIdValidator {
-  //   return switch (idType) {
-  //     IdType.tin => validateTin(customerId),
-  //     _ => customerId.isEmpty ? 'Customer ID cannot be empty' : null,
-  //   };
-  // }
 
   StepState get step0State {
     if (currentStep == 0) return StepState.editing;
@@ -36,4 +26,72 @@ class NewReceiptState with _$NewReceiptState {
     if (emptyItems) return StepState.error;
     return StepState.complete;
   }
+
+  bool get canPreview => customersState.customer != null &&
+        itemsState.selectedItems.isNotEmpty;
+
+  double get price {
+    double total = 0;
+    for (final value in itemsState.selectedItems) {
+      total += value.item.price;
+    }
+    return total;
+  }
+
+  double get priceWithTax => price + tax;
+
+  double get discount {
+    double total = 0;
+    for (final value in itemsState.selectedItems) {
+      total += value.discount;
+    }
+    return total;
+  }
+
+  double get tax {
+    if (customersState.customer?.vrn.isEmpty ?? true) return 0;
+    double total = 0;
+    for (final value in itemsState.selectedItems) {
+      total += value.totalTax;
+    }
+    return total;
+  }
+
+  double get totalAmount => price + tax - discount;
+}
+
+final class ReceiptResult {
+  final String id,
+      clientId,
+      verificationCode,
+      verificationUrl,
+      statusDescription;
+
+  final num receiptNumber, zNumber, status, receiptStatus;
+  final DateTime date;
+
+  ReceiptResult({
+    required this.id,
+    required this.clientId,
+    required this.receiptNumber,
+    required this.zNumber,
+    required this.status,
+    required this.receiptStatus,
+    required this.verificationCode,
+    required this.verificationUrl,
+    required this.statusDescription,
+    required this.date,
+  });
+
+  factory ReceiptResult.fromMap(Map map) => ReceiptResult(
+      id: map['id'],
+      clientId: map['clientId'],
+      receiptNumber: map['rctNum'],
+      zNumber: map['zNum'],
+      status: map['status'],
+      verificationCode: map['traReceiptVerificationCode'],
+      statusDescription: map['statusDesc'],
+      receiptStatus: map['receiptStatus'],
+      verificationUrl: map['traReceiptVerificationUrl'],
+      date: DateTime.tryParse((map['dateTime'] as String)) ?? DateTime.now());
 }

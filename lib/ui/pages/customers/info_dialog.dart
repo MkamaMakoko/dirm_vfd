@@ -24,15 +24,15 @@ class _InfoDialog extends StatelessWidget {
         ),
       ),
       actions: [
-        FilledButton.icon(
+        // FilledButton.icon(
+        //     onPressed: () => Navigator.pop(context),
+        //     icon: const Icon(Icons.create_rounded),
+        //     label: const Text('Create receipt')),
+        TextButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.create_rounded),
-            label: const Text('Create receipt')),
-        FilledButton.tonalIcon(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.delete_forever_rounded),
-            label: const Text('Delete')),
-        OutlinedButton(
+            // icon: const Icon(Icons.delete_forever_rounded),
+            child: const Text('Delete')),
+        TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text('Close')),
 

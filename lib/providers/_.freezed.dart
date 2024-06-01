@@ -429,6 +429,7 @@ mixin _$NewReceiptState {
   CustomersState get customersState => throw _privateConstructorUsedError;
   PaymentType get paymentType => throw _privateConstructorUsedError;
   ItemsState get itemsState => throw _privateConstructorUsedError;
+  ReceiptResult? get result => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $NewReceiptStateCopyWith<NewReceiptState> get copyWith =>
@@ -445,7 +446,8 @@ abstract class $NewReceiptStateCopyWith<$Res> {
       {int currentStep,
       CustomersState customersState,
       PaymentType paymentType,
-      ItemsState itemsState});
+      ItemsState itemsState,
+      ReceiptResult? result});
 
   $CustomersStateCopyWith<$Res> get customersState;
   $ItemsStateCopyWith<$Res> get itemsState;
@@ -468,6 +470,7 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
     Object? customersState = null,
     Object? paymentType = null,
     Object? itemsState = null,
+    Object? result = freezed,
   }) {
     return _then(_value.copyWith(
       currentStep: null == currentStep
@@ -486,6 +489,10 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
           ? _value.itemsState
           : itemsState // ignore: cast_nullable_to_non_nullable
               as ItemsState,
+      result: freezed == result
+          ? _value.result
+          : result // ignore: cast_nullable_to_non_nullable
+              as ReceiptResult?,
     ) as $Val);
   }
 
@@ -518,7 +525,8 @@ abstract class _$$NewReceiptStateImplCopyWith<$Res>
       {int currentStep,
       CustomersState customersState,
       PaymentType paymentType,
-      ItemsState itemsState});
+      ItemsState itemsState,
+      ReceiptResult? result});
 
   @override
   $CustomersStateCopyWith<$Res> get customersState;
@@ -541,6 +549,7 @@ class __$$NewReceiptStateImplCopyWithImpl<$Res>
     Object? customersState = null,
     Object? paymentType = null,
     Object? itemsState = null,
+    Object? result = freezed,
   }) {
     return _then(_$NewReceiptStateImpl(
       currentStep: null == currentStep
@@ -559,6 +568,10 @@ class __$$NewReceiptStateImplCopyWithImpl<$Res>
           ? _value.itemsState
           : itemsState // ignore: cast_nullable_to_non_nullable
               as ItemsState,
+      result: freezed == result
+          ? _value.result
+          : result // ignore: cast_nullable_to_non_nullable
+              as ReceiptResult?,
     ));
   }
 }
@@ -571,7 +584,8 @@ class _$NewReceiptStateImpl extends _NewReceiptState
       {this.currentStep = 0,
       required this.customersState,
       this.paymentType = PaymentType.cash,
-      required this.itemsState})
+      required this.itemsState,
+      this.result})
       : super._();
 
   @override
@@ -584,10 +598,12 @@ class _$NewReceiptStateImpl extends _NewReceiptState
   final PaymentType paymentType;
   @override
   final ItemsState itemsState;
+  @override
+  final ReceiptResult? result;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NewReceiptState(currentStep: $currentStep, customersState: $customersState, paymentType: $paymentType, itemsState: $itemsState)';
+    return 'NewReceiptState(currentStep: $currentStep, customersState: $customersState, paymentType: $paymentType, itemsState: $itemsState, result: $result)';
   }
 
   @override
@@ -598,7 +614,8 @@ class _$NewReceiptStateImpl extends _NewReceiptState
       ..add(DiagnosticsProperty('currentStep', currentStep))
       ..add(DiagnosticsProperty('customersState', customersState))
       ..add(DiagnosticsProperty('paymentType', paymentType))
-      ..add(DiagnosticsProperty('itemsState', itemsState));
+      ..add(DiagnosticsProperty('itemsState', itemsState))
+      ..add(DiagnosticsProperty('result', result));
   }
 
   @override
@@ -613,12 +630,13 @@ class _$NewReceiptStateImpl extends _NewReceiptState
             (identical(other.paymentType, paymentType) ||
                 other.paymentType == paymentType) &&
             (identical(other.itemsState, itemsState) ||
-                other.itemsState == itemsState));
+                other.itemsState == itemsState) &&
+            (identical(other.result, result) || other.result == result));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, currentStep, customersState, paymentType, itemsState);
+  int get hashCode => Object.hash(runtimeType, currentStep, customersState,
+      paymentType, itemsState, result);
 
   @JsonKey(ignore: true)
   @override
@@ -633,7 +651,8 @@ abstract class _NewReceiptState extends NewReceiptState {
       {final int currentStep,
       required final CustomersState customersState,
       final PaymentType paymentType,
-      required final ItemsState itemsState}) = _$NewReceiptStateImpl;
+      required final ItemsState itemsState,
+      final ReceiptResult? result}) = _$NewReceiptStateImpl;
   const _NewReceiptState._() : super._();
 
   @override
@@ -644,6 +663,8 @@ abstract class _NewReceiptState extends NewReceiptState {
   PaymentType get paymentType;
   @override
   ItemsState get itemsState;
+  @override
+  ReceiptResult? get result;
   @override
   @JsonKey(ignore: true)
   _$$NewReceiptStateImplCopyWith<_$NewReceiptStateImpl> get copyWith =>
@@ -1144,5 +1165,161 @@ abstract class _CustomersState extends CustomersState {
   @override
   @JsonKey(ignore: true)
   _$$CustomersStateImplCopyWith<_$CustomersStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+mixin _$PrinterState {
+  List<BluetoothDevice> get devices => throw _privateConstructorUsedError;
+  bool get isConnected => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $PrinterStateCopyWith<PrinterState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PrinterStateCopyWith<$Res> {
+  factory $PrinterStateCopyWith(
+          PrinterState value, $Res Function(PrinterState) then) =
+      _$PrinterStateCopyWithImpl<$Res, PrinterState>;
+  @useResult
+  $Res call({List<BluetoothDevice> devices, bool isConnected});
+}
+
+/// @nodoc
+class _$PrinterStateCopyWithImpl<$Res, $Val extends PrinterState>
+    implements $PrinterStateCopyWith<$Res> {
+  _$PrinterStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? devices = null,
+    Object? isConnected = null,
+  }) {
+    return _then(_value.copyWith(
+      devices: null == devices
+          ? _value.devices
+          : devices // ignore: cast_nullable_to_non_nullable
+              as List<BluetoothDevice>,
+      isConnected: null == isConnected
+          ? _value.isConnected
+          : isConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PrinterStateImplCopyWith<$Res>
+    implements $PrinterStateCopyWith<$Res> {
+  factory _$$PrinterStateImplCopyWith(
+          _$PrinterStateImpl value, $Res Function(_$PrinterStateImpl) then) =
+      __$$PrinterStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<BluetoothDevice> devices, bool isConnected});
+}
+
+/// @nodoc
+class __$$PrinterStateImplCopyWithImpl<$Res>
+    extends _$PrinterStateCopyWithImpl<$Res, _$PrinterStateImpl>
+    implements _$$PrinterStateImplCopyWith<$Res> {
+  __$$PrinterStateImplCopyWithImpl(
+      _$PrinterStateImpl _value, $Res Function(_$PrinterStateImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? devices = null,
+    Object? isConnected = null,
+  }) {
+    return _then(_$PrinterStateImpl(
+      devices: null == devices
+          ? _value._devices
+          : devices // ignore: cast_nullable_to_non_nullable
+              as List<BluetoothDevice>,
+      isConnected: null == isConnected
+          ? _value.isConnected
+          : isConnected // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$PrinterStateImpl extends _PrinterState with DiagnosticableTreeMixin {
+  const _$PrinterStateImpl(
+      {required final List<BluetoothDevice> devices, required this.isConnected})
+      : _devices = devices,
+        super._();
+
+  final List<BluetoothDevice> _devices;
+  @override
+  List<BluetoothDevice> get devices {
+    if (_devices is EqualUnmodifiableListView) return _devices;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_devices);
+  }
+
+  @override
+  final bool isConnected;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'PrinterState(devices: $devices, isConnected: $isConnected)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'PrinterState'))
+      ..add(DiagnosticsProperty('devices', devices))
+      ..add(DiagnosticsProperty('isConnected', isConnected));
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PrinterStateImpl &&
+            const DeepCollectionEquality().equals(other._devices, _devices) &&
+            (identical(other.isConnected, isConnected) ||
+                other.isConnected == isConnected));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_devices), isConnected);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PrinterStateImplCopyWith<_$PrinterStateImpl> get copyWith =>
+      __$$PrinterStateImplCopyWithImpl<_$PrinterStateImpl>(this, _$identity);
+}
+
+abstract class _PrinterState extends PrinterState {
+  const factory _PrinterState(
+      {required final List<BluetoothDevice> devices,
+      required final bool isConnected}) = _$PrinterStateImpl;
+  const _PrinterState._() : super._();
+
+  @override
+  List<BluetoothDevice> get devices;
+  @override
+  bool get isConnected;
+  @override
+  @JsonKey(ignore: true)
+  _$$PrinterStateImplCopyWith<_$PrinterStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

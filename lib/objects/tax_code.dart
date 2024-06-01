@@ -15,6 +15,14 @@ enum TaxCode {
         TaxCode.e => 5
       };
 
+  String get vatRate => switch (this) {
+        TaxCode.a => 'A',
+        TaxCode.b => 'B',
+        TaxCode.c => 'C',
+        TaxCode.d => 'D',
+        TaxCode.e => 'E',
+      };
+
   String get label => switch (this) {
         TaxCode.a => 'CODE A (Standard)',
         TaxCode.b => 'CODE B (Special rate)',

@@ -1,14 +1,15 @@
 part of '_.dart';
 
 enum IdType {
-  tin('TIN', 'TIN'),
-  license('Driving license', 'Driving License'),
-  voterId('Voter\'s number', 'Voters Number'),
-  passport('Passport', 'Passport'),
-  nationalId('National Identity', 'National Identity'),
-  others('Other', 'NIL');
+  tin('TIN', 1),
+  license('Driving license', 2),
+  voterId('Voter\'s number', 3),
+  passport('Passport', 4),
+  nationalId('National Identity', 5),
+  others('Other', 6);
 
-  final String label, value;
+  final String label;
+  final int value;
   const IdType(this.label, this.value);
 }
 

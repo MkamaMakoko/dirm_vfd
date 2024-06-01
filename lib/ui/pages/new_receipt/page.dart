@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/objects/_.dart';
 import 'package:dirm_vfd/providers/_.dart';
+import 'package:dirm_vfd/ui/routes/router.gr.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
@@ -17,6 +18,9 @@ part 'payment_type.dart';
 part 'items.dart';
 part 'add_item_dialog.dart';
 part 'add_item.dart';
+part 'customer_tab.dart';
+part 'items_tab.dart';
+// part 'printer_settings.dart';
 
 @RoutePage()
 class NewReceiptPage extends ConsumerWidget {
@@ -28,6 +32,8 @@ class NewReceiptPage extends ConsumerWidget {
     final state = ref.watch(newReceiptProvider);
     final value = state.value;
     final activeInputs = state is! AsyncLoading;
+    // final printerState = ref.watch(printerProvider);
+    final canPreview = value?.canPreview ?? false;
     return Scaffold(
       persistentFooterButtons: [
         TextButton.icon(
@@ -36,17 +42,36 @@ class NewReceiptPage extends ConsumerWidget {
           icon: const Icon(Icons.clear_all_rounded),
         ),
         TextButton.icon(
-          onPressed: () {},
+          onPressed: canPreview
+              ? () => context.router.push(PreviewReceiptRoute())
+              : null,
           label: const Text('Preview'),
           icon: const Icon(Icons.preview_rounded),
         ),
-        TextButton.icon(
-          onPressed: () {},
-          label: const Text('Print'),
-          icon: const Icon(Icons.print_rounded),
-        ),
+        // TextButton.icon(
+        //   onPressed: () {
+        //     ref.read(printerProvider.notifier).print();
+        //   },
+        //   label: const Text('Print'),
+        //   icon: const Icon(Icons.print_rounded),
+        // ),
       ],
-      appBar: AppBar(title: const Text('New receipt')),
+      appBar: AppBar(
+        title: const Text('New receipt'),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         showModalBottomSheet(
+        //             context: context,
+        //             builder: (context) => const _PrinterSettings());
+        //       },
+        //       icon: Icon(switch (printerState) {
+        //         AsyncData(value: PrinterState(isConnected: true)) =>
+        //           Icons.print_outlined,
+        //         _ => Icons.print_disabled_rounded,
+        //       }))
+        // ],
+      ),
       body: Stepper(
         controlsBuilder: (context, details) {
           final current = details.currentStep;
@@ -84,7 +109,8 @@ class NewReceiptPage extends ConsumerWidget {
               isActive: true),
           Step(
               state: value?.step1State ?? StepState.indexed,
-              title: Text('Items (${value?.itemsState.selectedItems.length??0})'),
+              title: Text(
+                  'Items (${value?.itemsState.selectedItems.length ?? 0})'),
               content: const _Items(),
               isActive: true),
           const Step(
@@ -96,3 +122,66 @@ class NewReceiptPage extends ConsumerWidget {
     );
   }
 }
+
+// @RoutePage()
+// class NewReceiptPage extends ConsumerStatefulWidget {
+//   const NewReceiptPage({super.key});
+
+//   @override
+//   ConsumerState<NewReceiptPage> createState() => _NewReceiptPageState();
+// }
+
+// class _NewReceiptPageState extends ConsumerState<NewReceiptPage>
+//     with TickerProviderStateMixin {
+//   late final TabController tabController;
+//   @override
+//   void initState() {
+//     super.initState();
+//     tabController = TabController(length: 4, vsync: this);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final notifier = ref.watch(newReceiptProvider.notifier);
+//     final state = ref.watch(newReceiptProvider);
+//     final value = state.value;
+//     final activeInputs = state is! AsyncLoading;
+//     return Scaffold(
+//       floatingActionButton: FloatingActionButton.extended(
+//           icon: const Icon(Icons.print_rounded),
+      //     onPressed: () {},
+      //     label: const Text('Print')),
+      // appBar: AppBar(
+      //     title: const Text('New receipt'),
+      //     actions: [
+      //       IconButton(
+      //           onPressed: activeInputs ? notifier.clearState : null,
+      //           icon: const Icon(Icons.clear_all_rounded))
+      //     ],
+      //     bottom: TabBar(
+      //       tabAlignment: TabAlignment.start,
+      //       isScrollable: true,
+      //       controller: tabController,
+      //       tabs: [
+      //         const Tab(
+      //             text: 'Customer information',
+      //             icon: Icon(Icons.person_rounded)),
+//               Tab(
+//                   text:
+//                       'Items (${value?.itemsState.selectedItems.length ?? 0})',
+//                   icon: const Icon(Icons.category_rounded)),
+//               const Tab(
+//                   text: 'Payment information',
+//                   icon: Icon(Icons.payment_rounded)),
+//               const Tab(text: 'Preview', icon: Icon(Icons.preview_rounded)),
+//             ],
+//           )),
+//       body: TabBarView(controller: tabController, children: const [
+//         _CustomerTab(),
+//         _ItemsTab(),
+//         Placeholder(),
+//         Placeholder(),
+//       ]),
+//     );
+//   }
+// }

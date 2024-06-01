@@ -77,7 +77,8 @@ class _Drawer extends ConsumerWidget {
                   alignment: MainAxisAlignment.start,
                   children: [
                     TextButton.icon(
-                      onPressed: () {},
+                      onPressed: () =>
+                          context.router.push(const AccountRoute()),
                       label: const Text('More'),
                       icon: const Icon(Icons.admin_panel_settings_rounded),
                     ),
