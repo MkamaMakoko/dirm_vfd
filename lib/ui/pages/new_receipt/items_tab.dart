@@ -39,7 +39,7 @@ class _ItemsTab extends ConsumerWidget {
                       icon: const Icon(Icons.clear_rounded)),
                   title: Text(item.item.name),
                   subtitle: Text(
-                    'Quantity: ${item.quantity} ${item.item.unit}'
+                    'Quantity: ${item.quantity} unit'
                     '\nTotal price: Tsh ${(item.item.price * item.quantity) - item.discount}',
                   ),
                   // onTap: () {},

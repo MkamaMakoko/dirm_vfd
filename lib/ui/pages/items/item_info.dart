@@ -22,7 +22,7 @@ class _ItemInfoDialog extends StatelessWidget {
             Text('Tax code', style: titleStyle),
             Text(item.taxCode.label),
             const SpaceBetween(),
-            Text('Price per ${item.unit}', style: titleStyle),
+            Text('Price per unit', style: titleStyle),
             Text('Tshs ${item.price}'),
             const SpaceBetween(),
           ],

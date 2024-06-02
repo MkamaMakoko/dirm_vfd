@@ -110,7 +110,7 @@ class NewReceiptPage extends ConsumerWidget {
           Step(
               state: value?.step1State ?? StepState.indexed,
               title: Text(
-                  'Items (${value?.itemsState.selectedItems.length ?? 0})'),
+                  'Items and services (${value?.itemsState.selectedItems.length ?? 0})'),
               content: const _Items(),
               isActive: true),
           const Step(

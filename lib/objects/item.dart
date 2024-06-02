@@ -3,7 +3,7 @@ part of '_.dart';
 final class Item {
   final int id;
   final double price;
-  final String name, description, unit;
+  final String name, description;
   final TaxCode taxCode;
 
   Item(
@@ -11,8 +11,7 @@ final class Item {
       required this.name,
       required this.description,
       required this.taxCode,
-      required this.price,
-      required this.unit});
+      required this.price});
 
   factory Item.fromMap(Map map) {
     final taxCodeValueNumber = (map['taxCode'] as int);
@@ -28,7 +27,7 @@ final class Item {
         name: map['name'],
         description: map['desc'],
         taxCode: taxCode,
-        unit: map['unit'],
+        // unit: map['unit'],
         price: map['price']);
   }
 }

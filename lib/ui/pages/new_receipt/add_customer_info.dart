@@ -14,7 +14,9 @@ class _AddCustomerInfoState extends ConsumerState<_AddCustomerInfo> {
   late final customersNotifier = ref.read(customersProvider.notifier);
   String? get namevalidator => validateName(nameTEC.text);
   String? get phoneValidator => validatePhone(phoneTEC.text);
-  String? get idValidator => validateCustomerId(id: idTEC.text, type: idType);
+  String? get idValidator => idType == IdType.others
+      ? null
+      : validateCustomerId(id: idTEC.text, type: idType);
   String? get vrnValidator => validateVRN(vrnTEC.text);
 
   void Function()? get onSaveCustomer =>
@@ -119,18 +121,19 @@ class _AddCustomerInfoState extends ConsumerState<_AddCustomerInfo> {
           ],
         ),
         const SpaceBetween(),
-        TextFormField(
-          enabled: enabledInputs,
-          controller: idTEC,
-          minLines: 1,
-          textInputAction: TextInputAction.next,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (_) => idValidator,
-          keyboardType: TextInputType.text,
-          decoration: InputDecoration(
-              labelText: idType.label,
-              prefixIcon: const Icon(Icons.perm_identity_rounded)),
-        ),
+        if (idType != IdType.others)
+          TextFormField(
+            enabled: enabledInputs,
+            controller: idTEC,
+            minLines: 1,
+            textInputAction: TextInputAction.next,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (_) => idValidator,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+                labelText: idType.label,
+                prefixIcon: const Icon(Icons.perm_identity_rounded)),
+          ),
         TextFormField(
           enabled: enabledInputs,
           controller: vrnTEC,

@@ -31,7 +31,7 @@ class Items extends _$Items {
       {required String name,
       required String description,
       required TaxCode taxCode,
-      required String unit,
+      // required String unit,
       required double price,
       required double discount,
       required double quantity}) async {
@@ -44,7 +44,7 @@ class Items extends _$Items {
           'name': name,
           'desc': description,
           'taxCode': taxCode.valueNumber,
-          'unit': unit,
+          // 'unit': null,
           'price': price,
         });
         final item = SelectedItemState(

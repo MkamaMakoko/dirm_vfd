@@ -43,7 +43,7 @@ class _AddItemDialogState extends State<_AddItemDialog> {
                 final number = int.tryParse(text ?? '');
                 if (number == null) return 'Invalid quantity';
                 if (number < 1) {
-                  return 'Quantity cannot be 0 ${widget.item.unit}';
+                  return 'Quantity cannot be 0';
                 }
                 return null;
               },

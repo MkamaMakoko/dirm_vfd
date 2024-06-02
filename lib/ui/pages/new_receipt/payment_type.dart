@@ -13,19 +13,22 @@ class _PaymentType extends ConsumerWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text('Payment type', style: context.textTheme.titleSmall),
-        Wrap(
-          spacing: edgeInsertValue / 2,
-          children: [
-            for (final type in PaymentType.values)
-              ChoiceChip(
-                visualDensity: VisualDensity.compact,
-                label: Text(type.label),
-                selected: value?.paymentType == type,
-                onSelected: (value) {
-                  if (value) notifier.changePaymentType(type);
-                },
-              )
-          ],
+        SizedBox(
+          width: double.maxFinite,
+          child: Wrap(
+            spacing: edgeInsertValue / 2,
+            children: [
+              for (final type in PaymentType.values)
+                ChoiceChip(
+                  visualDensity: VisualDensity.compact,
+                  label: Text(type.label),
+                  selected: value?.paymentType == type,
+                  onSelected: (value) {
+                    if (value) notifier.changePaymentType(type);
+                  },
+                )
+            ],
+          ),
         ),
         const SpaceBetween(),
         Text('Total tax: ${value?.tax??0}', style: context.textTheme.bodyLarge),

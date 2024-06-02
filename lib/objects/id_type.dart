@@ -6,7 +6,7 @@ enum IdType {
   voterId('Voter\'s number', 3),
   passport('Passport', 4),
   nationalId('National Identity', 5),
-  others('Other', 6);
+  others('None', 6);
 
   final String label;
   final int value;

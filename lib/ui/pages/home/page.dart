@@ -6,6 +6,7 @@ import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
+import 'package:dirm_vfd/utils/launch_url.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 part 'menu_button.dart';

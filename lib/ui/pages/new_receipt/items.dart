@@ -14,36 +14,43 @@ class _Items extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ListView.separated(
-            separatorBuilder: (context, index) => const Divider(height: 0),
-            itemCount: items.length,
-            shrinkWrap: true,
-            physics: const ClampingScrollPhysics(),
-            itemBuilder: (context, index) {
-              final item = items[index];
-              return ListTile(
-                onTap: () async {
-                  await showAdaptiveDialog(
-                      context: context,
-                      builder: (context) => _ItemDialog(item)).then((delete) {
-                    if (delete != null) {
-                      unselect(item);
-                    }
-                  });
-                },
-                contentPadding: EdgeInsets.zero,
-                visualDensity: VisualDensity.compact,
-                trailing: IconButton(
-                    onPressed: () => unselect(item),
-                    icon: const Icon(Icons.clear_rounded)),
-                title: Text(item.item.name),
-                subtitle: Text(
-                  'Quantity: ${item.quantity} ${item.item.unit}'
-                  '\nTotal price: Tsh ${(item.item.price * item.quantity) - item.discount}',
-                ),
-                // onTap: () {},
-              );
-            }),
+        Container(
+          padding: const EdgeInsets.all(edgeInsertValue),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(edgeInsertValue),
+            color: context.colorScheme.secondaryContainer.withOpacity(.5)
+          ),
+          child: ListView.separated(
+              separatorBuilder: (context, index) => const Divider(height: 0),
+              itemCount: items.length,
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return ListTile(
+                  onTap: () async {
+                    await showAdaptiveDialog(
+                        context: context,
+                        builder: (context) => _ItemDialog(item)).then((delete) {
+                      if (delete != null) {
+                        unselect(item);
+                      }
+                    });
+                  },
+                  contentPadding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                  trailing: IconButton(
+                      onPressed: () => unselect(item),
+                      icon: const Icon(Icons.clear_rounded)),
+                  title: Text(item.item.name),
+                  subtitle: Text(
+                    'Quantity: ${item.quantity} units'
+                    '\nTotal price: Tsh ${(item.item.price * item.quantity) - item.discount}',
+                  ),
+                  // onTap: () {},
+                );
+              }),
+        ),
         const SpaceBetween(),
         Container(
             padding: const EdgeInsets.all(edgeInsertValue/2),
@@ -83,9 +90,9 @@ class _ItemDialog extends StatelessWidget {
             ],
             Text('Tax code: ${item.item.taxCode.label}',
                 style: context.textTheme.bodyLarge),
-            Text('Price per ${item.item.unit}: ${item.item.price}',
+            Text('Price per unit: ${item.item.price}',
                 style: context.textTheme.bodyLarge),
-            Text('Quantity: ${item.quantity} ${item.item.unit}',
+            Text('Quantity: ${item.quantity} units',
                 style: context.textTheme.bodyLarge),
             if (item.discount > 0)
               Text('Discount: ${item.discount}',

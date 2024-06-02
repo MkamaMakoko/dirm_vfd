@@ -11,7 +11,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
   static const _autoValidateMode = AutovalidateMode.onUserInteraction;
   late final TextEditingController nameTEC,
       descTEC,
-      unitTEC,
+      // unitTEC,
       priceTEC,
       quantityTEC,
       discountTEC;
@@ -24,13 +24,36 @@ class __AddItemState extends ConsumerState<_AddItem> {
   void initState() {
     super.initState();
     nameTEC = TextEditingController()..addListener(() => setState(() {}));
-    descTEC = TextEditingController()..addListener(() => setState(() {}));
-    unitTEC = TextEditingController(text: 'Unit')
-      ..addListener(() => setState(() {}));
+    descTEC = TextEditingController();
+    // unitTEC = TextEditingController(text: 'Unit')
+    //   ..addListener(() => setState(() {}));
     priceTEC = TextEditingController()..addListener(() => setState(() {}));
     quantityTEC = TextEditingController(text: 1.0.toString())
       ..addListener(() => setState(() {}));
-    discountTEC = TextEditingController()..addListener(() => setState(() {}));
+    discountTEC = TextEditingController(text: .0.toString())
+      ..addListener(() => setState(() {}));
+  }
+
+  String? get nameValidator => validateName(nameTEC.text);
+  String? get quantityValidator {
+    final number = double.tryParse(quantityTEC.text);
+    if (number == null) return 'Invalid quantity';
+    if (number <= 0) return 'Quantity cannot be less than or equal to 0.0';
+    return null;
+  }
+
+  String? get priceValidator {
+    final number = double.tryParse(priceTEC.text);
+    if (number == null) return 'Invalid price';
+    if (number <= 0) return 'Price cannot be less than to 0.0';
+    return null;
+  }
+
+  String? get discountValidator {
+    final number = double.tryParse(discountTEC.text);
+    if (number == null) return 'Invalid discount';
+    if (number < 0) return 'Discount cannot be less than to 0.0';
+    return null;
   }
 
   @override
@@ -38,7 +61,10 @@ class __AddItemState extends ConsumerState<_AddItem> {
     final itemsState = ref.watch(itemsProvider);
     items = itemsState.value?.items ?? [];
     selectedItems = itemsState.value?.selectedItems ?? [];
-    const canAdd = true;
+    final canAdd =
+        ((nameValidator == null && priceValidator == null) || item != null) &&
+            quantityValidator == null &&
+            discountValidator == null;
     final onAdd = canAdd
         ? () {
             final discount = double.tryParse(discountTEC.text) ?? 0;
@@ -51,7 +77,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
                 name: nameTEC.text,
                 description: descTEC.text,
                 taxCode: taxCode,
-                unit: unitTEC.text,
+                // unit: unitTEC.text,
                 price: double.tryParse(priceTEC.text) ?? 0,
                 discount: discount,
                 quantity: quantity,
@@ -59,11 +85,12 @@ class __AddItemState extends ConsumerState<_AddItem> {
             }
             nameTEC.clear();
             descTEC.clear();
-            unitTEC.clear();
+            // unitTEC.clear();
             priceTEC.clear();
-            discountTEC.clear();
+            discountTEC.text = .0.toString();
             quantityTEC.text = '1';
             setState(() => item = null);
+            FocusManager.instance.primaryFocus?.unfocus();
           }
         : null;
     return Column(
@@ -90,7 +117,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
                   ),
               builder: (context, controller, focusNode) {
                 return TextFormField(
-                  autofocus: true,
+                  // autofocus: true,
                   focusNode: focusNode,
                   // enabled: activeInputs,
                   controller: controller,
@@ -100,9 +127,9 @@ class __AddItemState extends ConsumerState<_AddItem> {
                   // onChanged: notifier.changeName,
                   textInputAction: TextInputAction.next,
                   autovalidateMode: _autoValidateMode,
-                  // validator: (_) => value?.nameValidator,
+                  validator: (_) => nameValidator,
                   decoration: const InputDecoration(
-                    labelText: 'Item name',
+                    labelText: 'Item/service name',
                     prefixIcon: Icon(Icons.abc_rounded),
                   ),
                 );
@@ -117,23 +144,23 @@ class __AddItemState extends ConsumerState<_AddItem> {
             // onChanged: notifier.changeDescription,
             textInputAction: TextInputAction.next,
             decoration: const InputDecoration(
-              labelText: 'Item Description',
+              labelText: 'Description',
               prefixIcon: Icon(Icons.description_rounded),
             ),
           ),
-          const SpaceBetween(),
-          TextFormField(
-            // enabled: activeInputs,
-            controller: unitTEC,
-            keyboardType: TextInputType.text,
-            maxLines: 1,
-            // onChanged: notifier.changeUnit,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Measuring unit',
-              prefixIcon: Icon(Icons.abc_rounded),
-            ),
-          ),
+          // const SpaceBetween(),
+          // TextFormField(
+          //   // enabled: activeInputs,
+          //   controller: unitTEC,
+          //   keyboardType: TextInputType.text,
+          //   maxLines: 1,
+          //   // onChanged: notifier.changeUnit,
+          //   textInputAction: TextInputAction.next,
+          //   decoration: const InputDecoration(
+          //     labelText: 'Measuring unit',
+          //     prefixIcon: Icon(Icons.abc_rounded),
+          //   ),
+          // ),
           const SpaceBetween(),
           TextFormField(
             // enabled: activeInputs,
@@ -143,11 +170,11 @@ class __AddItemState extends ConsumerState<_AddItem> {
             // onChanged: notifier.changePrice,
             textInputAction: TextInputAction.next,
             autovalidateMode: _autoValidateMode,
-            // validator: (_) => value?.priceValidator,
+            validator: (_) => priceValidator,
             // onEditingComplete: onSubmit,
-            decoration: InputDecoration(
-              labelText: 'Price per ${unitTEC.text}',
-              prefixIcon: const Icon(Icons.price_change_rounded),
+            decoration: const InputDecoration(
+              labelText: 'Price per unit',
+              prefixIcon: Icon(Icons.price_change_rounded),
             ),
           ),
           const SpaceBetween(),
@@ -187,11 +214,11 @@ class __AddItemState extends ConsumerState<_AddItem> {
           // onChanged: notifier.changePrice,
           textInputAction: TextInputAction.next,
           autovalidateMode: _autoValidateMode,
-          // validator: (_) => value?.priceValidator,
+          validator: (_) => quantityValidator,
           // onEditingComplete: onSubmit,
-          decoration: InputDecoration(
-            labelText: 'Quantity in ${item?.unit ?? 'Units'}',
-            prefixIcon: const Icon(Icons.numbers_rounded),
+          decoration: const InputDecoration(
+            labelText: 'Quantity',
+            prefixIcon: Icon(Icons.numbers_rounded),
           ),
         ),
         const SpaceBetween(),
@@ -201,6 +228,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
           keyboardType: const TextInputType.numberWithOptions(decimal: true),
           maxLines: 1,
           // onChanged: notifier.changePrice,
+          validator: (_) => discountValidator,
           textInputAction: TextInputAction.done,
           onEditingComplete: () {
             onAdd?.call();
@@ -215,7 +243,15 @@ class __AddItemState extends ConsumerState<_AddItem> {
           ),
         ),
         const SpaceBetween(),
-        IconButton.filled(onPressed: onAdd, icon: const Icon(Icons.add_rounded))
+        // IconButton.filled(onPressed: onAdd, icon: const Icon(Icons.add_rounded))
+        SizedBox(
+          width: double.maxFinite,
+          child: FilledButton.icon(
+            onPressed: onAdd,
+            icon: const Icon(Icons.add_rounded),
+            label: const Text('Add item/service'),
+          ),
+        )
       ],
     );
   }
