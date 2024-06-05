@@ -51,15 +51,23 @@ class InitialPage extends ConsumerWidget {
             ),
             Container(
               padding: const EdgeInsets.all(edgeInsertValue),
-              child: RichText(
-                text: TextSpan(
-                    text: 'Approved by ',
-                    children: const [
-                      TextSpan(
-                          text: 'TRA',
-                          style: TextStyle(fontWeight: FontWeight.bold))
-                    ],
-                    style: context.textTheme.bodyMedium),
+              child: Column(
+                children: [
+                  Image.asset(
+                      width: edgeInsertValue * 2,
+                      height: edgeInsertValue * 2,
+                      assetAddress.traLogo),
+                  RichText(
+                    text: TextSpan(
+                        text: 'Approved by ',
+                        children: const [
+                          TextSpan(
+                              text: 'TRA',
+                              style: TextStyle(fontWeight: FontWeight.bold))
+                        ],
+                        style: context.textTheme.bodyMedium),
+                  ),
+                ],
               ),
             ),
           ],

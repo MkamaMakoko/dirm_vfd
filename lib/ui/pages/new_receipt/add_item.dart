@@ -10,7 +10,7 @@ class _AddItem extends ConsumerStatefulWidget {
 class __AddItemState extends ConsumerState<_AddItem> {
   static const _autoValidateMode = AutovalidateMode.onUserInteraction;
   late final TextEditingController nameTEC,
-      descTEC,
+      // descTEC,
       // unitTEC,
       priceTEC,
       quantityTEC,
@@ -20,11 +20,26 @@ class __AddItemState extends ConsumerState<_AddItem> {
   List<Item> items = [];
   List<SelectedItemState> selectedItems = [];
   TaxCode taxCode = TaxCode.a;
+
+  double? get subTotal {
+    final price = item != null ? item?.price : double.tryParse(priceTEC.text);
+    final quantity = double.tryParse(quantityTEC.text);
+    final discount = double.tryParse(discountTEC.text);
+    if ((price, quantity) case (double price, double quantity)) {
+      final total = price * quantity;
+      if (discount case double discount) {
+        return total - discount;
+      }
+      return total;
+    }
+    return null;
+  }
+
   @override
   void initState() {
     super.initState();
     nameTEC = TextEditingController()..addListener(() => setState(() {}));
-    descTEC = TextEditingController();
+    // descTEC = TextEditingController();
     // unitTEC = TextEditingController(text: 'Unit')
     //   ..addListener(() => setState(() {}));
     priceTEC = TextEditingController()..addListener(() => setState(() {}));
@@ -75,7 +90,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
             } else {
               itemsNotifier.newItem(
                 name: nameTEC.text,
-                description: descTEC.text,
+                // description: descTEC.text,
                 taxCode: taxCode,
                 // unit: unitTEC.text,
                 price: double.tryParse(priceTEC.text) ?? 0,
@@ -84,7 +99,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
               );
             }
             nameTEC.clear();
-            descTEC.clear();
+            // descTEC.clear();
             // unitTEC.clear();
             priceTEC.clear();
             discountTEC.text = .0.toString();
@@ -134,20 +149,20 @@ class __AddItemState extends ConsumerState<_AddItem> {
                   ),
                 );
               }),
-          const SpaceBetween(),
-          TextFormField(
-            // enabled: activeInputs,
-            controller: descTEC,
-            keyboardType: TextInputType.text,
-            maxLines: 8,
-            minLines: 1,
-            // onChanged: notifier.changeDescription,
-            textInputAction: TextInputAction.next,
-            decoration: const InputDecoration(
-              labelText: 'Description',
-              prefixIcon: Icon(Icons.description_rounded),
-            ),
-          ),
+          // const SpaceBetween(),
+          // TextFormField(
+          //   // enabled: activeInputs,
+          //   controller: descTEC,
+          //   keyboardType: TextInputType.text,
+          //   maxLines: 8,
+          //   minLines: 1,
+          //   // onChanged: notifier.changeDescription,
+          //   textInputAction: TextInputAction.next,
+          //   decoration: const InputDecoration(
+          //     labelText: 'Description',
+          //     prefixIcon: Icon(Icons.description_rounded),
+          //   ),
+          // ),
           // const SpaceBetween(),
           // TextFormField(
           //   // enabled: activeInputs,
@@ -202,7 +217,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
             contentPadding: const EdgeInsets.only(left: edgeInsertValue / 2),
             visualDensity: VisualDensity.compact,
             title: Text(item.name),
-            subtitle: Text(item.description),
+            subtitle: Text('Price per unit: ${item.price}'),
           ),
           const SpaceBetween()
         ],
@@ -242,8 +257,15 @@ class __AddItemState extends ConsumerState<_AddItem> {
             prefixIcon: Icon(Icons.numbers_rounded),
           ),
         ),
+        if (subTotal case double subtotal) ...[
+          const SpaceBetween(times: 2),
+          Text(
+            'Sub total price',
+            style: context.textTheme.labelSmall,
+          ),
+          Text('$subtotal', style: context.textTheme.headlineSmall),
+        ],
         const SpaceBetween(),
-        // IconButton.filled(onPressed: onAdd, icon: const Icon(Icons.add_rounded))
         SizedBox(
           width: double.maxFinite,
           child: FilledButton.icon(

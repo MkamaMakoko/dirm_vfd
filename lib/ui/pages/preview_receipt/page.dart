@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:auto_route/annotations.dart';
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:dirm_vfd/providers/_.dart';
+import 'package:dirm_vfd/ui/widgets/secondary_container.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
@@ -50,10 +49,12 @@ class PreviewReceiptPage extends ConsumerWidget {
     final uservalue = userState.value;
     final value = state.value;
     ref.listen(newReceiptProvider, (_, state) {
-      // print(state);
       if (state case AsyncError(:final error, :final stackTrace)) {
-        print(error);
-        print(stackTrace);
+        if (kDebugMode) {
+          print(error);
+          print(stackTrace);
+        }
+        context.snackBar(message: error.toString(), error: true);
       }
     });
     return Scaffold(
@@ -63,7 +64,19 @@ class PreviewReceiptPage extends ConsumerWidget {
         //     ? ref.read(newReceiptProvider.notifier).submit
         //     : null,
         onPressed: () async {
+          showAdaptiveDialog(
+              context: context,
+              builder: (context) => const AlertDialog.adaptive(
+                    title: Text('Please wait...'),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LinearProgressIndicator(),
+                      ],
+                    ),
+                  ));
           await _controller.capture().then((image) {
+            Navigator.pop(context);
             if (image case Uint8List image) {
               showModalBottomSheet(
                   context: context,

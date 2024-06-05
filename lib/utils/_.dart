@@ -6,3 +6,8 @@ const hiveKeys = (
   items: 'items',
   customers: 'customers',
 );
+
+const assetAddress = (
+  traLogo: 'assets/images/TRA-logo.png',
+  banner: 'assets/images/banner.jpg',
+);

@@ -29,7 +29,7 @@ class Items extends _$Items {
 
   void newItem(
       {required String name,
-      required String description,
+      // required String description,
       required TaxCode taxCode,
       // required String unit,
       required double price,
@@ -42,7 +42,7 @@ class Items extends _$Items {
         await _box.add({
           'id': id,
           'name': name,
-          'desc': description,
+          'desc': '',
           'taxCode': taxCode.valueNumber,
           // 'unit': null,
           'price': price,

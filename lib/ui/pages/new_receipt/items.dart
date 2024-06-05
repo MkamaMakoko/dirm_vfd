@@ -14,12 +14,7 @@ class _Items extends ConsumerWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          padding: const EdgeInsets.all(edgeInsertValue),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(edgeInsertValue),
-            color: context.colorScheme.secondaryContainer.withOpacity(.5)
-          ),
+        SecondaryContainer(
           child: ListView.separated(
               separatorBuilder: (context, index) => const Divider(height: 0),
               itemCount: items.length,
@@ -52,12 +47,8 @@ class _Items extends ConsumerWidget {
               }),
         ),
         const SpaceBetween(),
-        Container(
-            padding: const EdgeInsets.all(edgeInsertValue/2),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(edgeInsertValue),
-                color: context.colorScheme.secondaryContainer.withOpacity(.5)),
-            child: const _AddItem())
+        const SecondaryContainer(
+            padding: EdgeInsets.all(edgeInsertValue / 2), child: _AddItem())
       ],
     );
   }

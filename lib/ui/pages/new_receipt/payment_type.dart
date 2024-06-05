@@ -31,11 +31,26 @@ class _PaymentType extends ConsumerWidget {
           ),
         ),
         const SpaceBetween(),
-        Text('Total tax: ${value?.tax??0}', style: context.textTheme.bodyLarge),
-        Text('Total dicount: ${value?.discount??0}',style: context.textTheme.bodyLarge),
-        Text('Total tax ex: ${value?.price??0}', style: context.textTheme.bodyLarge),
-        const SpaceBetween(),
-        Text('Total: ${value?.totalAmount??0}',style: context.textTheme.headlineSmall),
+        SecondaryContainer(
+          child: SizedBox(
+            width: double.maxFinite,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Total tax: ${value?.tax ?? 0}',
+                    style: context.textTheme.bodyLarge),
+                Text('Total dicount: ${value?.discount ?? 0}',
+                    style: context.textTheme.bodyLarge),
+                Text('Total tax ex: ${value?.price ?? 0}',
+                    style: context.textTheme.bodyLarge),
+                const SpaceBetween(),
+                Text('Total: ${value?.totalAmount ?? 0}',
+                    style: context.textTheme.headlineSmall),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }

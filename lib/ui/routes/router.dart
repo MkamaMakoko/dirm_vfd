@@ -18,5 +18,6 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: ZReportsRoute.page),
         AutoRoute(page: ItemsRoute.page),
         AutoRoute(page: CustomersRoute.page),
+        AutoRoute(page: MyVFDRoute.page),
       ];
 }

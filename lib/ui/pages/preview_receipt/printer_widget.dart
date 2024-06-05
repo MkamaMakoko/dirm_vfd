@@ -10,6 +10,7 @@ class _PrinterWidget extends StatefulWidget {
 
 class _PrinterWidgetState extends State<_PrinterWidget> {
   final bluetooth = BluetoothPrint.instance;
+  static const waitTime = Duration(seconds: 4);
   BluetoothDevice? connectedDevice;
   String? error;
   @override
@@ -21,7 +22,7 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
   }
 
   void scan() async {
-    await bluetooth.startScan(timeout: const Duration(seconds: 4));
+    await bluetooth.startScan(timeout: waitTime);
   }
 
   @override
@@ -32,7 +33,20 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    void pop() => Navigator.pop(context);
+    // void pop() => Navigator.pop(context);
+    final rescanButton = SizedBox(
+      width: double.maxFinite,
+      child: FilledButton.tonalIcon(
+          onPressed: () async {
+            setState(() => connectedDevice = null);
+            await bluetooth.disconnect();
+            await bluetooth.destroy();
+            await bluetooth
+                .startScan(timeout: waitTime);
+          },
+          icon: const Icon(Icons.refresh_rounded),
+          label: const Text('Refresh scanner')),
+    );
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(edgeInsertValue),
@@ -42,25 +56,59 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
           children: [
             if (error case String error)
               Text('Error: ${kDebugMode ? error : 'failed to print'}'),
-            Text('Choose a bluetooth device',
-                style: context.textTheme.titleMedium),
             const SpaceBetween(),
+            Text('Choose a bluetooth device',
+                style: context.textTheme.titleLarge),
+            const SpaceBetween(),
+            StreamBuilder(
+              stream: bluetooth.isScanning,
+              builder: (context, snapshot) {
+                if (snapshot.data ?? false) {
+                  return const LinearProgressIndicator();
+                }
+                return const SizedBox.shrink();
+              },
+            ),
             StreamBuilder(
               stream: bluetooth.scanResults,
               builder: (context, snapshot) {
                 if (snapshot
                     case AsyncSnapshot(:final List<BluetoothDevice> data)) {
+                  if (data.isEmpty) {
+                    return Column(
+                      children: [
+                        const SecondaryContainer(
+                          child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.info_rounded),
+                                SpaceBetween(),
+                                Expanded(
+                                    child: Text(
+                                        'Make sure you\'ve turned on Bluetooth,'
+                                        ' and paired with your Bluetooth printer'))
+                              ]),
+                        ),
+                        const SpaceBetween(),
+                        rescanButton,
+                      ],
+                    );
+                  }
                   return ListView.separated(
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       final device = data[index];
                       return ListTile(
+                        // contentPadding: EdgeInsets.zero,
                         trailing: connectedDevice?.address == device.address
                             ? const Icon(Icons.bluetooth_connected_rounded)
                             : null,
                         title: Text(device.name ?? 'Bluetooth device'),
                         onTap: () async {
-                          await bluetooth.connect(device).then((_) {
+                          if ((await bluetooth.isConnected ?? false)) {
+                            await bluetooth.disconnect();
+                          }
+                          await bluetooth.connect(device).then((_) async {
                             setState(() => connectedDevice = device);
                           });
                         },
@@ -80,31 +128,51 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
               stream: bluetooth.state,
               builder: (context, snapshot) {
                 return switch (snapshot) {
-                  AsyncSnapshot(data: BluetoothPrint.CONNECTED) => SizedBox(
-                      width: double.maxFinite,
-                      child: FilledButton(
-                          onPressed: () async {
-                            try {
-                              await bluetooth.printReceipt({}, [
-                                LineText(
-                                    type: LineText.TYPE_IMAGE,
-                                    width: 320,
-                                    height: 700,
-                                    content: base64Encode(widget.image),
-                                    align: LineText.ALIGN_CENTER,
-                                    linefeed: 1)
-                              ]);
-                            } catch (e) {
-                              setState(() => error = e.toString());
-                            }
-                          },
-                          child: Text(
-                              'Print with ${connectedDevice?.name ?? 'device'}')),
+                  AsyncSnapshot(data: BluetoothPrint.CONNECTED) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SecondaryContainer(
+                            child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.info_rounded),
+                            SpaceBetween(),
+                            Expanded(
+                                child: Text('When the printer starts to print,'
+                                    ' please wait unti the printer finishes'
+                                    ' before closing'))
+                          ],
+                        )),
+                        const SpaceBetween(),
+                        SizedBox(
+                          width: double.maxFinite,
+                          child: FilledButton(
+                              onPressed: () async {
+                                try {
+                                  await bluetooth.printReceipt({}, [
+                                    LineText(
+                                        type: LineText.TYPE_IMAGE,
+                                        width: 320,
+                                        height: 700,
+                                        content: base64Encode(widget.image),
+                                        align: LineText.ALIGN_CENTER,
+                                        linefeed: 1)
+                                  ]);
+                                } catch (e) {
+                                  setState(() => error = e.toString());
+                                }
+                              },
+                              child: Text(
+                                  'Print with ${connectedDevice?.name ?? 'device'}')),
+                        ),
+                      ],
                     ),
-                  _ => const SizedBox.shrink(),
+                  _ => rescanButton,
                 };
               },
             ),
+            const SpaceBetween(),
           ],
         ),
       ),

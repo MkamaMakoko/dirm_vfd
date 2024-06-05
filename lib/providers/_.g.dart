@@ -519,7 +519,7 @@ final userProvider = AsyncNotifierProvider<User, UserInfo?>.internal(
 );
 
 typedef _$User = AsyncNotifier<UserInfo?>;
-String _$newReceiptHash() => r'61a9d59e0085e856fdce3fc83d21794dc0903244';
+String _$newReceiptHash() => r'faa13c0eebea22b1fc4a9721d4b0189bd54be34d';
 
 /// See also [NewReceipt].
 @ProviderFor(NewReceipt)
@@ -534,7 +534,7 @@ final newReceiptProvider =
 );
 
 typedef _$NewReceipt = AsyncNotifier<NewReceiptState>;
-String _$itemsHash() => r'6d8ac09b9fdb43683fa8ef62021b61bca73da4a8';
+String _$itemsHash() => r'55f59a1e6a2efc68fb70d44e107a67ed478229ba';
 
 /// See also [Items].
 @ProviderFor(Items)

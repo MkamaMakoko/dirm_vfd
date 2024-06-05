@@ -67,7 +67,7 @@ class HomePage extends ConsumerWidget {
                   _BigMenuButton(
                     label: 'My VFD',
                     iconData: Icons.print_rounded,
-                    route: null,
+                    route: MyReceiptsRoute(),
                   ),
                 ]),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

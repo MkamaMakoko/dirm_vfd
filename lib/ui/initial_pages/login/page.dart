@@ -3,6 +3,7 @@ import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/routes/router.gr.dart';
 import 'package:dirm_vfd/ui/widgets/in_button_progress_indicator.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
+import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,6 +31,8 @@ class InitialLoginPage extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          Image.asset(assetAddress.banner),
+          const SpaceBetween(),
           TextFormField(
             initialValue: value?.email ?? '',
             onChanged: notifier.changeEmail,
