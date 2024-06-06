@@ -20,7 +20,9 @@ Future<MyReceiptsResults> myReceipts(MyReceiptsRef ref,
     final totalPages = response.body['totalPages'];
     final totalReceipts = response.body['totalReceipts'];
     return MyReceiptsResults(
-      receipts: [for (final _ in response.data as Iterable) Receipt()],
+      receipts: [
+        for (final map in response.data as Iterable) Receipt.fromMap(map)
+      ],
       received: received,
       totalPages: totalPages,
       totalReceipts: totalReceipts,

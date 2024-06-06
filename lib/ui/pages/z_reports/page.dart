@@ -74,38 +74,40 @@ class _ZReportsPageState extends ConsumerState<ZReportsPage> {
                 ),
               ),
             ),
-          SliverList.builder(
-            // separatorBuilder: (context, index) => const Divider(height: 0),
-            itemCount: 0,
-            itemBuilder: (context, index) {
-              // return ListTile(
-              //   onTap: () {},
-              //   // titleAlignment: ListTileTitleAlignment.center,
-              //   isThreeLine: true,
-              //   // leading: CircleAvatar(
-              //   //     backgroundColor: context.colorScheme.secondaryContainer,
-              //   //     child: Text((index + 1).toString())),
-              //   trailing:
-              //       FilledButton(onPressed: () {}, child: const Text('Sent')),
-              //   title: Text('2024-04-28', style: context.textTheme.titleMedium),
-              //   subtitle: RichText(
-              //       text: TextSpan(children: const [
-              //     TextSpan(text: 'Daily total: 560,000.00 Tzs'),
-              //     TextSpan(text: '\nNet amount: 560,000.00 Tzs'),
-              //     TextSpan(text: '\nTax amount: 0.00 Tzs'),
-              //     TextSpan(text: '\nGross: 311,714, 664.85.00 Tzs'),
-              //   ], style: context.textTheme.bodyMedium)),
-              // );
-              return _ReportTile(
-                initiallyExpanded: index == 0,
-                date: '2024-04-28',
-                daily: '560,000.00',
-                net: '560,000.00',
-                tax: '0.00',
-                gross: '311,714, 664.85.00',
-              );
-            },
-          )
+          if (value case ZReportsResult result)
+            SliverList.builder(
+              // separatorBuilder: (context, index) => const Divider(height: 0),
+              itemCount: result.receipts.length,
+              itemBuilder: (context, index) {
+                final zReport = result.receipts[index];
+                // return ListTile(
+                //   onTap: () {},
+                //   // titleAlignment: ListTileTitleAlignment.center,
+                //   isThreeLine: true,
+                //   // leading: CircleAvatar(
+                //   //     backgroundColor: context.colorScheme.secondaryContainer,
+                //   //     child: Text((index + 1).toString())),
+                //   trailing:
+                //       FilledButton(onPressed: () {}, child: const Text('Sent')),
+                //   title: Text('2024-04-28', style: context.textTheme.titleMedium),
+                //   subtitle: RichText(
+                //       text: TextSpan(children: const [
+                //     TextSpan(text: 'Daily total: 560,000.00 Tzs'),
+                //     TextSpan(text: '\nNet amount: 560,000.00 Tzs'),
+                //     TextSpan(text: '\nTax amount: 0.00 Tzs'),
+                //     TextSpan(text: '\nGross: 311,714, 664.85.00 Tzs'),
+                //   ], style: context.textTheme.bodyMedium)),
+                // );
+                return _ReportTile(
+                  initiallyExpanded: index == 0,
+                  date: zReport.date,
+                  daily: zReport.dailyTotal,
+                  net: zReport.netAmount,
+                  tax: zReport.taxAmount,
+                  gross: zReport.gross,
+                );
+              },
+            )
         ],
       ),
     );

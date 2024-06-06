@@ -38,10 +38,10 @@ class InitialPage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(edgeInsertValue),
-              child: Text(appTitle),
-            ),
+            // const Padding(
+            //   padding: EdgeInsets.all(edgeInsertValue),
+            //   child: Text(appTitle),
+            // ),
             const Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(

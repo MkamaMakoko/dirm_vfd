@@ -26,13 +26,20 @@ class SelectedItemState with _$SelectedItemState {
     required double quantity,
   }) = _SelectedItemState;
 
-  double get totalPriceWithoutDiscount => (item.price * quantity);
+  double get totalPrice => item.price * quantity;
 
-  double get totalPrice => totalPriceWithoutDiscount - discount;
+  double get totalPriceTaxExcluded => pricePerUnitTaxExcluded * quantity;
+
+  // double get totalPrice => totalPriceWithoutDiscount - discount;
 
   double get taxPerUnit {
     if (item.taxCode != TaxCode.a) return 0;
-    return item.price * .18;
+    return item.price-pricePerUnitTaxExcluded;
+  }
+
+  double get pricePerUnitTaxExcluded {
+    if (item.taxCode != TaxCode.a) return 0;
+    return item.price / 1.18;
   }
 
   double get totalTax => taxPerUnit * quantity;

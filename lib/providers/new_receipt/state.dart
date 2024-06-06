@@ -27,18 +27,28 @@ class NewReceiptState with _$NewReceiptState {
     return StepState.complete;
   }
 
-  bool get canPreview => customersState.customer != null &&
-        itemsState.selectedItems.isNotEmpty;
+  bool get canPreview =>
+      customersState.customer != null &&
+      itemsState.selectedItems.isNotEmpty &&
+      result == null;
 
   double get price {
     double total = 0;
     for (final value in itemsState.selectedItems) {
-      total += value.item.price;
+      total += value.totalPrice;
     }
     return total;
   }
 
-  double get priceWithTax => price + tax;
+  double get priceTaxExcluded {
+    double total = 0;
+    for (final value in itemsState.selectedItems) {
+      total += value.totalPriceTaxExcluded;
+    }
+    return total;
+  }
+
+  // double get priceWithTax => price + tax;
 
   double get discount {
     double total = 0;
@@ -57,7 +67,7 @@ class NewReceiptState with _$NewReceiptState {
     return total;
   }
 
-  double get totalAmount => price + tax - discount;
+  double get totalAmount => price - discount;
 }
 
 final class ReceiptResult {

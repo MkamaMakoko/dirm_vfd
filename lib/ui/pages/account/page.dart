@@ -31,7 +31,7 @@ class AccountPage extends ConsumerWidget {
           if (value case UserInfo user)
             SliverList(
                 delegate: SliverChildListDelegate.fixed([
-              Card(
+              Card.outlined(
                 margin: const EdgeInsets.all(edgeInsertValue / 2),
                 child: Padding(
                   padding: const EdgeInsets.all(edgeInsertValue / 2),
@@ -52,7 +52,7 @@ class AccountPage extends ConsumerWidget {
               ),
               const SpaceBetween(times: .5),
               if (user.clientInformation.message.isNotEmpty) ...[
-                Card(
+                Card.outlined(
                   margin: const EdgeInsets.all(edgeInsertValue / 2),
                   child: Padding(
                     padding: const EdgeInsets.all(edgeInsertValue / 2),
@@ -71,7 +71,7 @@ class AccountPage extends ConsumerWidget {
                 ),
                 const SpaceBetween(times: .5),
               ],
-              Card(
+              Card.outlined(
                 margin: const EdgeInsets.all(edgeInsertValue / 2),
                 child: Padding(
                   padding: const EdgeInsets.all(edgeInsertValue / 2),
@@ -112,45 +112,6 @@ class AccountPage extends ConsumerWidget {
                 ),
               ),
               const SpaceBetween(times: .5),
-              Card(
-                margin: const EdgeInsets.all(edgeInsertValue / 2),
-                child: Padding(
-                  padding: const EdgeInsets.all(edgeInsertValue / 2),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text('VFDA Information',
-                          style: context.textTheme.titleMedium),
-                      const SpaceBetween(),
-                      Text(
-                          'Business name: ${user.vfdaInformation.businessName}',
-                          style: textTheme),
-                      Text('Cert. key: ${user.vfdaInformation.certKey}',
-                          style: textTheme),
-                      Text(
-                          'Is VAT registered: ${user.vfdaInformation.isVatRegistered ? 'Yes' : 'No'}',
-                          style: textTheme),
-                      Text('Mobile number: ${user.vfdaInformation.mobile}',
-                          style: textTheme),
-                      Text(
-                          'Physical address: ${user.vfdaInformation.physicalAddress}',
-                          style: textTheme),
-                      Text('Street: ${user.vfdaInformation.street}',
-                          style: textTheme),
-                      Text('Tax office: ${user.vfdaInformation.taxOffice}',
-                          style: textTheme),
-                      Text('TIN: ${user.vfdaInformation.tin}',
-                          style: textTheme),
-                      Text('UIN: ${user.vfdaInformation.uin}',
-                          style: textTheme),
-                      Text('VRN: ${user.vfdaInformation.vrn}',
-                          style: textTheme),
-                    ],
-                  ),
-                ),
-              ),
-              const SpaceBetween(times: .5),
               ButtonBar(
                 children: [
                   // FilledButton.icon(
@@ -165,8 +126,8 @@ class AccountPage extends ConsumerWidget {
                   //     label: const Text('Check Email verification')),
                   FilledButton.icon(
                       onPressed: () => showAdaptiveDialog(
-                            context: context,
-                            builder: (context) => _DeleteDialog()),
+                          context: context,
+                          builder: (context) => _DeleteDialog()),
                       icon: const Icon(Icons.delete_forever_rounded),
                       label: const Text('Delete account')),
                 ],

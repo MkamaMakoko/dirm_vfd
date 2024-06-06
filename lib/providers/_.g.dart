@@ -35,7 +35,7 @@ final _deviceConnectedProvider = StreamProvider<bool>.internal(
 );
 
 typedef _DeviceConnectedRef = StreamProviderRef<bool>;
-String _$myReceiptsHash() => r'd2a1f3d410b7cae4f4bb7538933debac5a601e20';
+String _$myReceiptsHash() => r'9564a81c8fb88a52fc09f9569777a2dfa06087f5';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -202,7 +202,7 @@ class _MyReceiptsProviderElement
   int get size => (origin as MyReceiptsProvider).size;
 }
 
-String _$zReportsHash() => r'ac3bf1c92d0b78e0e1133e253acb5212d87b57eb';
+String _$zReportsHash() => r'2b3ed535aaf445a581519ac335ed2198171f4cba';
 
 /// See also [zReports].
 @ProviderFor(zReports)
@@ -505,7 +505,7 @@ final signUpProvider =
 );
 
 typedef _$SignUp = AutoDisposeAsyncNotifier<SignUpState>;
-String _$userHash() => r'a6781a60f77cb51b4d270c974df443e5acad4a5c';
+String _$userHash() => r'8023b912f9bc6ffb234be55c9b0a4300e0d60845';
 
 /// See also [User].
 @ProviderFor(User)
@@ -519,7 +519,7 @@ final userProvider = AsyncNotifierProvider<User, UserInfo?>.internal(
 );
 
 typedef _$User = AsyncNotifier<UserInfo?>;
-String _$newReceiptHash() => r'faa13c0eebea22b1fc4a9721d4b0189bd54be34d';
+String _$newReceiptHash() => r'04cb614000f71cba43ea501836f0988edc2e86a6';
 
 /// See also [NewReceipt].
 @ProviderFor(NewReceipt)

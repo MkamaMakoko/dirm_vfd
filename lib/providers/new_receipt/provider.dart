@@ -20,6 +20,7 @@ class NewReceipt extends _$NewReceipt {
         itemsState: await ref.watch(itemsProvider.future),
         customersState: await ref.watch(customersProvider.future));
   }
+  
 
   void changeCurrentStep(int index) =>
       update((cb) => cb.copyWith(currentStep: index));
@@ -58,13 +59,13 @@ class NewReceipt extends _$NewReceipt {
                         'desc': item.item.description,
                         'qty': item.quantity,
                         'taxCode': item.item.taxCode.valueNumber,
-                        'amt': item.totalPriceWithoutDiscount,
+                        'amt': item.totalPrice,
                         'discount': item.discount,
                       }
                   ],
                   'totals': {
                     'totalTaxExcl': value.price,
-                    'totalTaxIncl': value.priceWithTax,
+                    'totalTaxIncl': value.totalAmount,
                     'discount': value.discount,
                   },
                   'payments': {
@@ -75,7 +76,8 @@ class NewReceipt extends _$NewReceipt {
                     for (final item in value.itemsState.selectedItems)
                       {
                         "vatRate": item.item.taxCode.vatRate,
-                        "nettAmount": item.totalPriceWithoutDiscount,
+                        "nettAmount":
+                            (item.totalPrice - item.discount) + item.totalTax,
                         "taxAmount": item.taxPerUnit
                       }
                   ]

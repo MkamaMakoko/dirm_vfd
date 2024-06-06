@@ -20,7 +20,9 @@ Future<ZReportsResult> zReports(ZReportsRef ref,
     final totalPages = response.body['totalPages'];
     final totalZReports = response.body['totalZreports'];
     return ZReportsResult(
-      receipts: [for (final _ in response.data as Iterable) Receipt()],
+      receipts: [
+        for (final map in response.data as Iterable) ZReport.fromMap(map)
+      ],
       received: received,
       totalPages: totalPages,
       totalZReports: totalZReports,
@@ -29,7 +31,7 @@ Future<ZReportsResult> zReports(ZReportsRef ref,
 }
 
 final class ZReportsResult {
-  final List<Receipt> receipts;
+  final List<ZReport> receipts;
   final int received, totalPages, totalZReports;
 
   ZReportsResult({

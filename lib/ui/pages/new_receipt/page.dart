@@ -6,6 +6,7 @@ import 'package:dirm_vfd/ui/widgets/secondary_container.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
+import 'package:dirm_vfd/utils/format_number.dart';
 import 'package:dirm_vfd/utils/validate_cutomer_id.dart';
 import 'package:dirm_vfd/utils/validate_name.dart';
 import 'package:dirm_vfd/utils/validate_phone.dart';
@@ -110,13 +111,13 @@ class NewReceiptPage extends ConsumerWidget {
               isActive: true),
           Step(
               state: value?.step1State ?? StepState.indexed,
-              title: Text(
-                  'Items and services (${value?.itemsState.selectedItems.length ?? 0})'),
+              title: Text('Items and services '
+                  '(${value?.itemsState.selectedItems.length ?? 0})'),
               content: const _Items(),
               isActive: true),
-          const Step(
-              title: Text('Payment information'),
-              content: _PaymentType(),
+          Step(
+              title: Text('Payment information (${value?.paymentType.label})'),
+              content: const _PaymentType(),
               isActive: true),
         ],
       ),

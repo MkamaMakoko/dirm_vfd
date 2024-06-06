@@ -2,7 +2,9 @@ part of 'page.dart';
 
 class _PrinterWidget extends StatefulWidget {
   final Uint8List image;
-  const _PrinterWidget(this.image);
+  final int width;
+  final ReceiptResult result;
+  const _PrinterWidget(this.image, this.width, this.result);
 
   @override
   State<_PrinterWidget> createState() => _PrinterWidgetState();
@@ -41,8 +43,7 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
             setState(() => connectedDevice = null);
             await bluetooth.disconnect();
             await bluetooth.destroy();
-            await bluetooth
-                .startScan(timeout: waitTime);
+            await bluetooth.startScan(timeout: waitTime);
           },
           icon: const Icon(Icons.refresh_rounded),
           label: const Text('Refresh scanner')),
@@ -54,6 +55,13 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            ListTile(
+              leading: const Icon(Icons.launch_rounded),
+              title: Text(widget.result.verificationCode),
+              subtitle: Text(widget.result.verificationUrl),
+              onTap: () async => urlLauncher(
+                    url: widget.result.verificationUrl, context: context),
+            ),
             if (error case String error)
               Text('Error: ${kDebugMode ? error : 'failed to print'}'),
             const SpaceBetween(),
@@ -153,8 +161,9 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
                                   await bluetooth.printReceipt({}, [
                                     LineText(
                                         type: LineText.TYPE_IMAGE,
-                                        width: 320,
-                                        height: 700,
+                                        width: widget.width,
+                                        // width: 340,
+                                        // height: 640,
                                         content: base64Encode(widget.image),
                                         align: LineText.ALIGN_CENTER,
                                         linefeed: 1)
