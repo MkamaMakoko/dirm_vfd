@@ -44,7 +44,7 @@ class SignUp extends _$SignUp {
         }).then((value) => _response(value));
         final bodyStatusCode = response.bodyStatusCode;
         if (bodyStatusCode != 200) {
-          var message;
+          dynamic message;
           try {
             message = response.data['message'];
           } catch (e) {

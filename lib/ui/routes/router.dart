@@ -15,6 +15,7 @@ class AppRouter extends $AppRouter {
         AutoRoute(page: NewReceiptRoute.page),
         AutoRoute(page: PreviewReceiptRoute.page),
         AutoRoute(page: MyReceiptsRoute.page),
+        AutoRoute(page: ReceiptRoute.page),
         AutoRoute(page: ZReportsRoute.page),
         AutoRoute(page: ItemsRoute.page),
         AutoRoute(page: CustomersRoute.page),

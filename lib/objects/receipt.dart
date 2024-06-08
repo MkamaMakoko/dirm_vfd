@@ -1,6 +1,6 @@
 final class Receipt {
-  final int id;
-  final String clientId,
+  final dynamic id;
+  final dynamic clientId,
       tin,
       vrn,
       custName,

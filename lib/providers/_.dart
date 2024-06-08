@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:dirm_vfd/objects/_.dart';
+import 'package:dirm_vfd/objects/full_receipt.dart';
 import 'package:dirm_vfd/objects/receipt.dart';
 import 'package:dirm_vfd/objects/z_report.dart';
 import 'package:dirm_vfd/utils/_.dart';
@@ -38,6 +39,7 @@ part 'z_reports.dart';
 part 'resend_email_verification.dart';
 part 'delete_account.dart';
 part 'search_receipts.dart';
+part 'receipt.dart';
 
 Future<http.Response> _post(
     {required String endpoint,

@@ -475,6 +475,133 @@ class _ResendVerificationProviderElement
   String get email => (origin as ResendVerificationProvider).email;
 }
 
+String _$receiptHash() => r'90c03fd37dad2c6e31a12192e9dcb55583980d88';
+
+/// See also [receipt].
+@ProviderFor(receipt)
+const receiptProvider = ReceiptFamily();
+
+/// See also [receipt].
+class ReceiptFamily extends Family<AsyncValue<FullReceipt>> {
+  /// See also [receipt].
+  const ReceiptFamily();
+
+  /// See also [receipt].
+  ReceiptProvider call({
+    required Object id,
+  }) {
+    return ReceiptProvider(
+      id: id,
+    );
+  }
+
+  @override
+  ReceiptProvider getProviderOverride(
+    covariant ReceiptProvider provider,
+  ) {
+    return call(
+      id: provider.id,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'receiptProvider';
+}
+
+/// See also [receipt].
+class ReceiptProvider extends AutoDisposeFutureProvider<FullReceipt> {
+  /// See also [receipt].
+  ReceiptProvider({
+    required Object id,
+  }) : this._internal(
+          (ref) => receipt(
+            ref as ReceiptRef,
+            id: id,
+          ),
+          from: receiptProvider,
+          name: r'receiptProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$receiptHash,
+          dependencies: ReceiptFamily._dependencies,
+          allTransitiveDependencies: ReceiptFamily._allTransitiveDependencies,
+          id: id,
+        );
+
+  ReceiptProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.id,
+  }) : super.internal();
+
+  final Object id;
+
+  @override
+  Override overrideWith(
+    FutureOr<FullReceipt> Function(ReceiptRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: ReceiptProvider._internal(
+        (ref) => create(ref as ReceiptRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        id: id,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<FullReceipt> createElement() {
+    return _ReceiptProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is ReceiptProvider && other.id == id;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, id.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin ReceiptRef on AutoDisposeFutureProviderRef<FullReceipt> {
+  /// The parameter `id` of this provider.
+  Object get id;
+}
+
+class _ReceiptProviderElement
+    extends AutoDisposeFutureProviderElement<FullReceipt> with ReceiptRef {
+  _ReceiptProviderElement(super.provider);
+
+  @override
+  Object get id => (origin as ReceiptProvider).id;
+}
+
 String _$loginHash() => r'a10cddb950c29f18ea553e10e53687fd1df5dc2b';
 
 /// See also [Login].
@@ -490,7 +617,7 @@ final loginProvider =
 );
 
 typedef _$Login = AutoDisposeAsyncNotifier<LoginState>;
-String _$signUpHash() => r'300f14126f769c7574195c4f1f5653c7bbb182d5';
+String _$signUpHash() => r'2b46d8a70358f301caeae10ca2e31e1b80a208ea';
 
 /// See also [SignUp].
 @ProviderFor(SignUp)
@@ -519,7 +646,7 @@ final userProvider = AsyncNotifierProvider<User, UserInfo?>.internal(
 );
 
 typedef _$User = AsyncNotifier<UserInfo?>;
-String _$newReceiptHash() => r'04cb614000f71cba43ea501836f0988edc2e86a6';
+String _$newReceiptHash() => r'edbc0812a808a1436d42cbe6004f2967863661a9';
 
 /// See also [NewReceipt].
 @ProviderFor(NewReceipt)

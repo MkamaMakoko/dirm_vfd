@@ -20,7 +20,6 @@ class NewReceipt extends _$NewReceipt {
         itemsState: await ref.watch(itemsProvider.future),
         customersState: await ref.watch(customersProvider.future));
   }
-  
 
   void changeCurrentStep(int index) =>
       update((cb) => cb.copyWith(currentStep: index));
@@ -33,6 +32,12 @@ class NewReceipt extends _$NewReceipt {
     ref.invalidate(customersProvider);
     ref.invalidate(itemsProvider);
     update((cb) => cb.copyWith(currentStep: 0));
+  }
+
+  void removeError() {
+    if(state case AsyncError(:final NewReceiptState value)) {
+      state = AsyncValue.data(value);
+    }
   }
 
   void submit() async {
@@ -56,7 +61,7 @@ class NewReceipt extends _$NewReceipt {
                     for (final item in value.itemsState.selectedItems)
                       {
                         'id': item.item.id,
-                        'desc': item.item.description,
+                        'desc': item.item.name,
                         'qty': item.quantity,
                         'taxCode': item.item.taxCode.valueNumber,
                         'amt': item.totalPrice,

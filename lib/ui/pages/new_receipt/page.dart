@@ -22,6 +22,7 @@ part 'add_item_dialog.dart';
 part 'add_item.dart';
 part 'customer_tab.dart';
 part 'items_tab.dart';
+part 'user_info.dart';
 // part 'printer_settings.dart';
 
 @RoutePage()
@@ -34,6 +35,7 @@ class NewReceiptPage extends ConsumerWidget {
     final state = ref.watch(newReceiptProvider);
     final value = state.value;
     final activeInputs = state is! AsyncLoading;
+    final userValue = ref.watch(userProvider.select((state) => state.value));
     // final printerState = ref.watch(printerProvider);
     final canPreview = value?.canPreview ?? false;
     return Scaffold(
@@ -43,13 +45,34 @@ class NewReceiptPage extends ConsumerWidget {
           label: const Text('Clear'),
           icon: const Icon(Icons.clear_all_rounded),
         ),
-        TextButton.icon(
-          onPressed: canPreview
-              ? () => context.router.push(PreviewReceiptRoute())
-              : null,
-          label: const Text('Preview'),
-          icon: const Icon(Icons.preview_rounded),
-        ),
+        if (state case AsyncError(:final error))
+          TextButton.icon(
+            onPressed: () async {
+              await showAdaptiveDialog(
+                  context: context,
+                  builder: (context) => AlertDialog.adaptive(
+                        title: const Text('Error'),
+                        content: Text(error.toString()),
+                        actions: [
+                          TextButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text('Clear'))
+                        ],
+                      )).then((_) {
+                ref.read(newReceiptProvider.notifier).removeError();
+              });
+            },
+            label: const Text('Show error'),
+            icon: const Icon(Icons.error_rounded),
+          )
+        else
+          TextButton.icon(
+            onPressed: canPreview
+                ? () => context.router.push(PreviewReceiptRoute())
+                : null,
+            label: const Text('Preview'),
+            icon: const Icon(Icons.preview_rounded),
+          ),
         // TextButton.icon(
         //   onPressed: () {
         //     ref.read(printerProvider.notifier).print();
@@ -91,7 +114,7 @@ class NewReceiptPage extends ConsumerWidget {
                     icon: const Icon(Icons.arrow_upward_rounded)),
                 const SpaceBetween(),
                 IconButton.filled(
-                    onPressed: current < 2
+                    onPressed: current < 3
                         ? () =>
                             notifier.changeCurrentStep(details.currentStep + 1)
                         : null,
@@ -104,6 +127,12 @@ class NewReceiptPage extends ConsumerWidget {
         currentStep: value?.currentStep ?? 0,
         onStepTapped: notifier.changeCurrentStep,
         steps: [
+          Step(
+              state: StepState.complete,
+              title: Text('Your information '
+                  '(${userValue?.username})'),
+              content: const _UserInfo(),
+              isActive: true),
           Step(
               state: value?.step0State ?? StepState.indexed,
               title: const Text('Customer information'),

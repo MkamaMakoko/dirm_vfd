@@ -12,7 +12,8 @@ class NewReceiptState with _$NewReceiptState {
   }) = _NewReceiptState;
 
   StepState get step0State {
-    if (currentStep == 0) return StepState.editing;
+    if (currentStep == 0) return StepState.indexed;
+    if (currentStep == 1) return StepState.editing;
     if (customersState.customer != null) {
       return StepState.complete;
     }
@@ -21,8 +22,8 @@ class NewReceiptState with _$NewReceiptState {
 
   StepState get step1State {
     final emptyItems = itemsState.selectedItems.isEmpty;
-    if (currentStep == 0 && emptyItems) return StepState.indexed;
-    if (currentStep == 1) return StepState.editing;
+    if (currentStep <= 1 && emptyItems) return StepState.indexed;
+    if (currentStep == 2) return StepState.editing;
     if (emptyItems) return StepState.error;
     return StepState.complete;
   }
@@ -71,14 +72,14 @@ class NewReceiptState with _$NewReceiptState {
 }
 
 final class ReceiptResult {
-  final String id,
+  final dynamic id,
       clientId,
       verificationCode,
       verificationUrl,
       statusDescription;
 
-  final num receiptNumber, zNumber, status, receiptStatus;
-  final DateTime date;
+  final dynamic receiptNumber, zNumber, status, receiptStatus;
+  final dynamic date;
 
   ReceiptResult({
     required this.id,
@@ -94,14 +95,16 @@ final class ReceiptResult {
   });
 
   factory ReceiptResult.fromMap(Map map) => ReceiptResult(
-      id: map['id'],
-      clientId: map['clientId'],
-      receiptNumber: map['rctNum'],
-      zNumber: map['zNum'],
-      status: map['status'],
-      verificationCode: map['traReceiptVerificationCode'],
-      statusDescription: map['statusDesc'],
-      receiptStatus: map['receiptStatus'],
-      verificationUrl: map['traReceiptVerificationUrl'],
-      date: DateTime.tryParse((map['dateTime'] as String)) ?? DateTime.now());
+        id: map['id'],
+        clientId: map['clientId'],
+        receiptNumber: map['rctNum'],
+        zNumber: map['zNum'],
+        status: map['status'],
+        verificationCode: map['traReceiptVerificationCode'],
+        statusDescription: map['statusDesc'],
+        receiptStatus: map['receiptStatus'],
+        verificationUrl: map['traReceiptVerificationUrl'],
+        date: map['dateTime'],
+        // date: DateTime.tryParse((map['dateTime'] as String)) ?? DateTime.now(),
+      );
 }

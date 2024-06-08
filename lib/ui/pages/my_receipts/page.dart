@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/providers/_.dart';
+import 'package:dirm_vfd/ui/routes/router.gr.dart';
 import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
@@ -80,7 +81,8 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
               itemBuilder: (context, index) {
                 final receipt = results.receipts[index];
                 return ListTile(
-                  // onTap: () {},
+                  onTap: () =>
+                      context.router.push(ReceiptRoute(receipt: receipt)),
                   titleAlignment: ListTileTitleAlignment.center,
                   isThreeLine: true,
                   leading: CircleAvatar(
@@ -91,7 +93,7 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
                   subtitle: RichText(
                       text: TextSpan(children: [
                     TextSpan(
-                        text: receipt.pmtAmount,
+                        text: receipt.pmtAmount?.toString(),
                         style: context.textTheme.labelLarge?.copyWith(
                             color: context.colorScheme.primary,
                             fontWeight: FontWeight.bold)),
