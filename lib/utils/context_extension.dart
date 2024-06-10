@@ -6,6 +6,8 @@ extension ContextExtension on BuildContext {
   ColorScheme get colorScheme => themeData.colorScheme;
   TextTheme get textTheme => themeData.textTheme;
 
+  Size get screenSize => MediaQuery.of(this).size;
+
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> Function(
           SnackBar snackbar)
       get showSnackBar => ScaffoldMessenger.of(this).showSnackBar;
@@ -28,5 +30,15 @@ extension ContextExtension on BuildContext {
         showCloseIcon: error,
         action: action,
         content: content));
+  }
+
+  void waitDialog() {
+    showAdaptiveDialog(
+        barrierDismissible: false,
+        context: this,
+        builder: (context) => const AlertDialog.adaptive(
+              title: Text('Please wait...'),
+              content: LinearProgressIndicator(),
+            ));
   }
 }

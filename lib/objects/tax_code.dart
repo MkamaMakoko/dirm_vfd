@@ -31,3 +31,14 @@ enum TaxCode {
         TaxCode.e => 'CODE E (Exempted)',
       };
 }
+
+extension TaxCodeExtension on int {
+  TaxCode get getTaxCode {
+    if (this case int code) {
+      for (final value in TaxCode.values) {
+        if (value.valueNumber == code) return value;
+      }
+    }
+    return TaxCode.a;
+  }
+}

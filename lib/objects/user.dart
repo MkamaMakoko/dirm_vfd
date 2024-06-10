@@ -5,6 +5,7 @@ final class UserInfo {
   final int expiresIn, tokenStartingTime, tokenExpireTime;
   final VFDAInformation vfdaInformation;
   final ClientInformation clientInformation;
+  final List<({String id, String name})> branches;
 
   factory UserInfo.fromMap(Map map) => UserInfo(
       status: map['userStatus'],
@@ -14,21 +15,27 @@ final class UserInfo {
       token: map['token'],
       expiresIn: map['expiresIn'],
       tokenStartingTime: map['tokenStartingTime'],
+      branches: [
+        for (final branch in (map['branches'] as Map).entries)
+          (id: branch.key, name: branch.value)
+      ],
       tokenExpireTime: map['tokenExpireTime'],
       vfdaInformation: VFDAInformation.fromMap(map['vfdAInformation']),
       clientInformation: ClientInformation.fromMap(map['clientInformation']));
 
-  UserInfo(
-      {required this.status,
-      required this.message,
-      required this.username,
-      required this.email,
-      required this.token,
-      required this.expiresIn,
-      required this.tokenStartingTime,
-      required this.tokenExpireTime,
-      required this.vfdaInformation,
-      required this.clientInformation});
+  UserInfo({
+    required this.status,
+    required this.message,
+    required this.username,
+    required this.email,
+    required this.token,
+    required this.expiresIn,
+    required this.tokenStartingTime,
+    required this.tokenExpireTime,
+    required this.vfdaInformation,
+    required this.clientInformation,
+    required this.branches,
+  });
 }
 
 final class VFDAInformation {

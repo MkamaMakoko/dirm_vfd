@@ -40,11 +40,17 @@ part 'resend_email_verification.dart';
 part 'delete_account.dart';
 part 'search_receipts.dart';
 part 'receipt.dart';
+part 'selected_branch.dart';
 
 Future<http.Response> _post(
     {required String endpoint,
     required Map<String, dynamic> body,
     String? token}) async {
+  // if (token case String token when kDebugMode) {
+  //   print('START TOKEN\n');
+  //   print(token);
+  //   print('\nEND TOKEN');
+  // }
   return await http
       .post(_url(endpoint: endpoint), body: jsonEncode(body), headers: {
     if (token != null) 'Authorization': 'Bearer $token',

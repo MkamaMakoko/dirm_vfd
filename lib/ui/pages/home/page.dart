@@ -23,11 +23,14 @@ class HomePage extends ConsumerWidget {
         context.router.replaceAll([const InitialRoute()]);
       }
     });
+    final value = ref.watch(userProvider.select((state) => state.value));
+    final selectedBranch =
+        ref.watch(selectedBranchProvider.select((state) => state.value));
     return Scaffold(
       drawer: const _Drawer(),
       body: CustomScrollView(
         slivers: [
-          SliverAppBar.large(
+          SliverAppBar.medium(
             title: const Text(appTitle),
             leading: Builder(
                 builder: (context) => IconButton(
@@ -35,6 +38,28 @@ class HomePage extends ConsumerWidget {
                     icon: const Icon(Icons.person_rounded))),
             actions: const [AppSearchAnchor()],
           ),
+          if (value case UserInfo info)
+            SliverPadding(
+              padding: const EdgeInsets.all(edgeInsertValue),
+              sliver: SliverToBoxAdapter(
+                child: DropdownMenu<Branch>(
+                    initialSelection: selectedBranch ?? info.branches.first,
+                    width: context.screenSize.width - edgeInsertValue * 2,
+                    enabled: info.branches.length > 1,
+                    onSelected: (value) {
+                      if (value case Branch value) {
+                        ref
+                            .read(selectedBranchProvider.notifier)
+                            .changeBracnh(value);
+                      }
+                    },
+                    label: const Text('Branches'),
+                    dropdownMenuEntries: [
+                      for (final branch in info.branches)
+                        DropdownMenuEntry(value: branch, label: branch.name),
+                    ]),
+              ),
+            ),
           const SliverPadding(
             padding: EdgeInsets.all(edgeInsertValue / 2),
             sliver: SliverGrid(

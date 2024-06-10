@@ -21,3 +21,14 @@ extension StringExtensionForIdType on String {
     return IdType.others;
   }
 }
+
+extension IdTypeExtension on int {
+  String get idTypeLabel {
+    if (this case int value) {
+      for (final type in IdType.values) {
+        if (type.value == value) return type.label;
+      }
+    }
+    return IdType.others.label;
+  }
+}

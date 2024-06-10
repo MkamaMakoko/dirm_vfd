@@ -24,22 +24,24 @@ class SelectedItemState with _$SelectedItemState {
     required Item item,
     required double discount,
     required double quantity,
+    required double price,
+    required TaxCode taxCode,
   }) = _SelectedItemState;
 
-  double get totalPrice => item.price * quantity;
+  double get totalPrice => price * quantity;
 
   double get totalPriceTaxExcluded => pricePerUnitTaxExcluded * quantity;
 
   // double get totalPrice => totalPriceWithoutDiscount - discount;
 
   double get taxPerUnit {
-    if (item.taxCode != TaxCode.a) return 0;
-    return item.price-pricePerUnitTaxExcluded;
+    if (taxCode != TaxCode.a) return 0;
+    return price-pricePerUnitTaxExcluded;
   }
 
   double get pricePerUnitTaxExcluded {
-    if (item.taxCode != TaxCode.a) return 0;
-    return item.price / 1.18;
+    if (taxCode != TaxCode.a) return 0;
+    return price / 1.18;
   }
 
   double get totalTax => taxPerUnit * quantity;

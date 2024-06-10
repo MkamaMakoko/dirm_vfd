@@ -844,6 +844,8 @@ mixin _$SelectedItemState {
   Item get item => throw _privateConstructorUsedError;
   double get discount => throw _privateConstructorUsedError;
   double get quantity => throw _privateConstructorUsedError;
+  double get price => throw _privateConstructorUsedError;
+  TaxCode get taxCode => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SelectedItemStateCopyWith<SelectedItemState> get copyWith =>
@@ -856,7 +858,12 @@ abstract class $SelectedItemStateCopyWith<$Res> {
           SelectedItemState value, $Res Function(SelectedItemState) then) =
       _$SelectedItemStateCopyWithImpl<$Res, SelectedItemState>;
   @useResult
-  $Res call({Item item, double discount, double quantity});
+  $Res call(
+      {Item item,
+      double discount,
+      double quantity,
+      double price,
+      TaxCode taxCode});
 }
 
 /// @nodoc
@@ -875,6 +882,8 @@ class _$SelectedItemStateCopyWithImpl<$Res, $Val extends SelectedItemState>
     Object? item = null,
     Object? discount = null,
     Object? quantity = null,
+    Object? price = null,
+    Object? taxCode = null,
   }) {
     return _then(_value.copyWith(
       item: null == item
@@ -889,6 +898,14 @@ class _$SelectedItemStateCopyWithImpl<$Res, $Val extends SelectedItemState>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as double,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      taxCode: null == taxCode
+          ? _value.taxCode
+          : taxCode // ignore: cast_nullable_to_non_nullable
+              as TaxCode,
     ) as $Val);
   }
 }
@@ -901,7 +918,12 @@ abstract class _$$SelectedItemStateImplCopyWith<$Res>
       __$$SelectedItemStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Item item, double discount, double quantity});
+  $Res call(
+      {Item item,
+      double discount,
+      double quantity,
+      double price,
+      TaxCode taxCode});
 }
 
 /// @nodoc
@@ -918,6 +940,8 @@ class __$$SelectedItemStateImplCopyWithImpl<$Res>
     Object? item = null,
     Object? discount = null,
     Object? quantity = null,
+    Object? price = null,
+    Object? taxCode = null,
   }) {
     return _then(_$SelectedItemStateImpl(
       item: null == item
@@ -932,6 +956,14 @@ class __$$SelectedItemStateImplCopyWithImpl<$Res>
           ? _value.quantity
           : quantity // ignore: cast_nullable_to_non_nullable
               as double,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      taxCode: null == taxCode
+          ? _value.taxCode
+          : taxCode // ignore: cast_nullable_to_non_nullable
+              as TaxCode,
     ));
   }
 }
@@ -941,7 +973,11 @@ class __$$SelectedItemStateImplCopyWithImpl<$Res>
 class _$SelectedItemStateImpl extends _SelectedItemState
     with DiagnosticableTreeMixin {
   const _$SelectedItemStateImpl(
-      {required this.item, required this.discount, required this.quantity})
+      {required this.item,
+      required this.discount,
+      required this.quantity,
+      required this.price,
+      required this.taxCode})
       : super._();
 
   @override
@@ -950,10 +986,14 @@ class _$SelectedItemStateImpl extends _SelectedItemState
   final double discount;
   @override
   final double quantity;
+  @override
+  final double price;
+  @override
+  final TaxCode taxCode;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SelectedItemState(item: $item, discount: $discount, quantity: $quantity)';
+    return 'SelectedItemState(item: $item, discount: $discount, quantity: $quantity, price: $price, taxCode: $taxCode)';
   }
 
   @override
@@ -963,7 +1003,9 @@ class _$SelectedItemStateImpl extends _SelectedItemState
       ..add(DiagnosticsProperty('type', 'SelectedItemState'))
       ..add(DiagnosticsProperty('item', item))
       ..add(DiagnosticsProperty('discount', discount))
-      ..add(DiagnosticsProperty('quantity', quantity));
+      ..add(DiagnosticsProperty('quantity', quantity))
+      ..add(DiagnosticsProperty('price', price))
+      ..add(DiagnosticsProperty('taxCode', taxCode));
   }
 
   @override
@@ -975,11 +1017,14 @@ class _$SelectedItemStateImpl extends _SelectedItemState
             (identical(other.discount, discount) ||
                 other.discount == discount) &&
             (identical(other.quantity, quantity) ||
-                other.quantity == quantity));
+                other.quantity == quantity) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.taxCode, taxCode) || other.taxCode == taxCode));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, item, discount, quantity);
+  int get hashCode =>
+      Object.hash(runtimeType, item, discount, quantity, price, taxCode);
 
   @JsonKey(ignore: true)
   @override
@@ -993,7 +1038,9 @@ abstract class _SelectedItemState extends SelectedItemState {
   const factory _SelectedItemState(
       {required final Item item,
       required final double discount,
-      required final double quantity}) = _$SelectedItemStateImpl;
+      required final double quantity,
+      required final double price,
+      required final TaxCode taxCode}) = _$SelectedItemStateImpl;
   const _SelectedItemState._() : super._();
 
   @override
@@ -1002,6 +1049,10 @@ abstract class _SelectedItemState extends SelectedItemState {
   double get discount;
   @override
   double get quantity;
+  @override
+  double get price;
+  @override
+  TaxCode get taxCode;
   @override
   @JsonKey(ignore: true)
   _$$SelectedItemStateImplCopyWith<_$SelectedItemStateImpl> get copyWith =>

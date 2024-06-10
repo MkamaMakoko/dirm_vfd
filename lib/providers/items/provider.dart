@@ -51,6 +51,8 @@ class Items extends _$Items {
           item: _items.singleWhere((element) => element.id == id),
           discount: discount,
           quantity: quantity,
+          price: price,
+          taxCode: taxCode,
         );
         return ItemsState(
             items: _items, selectedItems: [...value.selectedItems, item]);
@@ -61,11 +63,19 @@ class Items extends _$Items {
   void selectItem(
           {required Item item,
           required double discount,
-          required double quantity}) =>
+          required double quantity,
+          required double price,
+          required TaxCode taxCode}) =>
       update((cb) {
         final items = [
           ...cb.selectedItems,
-          SelectedItemState(item: item, discount: discount, quantity: quantity)
+          SelectedItemState(
+            item: item,
+            discount: discount,
+            quantity: quantity,
+            price: price,
+            taxCode: taxCode,
+          )
         ];
         return cb.copyWith(selectedItems: items);
       });

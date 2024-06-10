@@ -9,7 +9,6 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i15;
-import 'package:dirm_vfd/objects/receipt.dart' as _i17;
 import 'package:dirm_vfd/ui/initial_pages/loading/page.dart' as _i4;
 import 'package:dirm_vfd/ui/initial_pages/login/page.dart' as _i5;
 import 'package:dirm_vfd/ui/initial_pages/sign_up/page.dart' as _i7;
@@ -111,7 +110,7 @@ abstract class $AppRouter extends _i15.RootStackRouter {
         routeData: routeData,
         child: _i13.ReceiptPage(
           key: args.key,
-          receipt: args.receipt,
+          receiptId: args.receiptId,
         ),
       );
     },
@@ -312,13 +311,13 @@ class PreviewReceiptRouteArgs {
 class ReceiptRoute extends _i15.PageRouteInfo<ReceiptRouteArgs> {
   ReceiptRoute({
     _i16.Key? key,
-    required _i17.Receipt receipt,
+    required int receiptId,
     List<_i15.PageRouteInfo>? children,
   }) : super(
           ReceiptRoute.name,
           args: ReceiptRouteArgs(
             key: key,
-            receipt: receipt,
+            receiptId: receiptId,
           ),
           initialChildren: children,
         );
@@ -332,16 +331,16 @@ class ReceiptRoute extends _i15.PageRouteInfo<ReceiptRouteArgs> {
 class ReceiptRouteArgs {
   const ReceiptRouteArgs({
     this.key,
-    required this.receipt,
+    required this.receiptId,
   });
 
   final _i16.Key? key;
 
-  final _i17.Receipt receipt;
+  final int receiptId;
 
   @override
   String toString() {
-    return 'ReceiptRouteArgs{key: $key, receipt: $receipt}';
+    return 'ReceiptRouteArgs{key: $key, receiptId: $receiptId}';
   }
 }
 

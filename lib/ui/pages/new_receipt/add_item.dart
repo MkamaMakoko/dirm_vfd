@@ -22,7 +22,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
   TaxCode taxCode = TaxCode.a;
 
   double? get subTotal {
-    final price = item != null ? item?.price : double.tryParse(priceTEC.text);
+    final price = double.tryParse(priceTEC.text);
     final quantity = double.tryParse(quantityTEC.text);
     final discount = double.tryParse(discountTEC.text);
     if ((price, quantity) case (double price, double quantity)) {
@@ -84,9 +84,14 @@ class __AddItemState extends ConsumerState<_AddItem> {
         ? () {
             final discount = double.tryParse(discountTEC.text) ?? 0;
             final quantity = double.tryParse(quantityTEC.text) ?? 0;
+            final price = double.tryParse(priceTEC.text) ?? 0;
             if (item case Item item) {
               itemsNotifier.selectItem(
-                  item: item, discount: discount, quantity: quantity);
+                  item: item,
+                  discount: discount,
+                  quantity: quantity,
+                  price: price,
+                  taxCode: taxCode);
             } else {
               itemsNotifier.newItem(
                 name: nameTEC.text,
@@ -116,7 +121,13 @@ class __AddItemState extends ConsumerState<_AddItem> {
           TypeAheadField<Item>(
               hideOnEmpty: true,
               controller: nameTEC,
-              onSelected: (value) => setState(() => item = value),
+              onSelected: (value) {
+                priceTEC.text = value.price.toString();
+                setState(() {
+                  item = value;
+                  taxCode = value.taxCode;
+                });
+              },
               suggestionsCallback: (search) {
                 final values = items.where((item) {
                   final name = item.name.toLowerCase();
@@ -149,62 +160,6 @@ class __AddItemState extends ConsumerState<_AddItem> {
                   ),
                 );
               }),
-          // const SpaceBetween(),
-          // TextFormField(
-          //   // enabled: activeInputs,
-          //   controller: descTEC,
-          //   keyboardType: TextInputType.text,
-          //   maxLines: 8,
-          //   minLines: 1,
-          //   // onChanged: notifier.changeDescription,
-          //   textInputAction: TextInputAction.next,
-          //   decoration: const InputDecoration(
-          //     labelText: 'Description',
-          //     prefixIcon: Icon(Icons.description_rounded),
-          //   ),
-          // ),
-          // const SpaceBetween(),
-          // TextFormField(
-          //   // enabled: activeInputs,
-          //   controller: unitTEC,
-          //   keyboardType: TextInputType.text,
-          //   maxLines: 1,
-          //   // onChanged: notifier.changeUnit,
-          //   textInputAction: TextInputAction.next,
-          //   decoration: const InputDecoration(
-          //     labelText: 'Measuring unit',
-          //     prefixIcon: Icon(Icons.abc_rounded),
-          //   ),
-          // ),
-          const SpaceBetween(),
-          TextFormField(
-            // enabled: activeInputs,
-            controller: priceTEC,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            maxLines: 1,
-            // onChanged: notifier.changePrice,
-            textInputAction: TextInputAction.next,
-            autovalidateMode: _autoValidateMode,
-            validator: (_) => priceValidator,
-            // onEditingComplete: onSubmit,
-            decoration: const InputDecoration(
-              labelText: 'Price per unit',
-              prefixIcon: Icon(Icons.price_change_rounded),
-            ),
-          ),
-          const SpaceBetween(),
-          DropdownMenu<TaxCode>(
-              label: const Text('Tax code'),
-              initialSelection: taxCode,
-              onSelected: (value) {
-                if (value != null) {
-                  setState(() => taxCode = value);
-                }
-              },
-              dropdownMenuEntries: [
-                for (final value in TaxCode.values)
-                  DropdownMenuEntry(value: value, label: value.label)
-              ]),
           const SpaceBetween(),
         ] else if (item case Item item) ...[
           ListTile(
@@ -217,10 +172,39 @@ class __AddItemState extends ConsumerState<_AddItem> {
             contentPadding: const EdgeInsets.only(left: edgeInsertValue / 2),
             visualDensity: VisualDensity.compact,
             title: Text(item.name),
-            subtitle: Text('Price per unit: ${item.price}'),
+            subtitle: Text('Original price: ${item.price}'),
           ),
           const SpaceBetween()
         ],
+        TextFormField(
+          // enabled: activeInputs,
+          controller: priceTEC,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          maxLines: 1,
+          // onChanged: notifier.changePrice,
+          textInputAction: TextInputAction.next,
+          autovalidateMode: _autoValidateMode,
+          validator: (_) => priceValidator,
+          // onEditingComplete: onSubmit,
+          decoration: const InputDecoration(
+            labelText: 'Price per unit',
+            prefixIcon: Icon(Icons.price_change_rounded),
+          ),
+        ),
+        const SpaceBetween(),
+        DropdownMenu<TaxCode>(
+            label: const Text('Tax code'),
+            initialSelection: taxCode,
+            onSelected: (value) {
+              if (value != null) {
+                setState(() => taxCode = value);
+              }
+            },
+            dropdownMenuEntries: [
+              for (final value in TaxCode.values)
+                DropdownMenuEntry(value: value, label: value.label)
+            ]),
+        const SpaceBetween(),
         TextFormField(
           // enabled: activeInputs,
           controller: quantityTEC,

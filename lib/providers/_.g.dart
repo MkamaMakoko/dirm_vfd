@@ -475,7 +475,7 @@ class _ResendVerificationProviderElement
   String get email => (origin as ResendVerificationProvider).email;
 }
 
-String _$receiptHash() => r'90c03fd37dad2c6e31a12192e9dcb55583980d88';
+String _$receiptHash() => r'613bcad7b08ce12146280958b25d1ec1a7aa4031';
 
 /// See also [receipt].
 @ProviderFor(receipt)
@@ -661,7 +661,7 @@ final newReceiptProvider =
 );
 
 typedef _$NewReceipt = AsyncNotifier<NewReceiptState>;
-String _$itemsHash() => r'55f59a1e6a2efc68fb70d44e107a67ed478229ba';
+String _$itemsHash() => r'b6a101a61e850cd001f016a79b1ef9a4b4900d7d';
 
 /// See also [Items].
 @ProviderFor(Items)
@@ -720,5 +720,21 @@ final deleteAccountProvider =
 );
 
 typedef _$DeleteAccount = AutoDisposeAsyncNotifier<bool?>;
+String _$selectedBranchHash() => r'e815cab415ab5bff858fd102efad7ab68c914a33';
+
+/// See also [SelectedBranch].
+@ProviderFor(SelectedBranch)
+final selectedBranchProvider =
+    AsyncNotifierProvider<SelectedBranch, ({String id, String name})?>.internal(
+  SelectedBranch.new,
+  name: r'selectedBranchProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$selectedBranchHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$SelectedBranch = AsyncNotifier<({String id, String name})?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

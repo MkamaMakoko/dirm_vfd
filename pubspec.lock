@@ -395,6 +395,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_to_pdf:
+    dependency: "direct main"
+    description:
+      name: flutter_to_pdf
+      sha256: "8dc34340d58559e6a170c5a6755a7a1f37d1ea3026a190ea269f84e55b7c6d34"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   flutter_typeahead:
     dependency: "direct main"
     description:

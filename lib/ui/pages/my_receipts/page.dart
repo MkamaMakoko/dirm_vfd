@@ -82,7 +82,7 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
                 final receipt = results.receipts[index];
                 return ListTile(
                   onTap: () =>
-                      context.router.push(ReceiptRoute(receipt: receipt)),
+                      context.router.push(ReceiptRoute(receiptId: receipt.id)),
                   titleAlignment: ListTileTitleAlignment.center,
                   isThreeLine: true,
                   leading: CircleAvatar(
