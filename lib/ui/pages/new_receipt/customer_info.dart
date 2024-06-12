@@ -18,11 +18,17 @@ class _CustomerInfo extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(customer.name, style: context.textTheme.titleMedium),
+              Text(
+                  customer.name.isEmpty ? '(Unamamed customer)' : customer.name,
+                  style: context.textTheme.titleMedium?.copyWith(
+                      fontStyle:
+                          customer.name.isEmpty ? FontStyle.italic : null)),
               const SpaceBetween(times: .5),
-              Text('${customer.idType.label}: ${customer.customerId}',
-                  style: textStyle),
-              Text('Phone: 0${customer.phoneNumber}', style: textStyle),
+              if (customer.idType != IdType.others)
+                Text('${customer.idType.label}: ${customer.customerId}',
+                    style: textStyle),
+              if (customer.phoneNumber.isNotEmpty)
+                Text('Phone: 0${customer.phoneNumber}', style: textStyle),
               if (customer.vrn.isNotEmpty)
                 Text('VRN: ${customer.vrn}', style: textStyle),
               if (activeInputs) ...[

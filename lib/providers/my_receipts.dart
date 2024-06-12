@@ -3,6 +3,7 @@ part of '_.dart';
 @riverpod
 Future<MyReceiptsResults> myReceipts(MyReceiptsRef ref,
     {int page = 1, int size = 50}) async {
+  final selectedBranch = await ref.watch(selectedBranchProvider.future);
   final token =
       await ref.watch(userProvider.selectAsync((value) => value?.token));
   final response = await _post(
@@ -10,6 +11,7 @@ Future<MyReceiptsResults> myReceipts(MyReceiptsRef ref,
           body: {
             'page': page,
             'size': size,
+            'clientId':selectedBranch?.id,
           },
           token: token)
       .then((value) => _response(value));
@@ -22,7 +24,11 @@ Future<MyReceiptsResults> myReceipts(MyReceiptsRef ref,
     return MyReceiptsResults(
       receipts: [
         for (final map in response.data as Iterable) Receipt.fromMap(map)
-      ],
+      ]..sort((a, b) {
+                  final int ia = a.id;
+                  final int ib = b.id;
+                  return ia < ib ? 0 : 1;
+                }),
       received: received,
       totalPages: totalPages,
       totalReceipts: totalReceipts,

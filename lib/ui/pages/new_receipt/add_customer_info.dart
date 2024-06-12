@@ -12,8 +12,8 @@ class _AddCustomerInfoState extends ConsumerState<_AddCustomerInfo> {
   IdType idType = IdType.tin;
   late final notifier = ref.read(newReceiptProvider.notifier);
   late final customersNotifier = ref.read(customersProvider.notifier);
-  String? get namevalidator => validateName(nameTEC.text);
-  String? get phoneValidator => validatePhone(phoneTEC.text);
+  // String? get namevalidator => validateName(nameTEC.text);
+  // String? get phoneValidator => validatePhone(phoneTEC.text);
   String? get idValidator => idType == IdType.others
       ? null
       : validateCustomerId(id: idTEC.text, type: idType);
@@ -21,8 +21,9 @@ class _AddCustomerInfoState extends ConsumerState<_AddCustomerInfo> {
 
   void Function()? get onSaveCustomer =>
       ref.read(customersProvider.notifier.select((value) {
-        if (namevalidator == null &&
-            phoneValidator == null &&
+        if (
+          // nameValidator==null&&
+            // phoneValidator == null &&
             idValidator == null &&
             vrnValidator == null) {
           return () => value.saveCustomer(
@@ -81,8 +82,8 @@ class _AddCustomerInfoState extends ConsumerState<_AddCustomerInfo> {
                 textInputAction: TextInputAction.next,
                 maxLines: 2,
                 minLines: 1,
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (_) => namevalidator,
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                // validator: (_) => namevalidator,
                 keyboardType: TextInputType.name,
                 decoration: const InputDecoration(
                     labelText: 'Name', prefixIcon: Icon(Icons.person_rounded)),
@@ -94,8 +95,8 @@ class _AddCustomerInfoState extends ConsumerState<_AddCustomerInfo> {
           controller: phoneTEC,
           minLines: 1,
           textInputAction: TextInputAction.next,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (_) => phoneValidator,
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
+          // validator: (_) => phoneValidator,
           keyboardType: TextInputType.phone,
           decoration: const InputDecoration(
               labelText: 'Phone number',

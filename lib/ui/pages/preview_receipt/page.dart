@@ -5,6 +5,7 @@ import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/routes/router.gr.dart';
 import 'package:dirm_vfd/ui/widgets/in_button_progress_indicator.dart';
+import 'package:dirm_vfd/ui/widgets/receipt_widget.dart';
 import 'package:dirm_vfd/ui/widgets/secondary_container.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
@@ -16,14 +17,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:widgets_to_image/widgets_to_image.dart';
 part 'printer_widget.dart';
 part 'receipt_widget.dart';
 
 @RoutePage()
 class PreviewReceiptPage extends ConsumerWidget {
-  final _controller = WidgetsToImageController();
-  PreviewReceiptPage({super.key});
+  const PreviewReceiptPage({super.key});
 
   @override
   Widget build(BuildContext context, ref) {
@@ -60,6 +59,7 @@ class PreviewReceiptPage extends ConsumerWidget {
         });
       }
     });
+    final value = state.value;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -86,10 +86,41 @@ class PreviewReceiptPage extends ConsumerWidget {
           padding: const EdgeInsets.all(edgeInsertValue),
           child: SizedBox(
             width: width.toDouble(),
-            child: WidgetsToImage(
-              controller: _controller,
-              child: const _ReceiptPage(),
+            child: ReceiptWidget(
+              vatRate: [
+                if (value?.customersState.customer?.vrn.isNotEmpty ?? false)
+                  for (final item in value?.itemsState.selectedItems ??
+                      <SelectedItemState>[])
+                    (amount: item.totalTax, rate: item.item.taxCode.vatRate)
+              ],
+              items: [
+                for (final item
+                    in value?.itemsState.selectedItems ?? <SelectedItemState>[])
+                  (
+                    amount: item.totalPrice,
+                    name: item.item.name,
+                    quantity: item.quantity,
+                    taxCode: item.item.taxCode.vatRate
+                  )
+              ],
+              customerName: value?.customersState.customer?.name??'',
+              customerId: value?.customersState.customer?.customerId??'',
+              customerIdType: value?.customersState.customer?.idType.label??'',
+              vrn: value?.customersState.customer?.vrn??'',
+              mobileNumber: value?.customersState.customer?.phoneNumber??'',
+              receiptNumber: '---',
+              zNumber: '---',
+              dateTime: '---',
+              totalTaxExcl: value?.priceTaxExcluded??0,
+              totalTaxIncl: value?.price??0,
+              discount: value?.discount??0,
+              verificationCode: '---',
+              verificationUrl: '---',
             ),
+            // child: WidgetsToImage(
+            //   controller: _controller,
+            //   child: const _ReceiptPage(),
+            // ),
           ),
         ),
       ),

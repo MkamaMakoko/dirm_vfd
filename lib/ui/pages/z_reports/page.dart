@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
@@ -19,8 +21,21 @@ class _ZReportsPageState extends ConsumerState<ZReportsPage> {
   int currentPage = 1;
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(zReportsProvider(page: currentPage));
-    final value = state.value;
+    final provider = zReportsProvider(page: currentPage);
+    final state = ref.watch(provider);
+    // final value = state.value;
+    ref.listen(provider, (_, state) {
+      if (state case AsyncError(:final error)) {
+        final String message;
+        if (error is SocketException) {
+          message = 'check your internet connection';
+        } else {
+          message = error.toString();
+        }
+        context.snackBar(message: message, error: true);
+      }
+    });
+    final value = state is! AsyncError ? state.value : null;
     return Scaffold(
       persistentFooterButtons: [
         TextButton.icon(

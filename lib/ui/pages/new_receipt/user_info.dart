@@ -6,6 +6,8 @@ class _UserInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final value = ref.watch(userProvider.select((state) => state.value));
+    final selectedBranch =
+        ref.watch(selectedBranchProvider.select((state) => state.value));
     Widget infoWidget(
         {required String label, required String value, bool useRow = false}) {
       final labelWidget = Text(label, style: context.textTheme.labelMedium);
@@ -36,8 +38,10 @@ class _UserInfo extends ConsumerWidget {
             // Text(info.clientInformation.businessName,
             //     style: context.textTheme.bodyLarge),
             infoWidget(
-                label: 'Business name',
-                value: info.clientInformation.businessName),
+              label: 'Business name',
+              // value: info.clientInformation.businessName,
+              value: selectedBranch?.name??info.clientInformation.businessName
+            ),
             const SpaceBetween(),
             infoWidget(
                 useRow: true,

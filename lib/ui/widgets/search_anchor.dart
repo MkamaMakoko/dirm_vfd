@@ -14,6 +14,7 @@ class AppSearchAnchor extends StatelessWidget {
   const AppSearchAnchor.zReprts({super.key}) : _type = _SearchType.zReports;
   @override
   Widget build(BuildContext context) {
+    return const SizedBox.shrink();
     return SearchAnchor(
         builder: (context, controller) {
           return const Padding(

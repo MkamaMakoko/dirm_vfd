@@ -247,7 +247,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
             'Sub total price',
             style: context.textTheme.labelSmall,
           ),
-          Text('$subtotal', style: context.textTheme.headlineSmall),
+          Text(formatNumber(subtotal), style: context.textTheme.headlineSmall),
         ],
         const SpaceBetween(),
         SizedBox(

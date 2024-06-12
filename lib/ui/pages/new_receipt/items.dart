@@ -41,7 +41,7 @@ class _Items extends ConsumerWidget {
                   subtitle: Text(
                     'Quantity: ${item.quantity} units'
                     '\nTotal price: Tsh '
-                    '${(item.price * item.quantity) - item.discount}',
+                    '${formatNumber((item.price * item.quantity) - item.discount)}',
                   ),
                   // onTap: () {},
                 );

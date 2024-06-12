@@ -80,7 +80,7 @@ final class FullReceipt {
         createdAt: map['createdAt'],
         updatedAt: map['updatedAt'],
         totalTaxExcl: map['totals']['totalTaxExcl'],
-        totalTaxIncl: map['totals']['totaltaxIncl'],
+        totalTaxIncl: map['totals']['totalTaxIncl'],
         discount: map['totals']['discount'],
         pmtType: map['payments']['pmtType'],
         pmtAmount: map['payments']['pmtAmount'],
@@ -107,7 +107,7 @@ final class ReceiptItem {
   factory ReceiptItem.fromMap(Map map) => ReceiptItem(
         id: map['id'],
         desc: map['desc'],
-        qyt: map['qyt'],
+        qyt: map['qty'],
         taxCode: map['taxCode'],
         amt: map['amt'],
         discount: map['discount'],

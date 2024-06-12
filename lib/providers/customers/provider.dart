@@ -40,16 +40,21 @@ class Customers extends _$Customers {
       state = const AsyncLoading()..copyWithPrevious(state);
       state = await AsyncValue.guard(() async {
         final id = DateTime.now().microsecondsSinceEpoch;
-        await _box.add({
+        Customer customer;
+        final map = {
           'id': id,
           'name': name,
           'phoneNumber': phone,
           'vrn': vrn,
           'customerId': customerId,
           'idType': idType.name,
-        });
-        final customer =
-            _customers.singleWhere((element) => element.id == id);
+        };
+        if (name.isNotEmpty) {
+          await _box.add(map);
+          customer = _customers.singleWhere((element) => element.id == id);
+        } else {
+          customer = Customer.fromMap(map);
+        }
         return _CustomersState(customers: _customers, customer: customer);
       });
     }

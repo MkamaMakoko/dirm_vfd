@@ -144,7 +144,7 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
                                     name: item.desc,
                                     quantity: item.qyt ?? 0,
                                     taxCode:
-                                        (item.taxCode as int).getTaxCode.label
+                                        (item.taxCode as int).getTaxCode.vatRate
                                   )
                               ],
                               customerName: receipt.custName,

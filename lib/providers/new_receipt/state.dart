@@ -42,6 +42,7 @@ class NewReceiptState with _$NewReceiptState {
   }
 
   double get priceTaxExcluded {
+    if (customersState.customer?.vrn.isEmpty ?? true) return price;
     double total = 0;
     for (final value in itemsState.selectedItems) {
       total += value.totalPriceTaxExcluded;

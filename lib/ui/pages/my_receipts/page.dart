@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/routes/router.gr.dart';
 import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
+import 'package:dirm_vfd/utils/format_date.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,8 +22,22 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
   int currentPage = 1;
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(myReceiptsProvider(page: currentPage));
-    final value = state.value;
+    final provider = myReceiptsProvider(page: currentPage);
+    final state = ref.watch(provider);
+    ref.listen(provider, (_, state) {
+      if (state case AsyncError(:final error)) {
+        final String message;
+        if (error is SocketException) {
+          message = 'check your internet connection';
+        } else {
+          message = error.toString();
+        }
+        context.snackBar(message: message, error: true);
+      }
+    });
+    final value = state is! AsyncError ? state.value : null;
+    final selectedBranch =
+        ref.watch(selectedBranchProvider.select((state) => state.value));
     return Scaffold(
       persistentFooterButtons: [
         TextButton.icon(
@@ -52,8 +69,16 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
                           right: edgeInsertValue,
                           // top: edgeInsertValue,
                           bottom: edgeInsertValue / 1.5),
-                      child: Text('${value.totalReceipts} receipts found',
-                          style: context.textTheme.titleSmall))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (selectedBranch != null)
+                            Text(selectedBranch.name,
+                                style: context.textTheme.titleSmall),
+                          Text('${value.totalReceipts} receipts found',
+                              style: context.textTheme.titleSmall),
+                        ],
+                      ))),
               _ => null,
             },
             actions: [
@@ -87,9 +112,9 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
                   isThreeLine: true,
                   leading: CircleAvatar(
                       backgroundColor: context.colorScheme.secondaryContainer,
-                      child: Text((index + 1).toString())),
+                      child: Text(receipt.id.toString())),
                   // trailing: const Text('Tsh 300,000.00'),
-                  title: Text(receipt.custName),
+                  title: Text(receipt.custName??'(Unnamed customer)',),
                   subtitle: RichText(
                       text: TextSpan(children: [
                     TextSpan(
@@ -98,7 +123,7 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
                             color: context.colorScheme.primary,
                             fontWeight: FontWeight.bold)),
                     TextSpan(
-                        text: '\n${receipt.dateTime}',
+                        text: '\n${formatDate(timeString: receipt.dateTime)}',
                         style: context.textTheme.bodySmall),
                   ])),
                 );

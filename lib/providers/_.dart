@@ -51,6 +51,7 @@ Future<http.Response> _post(
   //   print(token);
   //   print('\nEND TOKEN');
   // }
+  print(body);
   return await http
       .post(_url(endpoint: endpoint), body: jsonEncode(body), headers: {
     if (token != null) 'Authorization': 'Bearer $token',

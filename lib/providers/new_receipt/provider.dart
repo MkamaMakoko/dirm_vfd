@@ -4,9 +4,11 @@ part of '../_.dart';
 class NewReceipt extends _$NewReceipt {
   bool _firstRun = true;
   late UserInfo? _user;
+  late Branch? _selectedBranch;
 
   @override
   FutureOr<NewReceiptState> build() async {
+    _selectedBranch = await ref.watch(selectedBranchProvider.future);
     _user = await ref.watch(userProvider.future);
     final int currentStep;
     if (_firstRun) {
@@ -21,11 +23,15 @@ class NewReceipt extends _$NewReceipt {
         customersState: await ref.watch(customersProvider.future));
   }
 
-  void changeCurrentStep(int index) =>
-      update((cb) => cb.copyWith(currentStep: index));
+  void changeCurrentStep(int index) {
+    removeError();
+    update((cb) => cb.copyWith(currentStep: index));
+  }
 
-  void changePaymentType(PaymentType type) =>
-      update((cb) => cb.copyWith(paymentType: type));
+  void changePaymentType(PaymentType type) {
+    removeError();
+    update((cb) => cb.copyWith(paymentType: type));
+  }
 
   void clearState() {
     ref.invalidateSelf();
@@ -35,7 +41,7 @@ class NewReceipt extends _$NewReceipt {
   }
 
   void removeError() {
-    if(state case AsyncError(:final NewReceiptState value)) {
+    if (state case AsyncError(:final NewReceiptState value)) {
       state = AsyncValue.data(value);
     }
   }
@@ -51,11 +57,11 @@ class NewReceipt extends _$NewReceipt {
                 endpoint: 'receipts/post',
                 body: {
                   'tin': user.vfdaInformation.tin,
-                  // 'tin': 123490789,
                   'vrn': customer?.vrn,
                   'custIdType': customer?.idType.value,
                   'custId': customer?.customerId,
                   'custName': customer?.name,
+                  'clientId': _selectedBranch?.id,
                   'mobileNum': '0${customer?.phoneNumber}',
                   'items': [
                     for (final item in value.itemsState.selectedItems)
@@ -69,8 +75,8 @@ class NewReceipt extends _$NewReceipt {
                       }
                   ],
                   'totals': {
-                    'totalTaxExcl': value.price,
-                    'totalTaxIncl': value.totalAmount,
+                    'totalTaxExcl': value.priceTaxExcluded,
+                    'totalTaxIncl': value.price,
                     'discount': value.discount,
                   },
                   'payments': {
@@ -78,12 +84,16 @@ class NewReceipt extends _$NewReceipt {
                     'pmtAmount': value.totalAmount,
                   },
                   'vatTotals': [
+                    // if (value.customersState.customer?.vrn.isNotEmpty ?? false)
                     for (final item in value.itemsState.selectedItems)
                       {
                         "vatRate": item.item.taxCode.vatRate,
-                        "nettAmount":
-                            (item.totalPrice - item.discount) + item.totalTax,
-                        "taxAmount": item.taxPerUnit
+                        "nettAmount": item.totalPrice - item.discount,
+                        "taxAmount":
+                            (value.customersState.customer?.vrn.isNotEmpty ??
+                                    false)
+                                ? item.totalTax
+                                : 0
                       }
                   ]
                 },

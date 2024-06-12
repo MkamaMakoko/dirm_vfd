@@ -1,6 +1,5 @@
 import 'package:dirm_vfd/ui/routes/router.dart';
 import 'package:dirm_vfd/utils/_.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -22,23 +21,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DynamicColorBuilder(builder: (light, dark) {
-      const seedColor = Colors.cyan;
-      const useMaterail3 = true;
-      return MaterialApp.router(
-        title: appTitle,
-        themeMode: ThemeMode.system,
-        theme: ThemeData(
-            useMaterial3: useMaterail3,
-            colorScheme: light ?? ColorScheme.fromSeed(seedColor: seedColor)),
-        darkTheme: ThemeData(
-            useMaterial3: useMaterail3,
-            brightness: Brightness.dark,
-            colorScheme: dark ??
-                ColorScheme.fromSeed(
-                    seedColor: seedColor, brightness: Brightness.dark)),
-        routerConfig: _router.config(),
-      );
-    });
+    const seedColor = Colors.cyan;
+    const useMaterial3 = true;
+    return MaterialApp.router(
+      title: appTitle,
+      themeMode: ThemeMode.system,
+      theme: ThemeData(
+          useMaterial3: useMaterial3,
+          colorScheme: ColorScheme.fromSeed(seedColor: seedColor)),
+      darkTheme: ThemeData(
+          useMaterial3: useMaterial3,
+          brightness: Brightness.dark,
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: seedColor, brightness: Brightness.dark)),
+      routerConfig: _router.config(),
+    );
   }
 }

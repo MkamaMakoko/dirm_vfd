@@ -30,18 +30,21 @@ class SelectedItemState with _$SelectedItemState {
 
   double get totalPrice => price * quantity;
 
-  double get totalPriceTaxExcluded => pricePerUnitTaxExcluded * quantity;
+  double get totalPriceTaxExcluded {
+    final total = pricePerUnitTaxExcluded * quantity;
+    return total == 0 ? totalPrice : total;
+  }
 
   // double get totalPrice => totalPriceWithoutDiscount - discount;
 
   double get taxPerUnit {
     if (taxCode != TaxCode.a) return 0;
-    return price-pricePerUnitTaxExcluded;
+    return price - (price / 1.18);
   }
 
   double get pricePerUnitTaxExcluded {
-    if (taxCode != TaxCode.a) return 0;
-    return price / 1.18;
+    if (taxCode != TaxCode.a) return price;
+    return price - taxPerUnit;
   }
 
   double get totalTax => taxPerUnit * quantity;
