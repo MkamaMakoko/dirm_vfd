@@ -35,7 +35,7 @@ final _deviceConnectedProvider = StreamProvider<bool>.internal(
 );
 
 typedef _DeviceConnectedRef = StreamProviderRef<bool>;
-String _$myReceiptsHash() => r'9564a81c8fb88a52fc09f9569777a2dfa06087f5';
+String _$myReceiptsHash() => r'bdaa9279829eb3809990b3acffca6d3e96c05f62';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -200,6 +200,266 @@ class _MyReceiptsProviderElement
   int get page => (origin as MyReceiptsProvider).page;
   @override
   int get size => (origin as MyReceiptsProvider).size;
+}
+
+String _$searchReceiptsHash() => r'4031bf87acc83e6cb5fbec2f9adbaa90b6ada641';
+
+/// See also [searchReceipts].
+@ProviderFor(searchReceipts)
+const searchReceiptsProvider = SearchReceiptsFamily();
+
+/// See also [searchReceipts].
+class SearchReceiptsFamily extends Family<AsyncValue<MyReceiptsResults>> {
+  /// See also [searchReceipts].
+  const SearchReceiptsFamily();
+
+  /// See also [searchReceipts].
+  SearchReceiptsProvider call({
+    String? customerName,
+    DateTime? startDate,
+    DateTime? endDate,
+    num? maxmum,
+    num? minimum,
+    PaymentType? paymentType,
+    String? tin,
+    int page = 1,
+    int size = 50,
+  }) {
+    return SearchReceiptsProvider(
+      customerName: customerName,
+      startDate: startDate,
+      endDate: endDate,
+      maxmum: maxmum,
+      minimum: minimum,
+      paymentType: paymentType,
+      tin: tin,
+      page: page,
+      size: size,
+    );
+  }
+
+  @override
+  SearchReceiptsProvider getProviderOverride(
+    covariant SearchReceiptsProvider provider,
+  ) {
+    return call(
+      customerName: provider.customerName,
+      startDate: provider.startDate,
+      endDate: provider.endDate,
+      maxmum: provider.maxmum,
+      minimum: provider.minimum,
+      paymentType: provider.paymentType,
+      tin: provider.tin,
+      page: provider.page,
+      size: provider.size,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'searchReceiptsProvider';
+}
+
+/// See also [searchReceipts].
+class SearchReceiptsProvider
+    extends AutoDisposeFutureProvider<MyReceiptsResults> {
+  /// See also [searchReceipts].
+  SearchReceiptsProvider({
+    String? customerName,
+    DateTime? startDate,
+    DateTime? endDate,
+    num? maxmum,
+    num? minimum,
+    PaymentType? paymentType,
+    String? tin,
+    int page = 1,
+    int size = 50,
+  }) : this._internal(
+          (ref) => searchReceipts(
+            ref as SearchReceiptsRef,
+            customerName: customerName,
+            startDate: startDate,
+            endDate: endDate,
+            maxmum: maxmum,
+            minimum: minimum,
+            paymentType: paymentType,
+            tin: tin,
+            page: page,
+            size: size,
+          ),
+          from: searchReceiptsProvider,
+          name: r'searchReceiptsProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$searchReceiptsHash,
+          dependencies: SearchReceiptsFamily._dependencies,
+          allTransitiveDependencies:
+              SearchReceiptsFamily._allTransitiveDependencies,
+          customerName: customerName,
+          startDate: startDate,
+          endDate: endDate,
+          maxmum: maxmum,
+          minimum: minimum,
+          paymentType: paymentType,
+          tin: tin,
+          page: page,
+          size: size,
+        );
+
+  SearchReceiptsProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.customerName,
+    required this.startDate,
+    required this.endDate,
+    required this.maxmum,
+    required this.minimum,
+    required this.paymentType,
+    required this.tin,
+    required this.page,
+    required this.size,
+  }) : super.internal();
+
+  final String? customerName;
+  final DateTime? startDate;
+  final DateTime? endDate;
+  final num? maxmum;
+  final num? minimum;
+  final PaymentType? paymentType;
+  final String? tin;
+  final int page;
+  final int size;
+
+  @override
+  Override overrideWith(
+    FutureOr<MyReceiptsResults> Function(SearchReceiptsRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: SearchReceiptsProvider._internal(
+        (ref) => create(ref as SearchReceiptsRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        customerName: customerName,
+        startDate: startDate,
+        endDate: endDate,
+        maxmum: maxmum,
+        minimum: minimum,
+        paymentType: paymentType,
+        tin: tin,
+        page: page,
+        size: size,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<MyReceiptsResults> createElement() {
+    return _SearchReceiptsProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SearchReceiptsProvider &&
+        other.customerName == customerName &&
+        other.startDate == startDate &&
+        other.endDate == endDate &&
+        other.maxmum == maxmum &&
+        other.minimum == minimum &&
+        other.paymentType == paymentType &&
+        other.tin == tin &&
+        other.page == page &&
+        other.size == size;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, customerName.hashCode);
+    hash = _SystemHash.combine(hash, startDate.hashCode);
+    hash = _SystemHash.combine(hash, endDate.hashCode);
+    hash = _SystemHash.combine(hash, maxmum.hashCode);
+    hash = _SystemHash.combine(hash, minimum.hashCode);
+    hash = _SystemHash.combine(hash, paymentType.hashCode);
+    hash = _SystemHash.combine(hash, tin.hashCode);
+    hash = _SystemHash.combine(hash, page.hashCode);
+    hash = _SystemHash.combine(hash, size.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin SearchReceiptsRef on AutoDisposeFutureProviderRef<MyReceiptsResults> {
+  /// The parameter `customerName` of this provider.
+  String? get customerName;
+
+  /// The parameter `startDate` of this provider.
+  DateTime? get startDate;
+
+  /// The parameter `endDate` of this provider.
+  DateTime? get endDate;
+
+  /// The parameter `maxmum` of this provider.
+  num? get maxmum;
+
+  /// The parameter `minimum` of this provider.
+  num? get minimum;
+
+  /// The parameter `paymentType` of this provider.
+  PaymentType? get paymentType;
+
+  /// The parameter `tin` of this provider.
+  String? get tin;
+
+  /// The parameter `page` of this provider.
+  int get page;
+
+  /// The parameter `size` of this provider.
+  int get size;
+}
+
+class _SearchReceiptsProviderElement
+    extends AutoDisposeFutureProviderElement<MyReceiptsResults>
+    with SearchReceiptsRef {
+  _SearchReceiptsProviderElement(super.provider);
+
+  @override
+  String? get customerName => (origin as SearchReceiptsProvider).customerName;
+  @override
+  DateTime? get startDate => (origin as SearchReceiptsProvider).startDate;
+  @override
+  DateTime? get endDate => (origin as SearchReceiptsProvider).endDate;
+  @override
+  num? get maxmum => (origin as SearchReceiptsProvider).maxmum;
+  @override
+  num? get minimum => (origin as SearchReceiptsProvider).minimum;
+  @override
+  PaymentType? get paymentType =>
+      (origin as SearchReceiptsProvider).paymentType;
+  @override
+  String? get tin => (origin as SearchReceiptsProvider).tin;
+  @override
+  int get page => (origin as SearchReceiptsProvider).page;
+  @override
+  int get size => (origin as SearchReceiptsProvider).size;
 }
 
 String _$zReportsHash() => r'2b3ed535aaf445a581519ac335ed2198171f4cba';
@@ -646,7 +906,7 @@ final userProvider = AsyncNotifierProvider<User, UserInfo?>.internal(
 );
 
 typedef _$User = AsyncNotifier<UserInfo?>;
-String _$newReceiptHash() => r'edbc0812a808a1436d42cbe6004f2967863661a9';
+String _$newReceiptHash() => r'e9a00a3eb7ff0c2558e4572c5221273d02505282';
 
 /// See also [NewReceipt].
 @ProviderFor(NewReceipt)
@@ -675,7 +935,7 @@ final itemsProvider = StreamNotifierProvider<Items, ItemsState>.internal(
 );
 
 typedef _$Items = StreamNotifier<ItemsState>;
-String _$customersHash() => r'2d525ace204d7429caabf3be2641f22707504483';
+String _$customersHash() => r'60d341df6bdcd325de278803dadd0c40e12dec0f';
 
 /// See also [Customers].
 @ProviderFor(Customers)
@@ -720,12 +980,12 @@ final deleteAccountProvider =
 );
 
 typedef _$DeleteAccount = AutoDisposeAsyncNotifier<bool?>;
-String _$selectedBranchHash() => r'e815cab415ab5bff858fd102efad7ab68c914a33';
+String _$selectedBranchHash() => r'823f039027109d6ebbbd0eb6dd12aa402906370c';
 
 /// See also [SelectedBranch].
 @ProviderFor(SelectedBranch)
 final selectedBranchProvider =
-    AsyncNotifierProvider<SelectedBranch, ({String id, String name})?>.internal(
+    AsyncNotifierProvider<SelectedBranch, Branch?>.internal(
   SelectedBranch.new,
   name: r'selectedBranchProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -735,6 +995,6 @@ final selectedBranchProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$SelectedBranch = AsyncNotifier<({String id, String name})?>;
+typedef _$SelectedBranch = AsyncNotifier<Branch?>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

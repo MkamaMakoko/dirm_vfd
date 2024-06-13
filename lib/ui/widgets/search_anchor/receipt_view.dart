@@ -2,7 +2,9 @@ part of 'widget.dart';
 
 class _ReceiptViewBuilder extends StatefulWidget {
   final Iterable<Widget> suggestions;
-  const _ReceiptViewBuilder({required this.suggestions});
+  final void Function(void Function(String)) changeViewOnSubmitted;
+  const _ReceiptViewBuilder(
+      {required this.suggestions, required this.changeViewOnSubmitted});
 
   @override
   State<_ReceiptViewBuilder> createState() => __ReceiptViewBuilderState();
@@ -18,6 +20,26 @@ class __ReceiptViewBuilderState extends State<_ReceiptViewBuilder> {
     super.initState();
     miniTEC = TextEditingController();
     maxTEC = TextEditingController();
+  }
+
+  void Function(String) onViewSubmitted = (text) {};
+
+  @override
+  void setState(VoidCallback fn) {
+    super.setState(fn);
+    widget.changeViewOnSubmitted((text) {
+      final isTIN = int.tryParse(text) != null;
+      final provider = searchReceiptsProvider(
+        customerName: isTIN ? '' : text,
+        tin: isTIN ? text : null,
+        startDate: range.start,
+        endDate: range.end,
+        maxmum: double.tryParse(maxTEC.text),
+        minimum: double.tryParse(miniTEC.text),
+        paymentType: paymentType,
+      );
+      context.router.push(MyReceiptsRoute(searchReceiptsProvider: provider));
+    });
   }
 
   @override
@@ -46,7 +68,7 @@ class __ReceiptViewBuilderState extends State<_ReceiptViewBuilder> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: edgeInsertValue),
           child: DropdownMenu<PaymentType>(
-            width: context.screenSize.width - (edgeInsertValue * 2),
+              width: context.screenSize.width - (edgeInsertValue * 2),
               initialSelection: paymentType,
               label: const Text('Payment type'),
               onSelected: (value) {

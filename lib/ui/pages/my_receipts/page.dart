@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/routes/router.gr.dart';
-import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
+import 'package:dirm_vfd/ui/widgets/search_anchor/widget.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
 import 'package:dirm_vfd/utils/format_date.dart';
@@ -12,7 +12,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @RoutePage()
 class MyReceiptsPage extends ConsumerStatefulWidget {
-  const MyReceiptsPage({super.key});
+  final SearchReceiptsProvider? searchReceiptsProvider;
+  const MyReceiptsPage({super.key, this.searchReceiptsProvider});
 
   @override
   ConsumerState<MyReceiptsPage> createState() => _MyReceiptsPageState();
@@ -22,7 +23,8 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
   int currentPage = 1;
   @override
   Widget build(BuildContext context) {
-    final provider = myReceiptsProvider(page: currentPage);
+    final provider =
+        widget.searchReceiptsProvider ?? myReceiptsProvider(page: currentPage);
     final state = ref.watch(provider);
     ref.listen(provider, (_, state) {
       if (state case AsyncError(:final error)) {
@@ -39,25 +41,30 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
     final selectedBranch =
         ref.watch(selectedBranchProvider.select((state) => state.value));
     return Scaffold(
-      persistentFooterButtons: [
-        TextButton.icon(
-          onPressed:
-              currentPage == 1 ? null : () => setState(() => currentPage--),
-          label: const Text('Previous'),
-          icon: const Icon(Icons.navigate_before_rounded),
-        ),
-        TextButton.icon(
-          onPressed: (value?.totalReceipts ?? 0) <= 50
-              ? null
-              : () => setState(() => currentPage++),
-          label: const Text('Next'),
-          icon: const Icon(Icons.navigate_next_rounded),
-        ),
-      ],
+      persistentFooterButtons: widget.searchReceiptsProvider == null
+          ? [
+              TextButton.icon(
+                onPressed: currentPage == 1
+                    ? null
+                    : () => setState(() => currentPage--),
+                label: const Text('Previous'),
+                icon: const Icon(Icons.navigate_before_rounded),
+              ),
+              TextButton.icon(
+                onPressed: (value?.totalReceipts ?? 0) <= 50
+                    ? null
+                    : () => setState(() => currentPage++),
+                label: const Text('Next'),
+                icon: const Icon(Icons.navigate_next_rounded),
+              ),
+            ]
+          : null,
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: const Text('My Receipts'),
+            title: Text(widget.searchReceiptsProvider == null
+                ? 'My Receipts'
+                : 'Search results'),
             bottom: switch (state) {
               AsyncData(:final value) => PreferredSize(
                   preferredSize:
@@ -114,7 +121,9 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
                       backgroundColor: context.colorScheme.secondaryContainer,
                       child: Text(receipt.id.toString())),
                   // trailing: const Text('Tsh 300,000.00'),
-                  title: Text(receipt.custName??'(Unnamed customer)',),
+                  title: Text(
+                    receipt.custName ?? '(Unnamed customer)',
+                  ),
                   subtitle: RichText(
                       text: TextSpan(children: [
                     TextSpan(

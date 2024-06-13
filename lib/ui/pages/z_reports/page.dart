@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:dirm_vfd/providers/_.dart';
-import 'package:dirm_vfd/ui/widgets/search_anchor.dart';
+import 'package:dirm_vfd/ui/widgets/search_anchor/widget.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
 import 'package:flutter/material.dart';

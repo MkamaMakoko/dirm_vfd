@@ -9,6 +9,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i15;
+import 'package:dirm_vfd/providers/_.dart' as _i17;
 import 'package:dirm_vfd/ui/initial_pages/loading/page.dart' as _i4;
 import 'package:dirm_vfd/ui/initial_pages/login/page.dart' as _i5;
 import 'package:dirm_vfd/ui/initial_pages/sign_up/page.dart' as _i7;
@@ -23,7 +24,8 @@ import 'package:dirm_vfd/ui/pages/new_receipt/page.dart' as _i11;
 import 'package:dirm_vfd/ui/pages/preview_receipt/page.dart' as _i12;
 import 'package:dirm_vfd/ui/pages/receipt/page.dart' as _i13;
 import 'package:dirm_vfd/ui/pages/z_reports/page.dart' as _i14;
-import 'package:flutter/foundation.dart' as _i16;
+import 'package:flutter/foundation.dart' as _i18;
+import 'package:flutter/material.dart' as _i16;
 
 abstract class $AppRouter extends _i15.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -79,9 +81,14 @@ abstract class $AppRouter extends _i15.RootStackRouter {
       );
     },
     MyReceiptsRoute.name: (routeData) {
+      final args = routeData.argsAs<MyReceiptsRouteArgs>(
+          orElse: () => const MyReceiptsRouteArgs());
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i9.MyReceiptsPage(),
+        child: _i9.MyReceiptsPage(
+          key: args.key,
+          searchReceiptsProvider: args.searchReceiptsProvider,
+        ),
       );
     },
     MyVFDRoute.name: (routeData) {
@@ -97,11 +104,9 @@ abstract class $AppRouter extends _i15.RootStackRouter {
       );
     },
     PreviewReceiptRoute.name: (routeData) {
-      final args = routeData.argsAs<PreviewReceiptRouteArgs>(
-          orElse: () => const PreviewReceiptRouteArgs());
       return _i15.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: _i12.PreviewReceiptPage(key: args.key),
+        child: const _i12.PreviewReceiptPage(),
       );
     },
     ReceiptRoute.name: (routeData) {
@@ -237,16 +242,40 @@ class ItemsRoute extends _i15.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.MyReceiptsPage]
-class MyReceiptsRoute extends _i15.PageRouteInfo<void> {
-  const MyReceiptsRoute({List<_i15.PageRouteInfo>? children})
-      : super(
+class MyReceiptsRoute extends _i15.PageRouteInfo<MyReceiptsRouteArgs> {
+  MyReceiptsRoute({
+    _i16.Key? key,
+    _i17.SearchReceiptsProvider? searchReceiptsProvider,
+    List<_i15.PageRouteInfo>? children,
+  }) : super(
           MyReceiptsRoute.name,
+          args: MyReceiptsRouteArgs(
+            key: key,
+            searchReceiptsProvider: searchReceiptsProvider,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'MyReceiptsRoute';
 
-  static const _i15.PageInfo<void> page = _i15.PageInfo<void>(name);
+  static const _i15.PageInfo<MyReceiptsRouteArgs> page =
+      _i15.PageInfo<MyReceiptsRouteArgs>(name);
+}
+
+class MyReceiptsRouteArgs {
+  const MyReceiptsRouteArgs({
+    this.key,
+    this.searchReceiptsProvider,
+  });
+
+  final _i16.Key? key;
+
+  final _i17.SearchReceiptsProvider? searchReceiptsProvider;
+
+  @override
+  String toString() {
+    return 'MyReceiptsRouteArgs{key: $key, searchReceiptsProvider: $searchReceiptsProvider}';
+  }
 }
 
 /// generated route for
@@ -279,38 +308,23 @@ class NewReceiptRoute extends _i15.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.PreviewReceiptPage]
-class PreviewReceiptRoute extends _i15.PageRouteInfo<PreviewReceiptRouteArgs> {
-  PreviewReceiptRoute({
-    _i16.Key? key,
-    List<_i15.PageRouteInfo>? children,
-  }) : super(
+class PreviewReceiptRoute extends _i15.PageRouteInfo<void> {
+  const PreviewReceiptRoute({List<_i15.PageRouteInfo>? children})
+      : super(
           PreviewReceiptRoute.name,
-          args: PreviewReceiptRouteArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'PreviewReceiptRoute';
 
-  static const _i15.PageInfo<PreviewReceiptRouteArgs> page =
-      _i15.PageInfo<PreviewReceiptRouteArgs>(name);
-}
-
-class PreviewReceiptRouteArgs {
-  const PreviewReceiptRouteArgs({this.key});
-
-  final _i16.Key? key;
-
-  @override
-  String toString() {
-    return 'PreviewReceiptRouteArgs{key: $key}';
-  }
+  static const _i15.PageInfo<void> page = _i15.PageInfo<void>(name);
 }
 
 /// generated route for
 /// [_i13.ReceiptPage]
 class ReceiptRoute extends _i15.PageRouteInfo<ReceiptRouteArgs> {
   ReceiptRoute({
-    _i16.Key? key,
+    _i18.Key? key,
     required int receiptId,
     List<_i15.PageRouteInfo>? children,
   }) : super(
@@ -334,7 +348,7 @@ class ReceiptRouteArgs {
     required this.receiptId,
   });
 
-  final _i16.Key? key;
+  final _i18.Key? key;
 
   final int receiptId;
 
