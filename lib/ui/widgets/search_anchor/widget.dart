@@ -31,10 +31,13 @@ class _AppSearchAnchorState extends State<AppSearchAnchor> {
   void changeViewOnSubmitted(void Function(String) function) =>
       setState(() => viewOnSubmitted = function);
 
+  final controller = SearchController();
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox.shrink();
+    if (widget._type != _SearchType.receipts) return const SizedBox.shrink();
     return SearchAnchor(
+        searchController: controller,
         viewOnSubmitted: viewOnSubmitted,
         builder: (context, controller) {
           return const Padding(
@@ -44,12 +47,13 @@ class _AppSearchAnchorState extends State<AppSearchAnchor> {
         },
         suggestionsBuilder: (context, controller) {
           return [
-            for (int index = 0; index < 12; index++)
-              ListTile(title: Text('Result number $index'))
+            // for (int index = 0; index < 12; index++)
+            //   ListTile(title: Text('Result number $index'))
           ];
         },
         viewBuilder: (suggestions) => _ReceiptViewBuilder(
               suggestions: suggestions,
+              controller: controller,
               changeViewOnSubmitted: changeViewOnSubmitted,
             ),
         viewHintText: switch (widget._type) {

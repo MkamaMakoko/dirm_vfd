@@ -8,13 +8,13 @@ class ItemsState with _$ItemsState {
     @Default([]) List<SelectedItemState> selectedItems,
   }) = _ItemsState;
 
-  double get totalPrice {
-    double total = 0;
-    for (final item in selectedItems) {
-      total += item.totalPrice;
-    }
-    return total;
-  }
+  // double get totalPrice {
+  //   double total = 0;
+  //   for (final item in selectedItems) {
+  //     total += item.totalPrice;
+  //   }
+  //   return total;
+  // }
 }
 
 @freezed

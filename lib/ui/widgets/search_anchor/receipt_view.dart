@@ -2,9 +2,12 @@ part of 'widget.dart';
 
 class _ReceiptViewBuilder extends StatefulWidget {
   final Iterable<Widget> suggestions;
+  final SearchController controller;
   final void Function(void Function(String)) changeViewOnSubmitted;
   const _ReceiptViewBuilder(
-      {required this.suggestions, required this.changeViewOnSubmitted});
+      {required this.suggestions,
+      required this.changeViewOnSubmitted,
+      required this.controller});
 
   @override
   State<_ReceiptViewBuilder> createState() => __ReceiptViewBuilderState();
@@ -18,28 +21,38 @@ class __ReceiptViewBuilderState extends State<_ReceiptViewBuilder> {
   @override
   void initState() {
     super.initState();
-    miniTEC = TextEditingController();
-    maxTEC = TextEditingController();
+    widget.controller.addListener(() {
+      setState(() {});
+      // if(widget.controller.)
+    });
+    miniTEC = TextEditingController()
+      ..addListener(() {
+        setState(() {});
+      });
+    maxTEC = TextEditingController()
+      ..addListener(() {
+        setState(() {});
+      });
   }
 
-  void Function(String) onViewSubmitted = (text) {};
+  void Function(String) get onViewSubmitted => (text) {
+        final isTIN = int.tryParse(text) != null;
+        final provider = searchReceiptsProvider(
+          customerName: isTIN ? '' : text,
+          tin: isTIN ? text : null,
+          startDate: range.start,
+          endDate: range.end,
+          maxmum: double.tryParse(maxTEC.text),
+          minimum: double.tryParse(miniTEC.text),
+          paymentType: paymentType,
+        );
+        context.router.push(MyReceiptsRoute(searchReceiptsProvider: provider));
+      };
 
   @override
   void setState(VoidCallback fn) {
     super.setState(fn);
-    widget.changeViewOnSubmitted((text) {
-      final isTIN = int.tryParse(text) != null;
-      final provider = searchReceiptsProvider(
-        customerName: isTIN ? '' : text,
-        tin: isTIN ? text : null,
-        startDate: range.start,
-        endDate: range.end,
-        maxmum: double.tryParse(maxTEC.text),
-        minimum: double.tryParse(miniTEC.text),
-        paymentType: paymentType,
-      );
-      context.router.push(MyReceiptsRoute(searchReceiptsProvider: provider));
-    });
+    widget.changeViewOnSubmitted(onViewSubmitted);
   }
 
   @override
@@ -109,6 +122,19 @@ class __ReceiptViewBuilderState extends State<_ReceiptViewBuilder> {
                 ),
               ),
             ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(edgeInsertValue),
+          child: SizedBox(
+            width: double.maxFinite,
+            child: FilledButton.icon(
+              onPressed: () {
+                onViewSubmitted(widget.controller.text);
+              },
+              label: const Text('Search'),
+              icon: const Icon(Icons.search_rounded),
+            ),
           ),
         ),
         Expanded(

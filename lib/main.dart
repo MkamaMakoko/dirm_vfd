@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
     const seedColor = Colors.cyan;
     const useMaterial3 = true;
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: appTitle,
       themeMode: ThemeMode.system,
       theme: ThemeData(

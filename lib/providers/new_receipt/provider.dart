@@ -19,6 +19,7 @@ class NewReceipt extends _$NewReceipt {
     }
     return NewReceiptState(
         currentStep: currentStep,
+        userInfo: _user,
         itemsState: await ref.watch(itemsProvider.future),
         customersState: await ref.watch(customersProvider.future));
   }
@@ -90,8 +91,7 @@ class NewReceipt extends _$NewReceipt {
                         "vatRate": item.item.taxCode.vatRate,
                         "nettAmount": item.totalPrice - item.discount,
                         "taxAmount":
-                            (value.customersState.customer?.vrn.isNotEmpty ??
-                                    false)
+                            (_user?.vfdaInformation.isVatRegistered ?? false)
                                 ? item.totalTax
                                 : 0
                       }
@@ -102,8 +102,10 @@ class NewReceipt extends _$NewReceipt {
         if (response.bodyStatusCode != 200 || response.body.isEmpty) {
           throw response.statusDesc ?? 'Unexpected error occurred';
         } else {
-          print(response.data);
-          print('object');
+          if (kDebugMode) {
+            print(response.data);
+            print('object');
+          }
           final result = ReceiptResult.fromMap(response.data);
           return value.copyWith(result: result);
         }

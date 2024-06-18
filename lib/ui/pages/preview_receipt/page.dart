@@ -88,10 +88,10 @@ class PreviewReceiptPage extends ConsumerWidget {
             width: width.toDouble(),
             child: ReceiptWidget(
               vatRate: [
-                if (value?.customersState.customer?.vrn.isNotEmpty ?? false)
+                if (value?.userInfo?.vfdaInformation.isVatRegistered ?? true)
                   for (final item in value?.itemsState.selectedItems ??
                       <SelectedItemState>[])
-                    (amount: item.totalTax, rate: item.item.taxCode.vatRate)
+                    (amount: item.totalTax, rate: item.taxCode.vatRate)
               ],
               items: [
                 for (final item
@@ -100,20 +100,21 @@ class PreviewReceiptPage extends ConsumerWidget {
                     amount: item.totalPrice,
                     name: item.item.name,
                     quantity: item.quantity,
-                    taxCode: item.item.taxCode.vatRate
+                    taxCode: item.taxCode.vatRate
                   )
               ],
-              customerName: value?.customersState.customer?.name??'',
-              customerId: value?.customersState.customer?.customerId??'',
-              customerIdType: value?.customersState.customer?.idType.label??'',
-              vrn: value?.customersState.customer?.vrn??'',
-              mobileNumber: value?.customersState.customer?.phoneNumber??'',
+              customerName: value?.customersState.customer?.name ?? '',
+              customerId: value?.customersState.customer?.customerId ?? '',
+              customerIdType:
+                  value?.customersState.customer?.idType.label ?? '',
+              vrn: value?.customersState.customer?.vrn ?? '',
+              mobileNumber: value?.customersState.customer?.phoneNumber ?? '',
               receiptNumber: '---',
               zNumber: '---',
               dateTime: '---',
-              totalTaxExcl: value?.priceTaxExcluded??0,
-              totalTaxIncl: value?.price??0,
-              discount: value?.discount??0,
+              totalTaxExcl: value?.priceTaxExcluded ?? 0,
+              totalTaxIncl: value?.price ?? 0,
+              discount: value?.discount ?? 0,
               verificationCode: '---',
               verificationUrl: '---',
             ),

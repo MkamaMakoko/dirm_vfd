@@ -80,9 +80,9 @@ class _ItemDialog extends StatelessWidget {
               Text(item.item.description, style: context.textTheme.bodySmall),
               const SpaceBetween(),
             ],
-            Text('Tax code: ${item.item.taxCode.label}',
+            Text('Tax code: ${item.taxCode.label}',
                 style: context.textTheme.bodyLarge),
-            Text('Price per unit: ${item.item.price}',
+            Text('Price per unit: ${item.price}',
                 style: context.textTheme.bodyLarge),
             Text('Quantity: ${item.quantity} units',
                 style: context.textTheme.bodyLarge),
@@ -91,7 +91,7 @@ class _ItemDialog extends StatelessWidget {
                   style: context.textTheme.bodyLarge),
             const SpaceBetween(),
             Text(
-                'Total: Tshs ${(item.item.price * item.quantity) - item.discount}',
+                'Total: Tshs ${(item.price * item.quantity) - item.discount}',
                 style: context.textTheme.bodyLarge
                     ?.copyWith(fontWeight: FontWeight.bold)),
           ],

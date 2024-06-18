@@ -202,7 +202,7 @@ class _MyReceiptsProviderElement
   int get size => (origin as MyReceiptsProvider).size;
 }
 
-String _$searchReceiptsHash() => r'4031bf87acc83e6cb5fbec2f9adbaa90b6ada641';
+String _$searchReceiptsHash() => r'ba35b4705c69eb33f8514db0807a6526a67f1d4f';
 
 /// See also [searchReceipts].
 @ProviderFor(searchReceipts)
@@ -892,7 +892,7 @@ final signUpProvider =
 );
 
 typedef _$SignUp = AutoDisposeAsyncNotifier<SignUpState>;
-String _$userHash() => r'8023b912f9bc6ffb234be55c9b0a4300e0d60845';
+String _$userHash() => r'e3999bce3e88a78144871227b35a484d28349420';
 
 /// See also [User].
 @ProviderFor(User)
@@ -906,7 +906,7 @@ final userProvider = AsyncNotifierProvider<User, UserInfo?>.internal(
 );
 
 typedef _$User = AsyncNotifier<UserInfo?>;
-String _$newReceiptHash() => r'e9a00a3eb7ff0c2558e4572c5221273d02505282';
+String _$newReceiptHash() => r'3282b99e399cf09f2e2436ab50f99d8f760a353a';
 
 /// See also [NewReceipt].
 @ProviderFor(NewReceipt)

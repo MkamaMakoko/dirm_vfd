@@ -9,7 +9,6 @@ import 'package:dirm_vfd/utils/context_extension.dart';
 import 'package:dirm_vfd/utils/format_number.dart';
 import 'package:dirm_vfd/utils/validate_cutomer_id.dart';
 import 'package:dirm_vfd/utils/validate_name.dart';
-import 'package:dirm_vfd/utils/validate_phone.dart';
 import 'package:dirm_vfd/utils/validate_vrn.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -5,6 +5,7 @@ class NewReceiptState with _$NewReceiptState {
   const NewReceiptState._();
   const factory NewReceiptState({
     @Default(0) int currentStep,
+    required UserInfo? userInfo,
     required CustomersState customersState,
     @Default(PaymentType.cash) PaymentType paymentType,
     required ItemsState itemsState,
@@ -42,7 +43,7 @@ class NewReceiptState with _$NewReceiptState {
   }
 
   double get priceTaxExcluded {
-    if (customersState.customer?.vrn.isEmpty ?? true) return price;
+    if (!(userInfo?.vfdaInformation.isVatRegistered ?? true)) return price;
     double total = 0;
     for (final value in itemsState.selectedItems) {
       total += value.totalPriceTaxExcluded;
@@ -61,7 +62,7 @@ class NewReceiptState with _$NewReceiptState {
   }
 
   double get tax {
-    if (customersState.customer?.vrn.isEmpty ?? true) return 0;
+    if (!(userInfo?.vfdaInformation.isVatRegistered ?? true)) return 0;
     double total = 0;
     for (final value in itemsState.selectedItems) {
       total += value.totalTax;

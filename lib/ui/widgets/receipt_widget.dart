@@ -74,11 +74,29 @@ class ReceiptWidget extends ConsumerWidget {
         required String value,
         bool spaceBetween = false,
         bool useColon = true}) {
+          final style=context.textTheme.bodyLarge?.copyWith(
+              // fontWeight: FontWeight.bold,
+              color: Colors.black,
+            );
       name = '$name${useColon ? ':' : ''} ';
       if (spaceBetween) {
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text(name), Text(value)],
+          children: [
+            Expanded(
+                child: Text(
+              name,
+              style: style,
+              textAlign: TextAlign.left,
+            )),
+            Expanded(
+                child: Text(
+              value,
+              style: style,
+              textAlign: TextAlign.end,
+            ))
+          ],
         );
       }
       return RichText(
@@ -86,16 +104,11 @@ class ReceiptWidget extends ConsumerWidget {
         TextSpan(
             text: name,
             style: GoogleFonts.ibmPlexMono(
-                textStyle: context.textTheme.bodyMedium?.copyWith(
-              // fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ))),
+                textStyle: style)),
         TextSpan(
             text: value,
             style: GoogleFonts.ibmPlexMono(
-                textStyle: style(
-                    textStyle: context.textTheme.bodyMedium
-                        ?.copyWith(color: Colors.black))))
+                textStyle: style))
       ]));
     }
 
@@ -107,15 +120,7 @@ class ReceiptWidget extends ConsumerWidget {
                 textStyle: context.textTheme.labelLarge?.copyWith(
                     color: Colors.black,
                     fontWeight: bold ? FontWeight.bold : null)));
-
-    // const divider =
-    //     Divider(thickness: 1, color: Colors.black, height: edgeInsertValue * 2);
-    // const smallDivider = Divider(
-    //     thickness: .25, color: Colors.black, height: edgeInsertValue * 2);
-
     final uservalue = userState.value;
-    // final value = state.value;
-    // final result = value?.result;
     ref.listen(newReceiptProvider, (_, state) {
       if (state case AsyncError(:final error, :final stackTrace)) {
         if (kDebugMode) {
@@ -140,13 +145,15 @@ class ReceiptWidget extends ConsumerWidget {
               style: style(
                   textStyle: context.textTheme.bodyLarge
                       ?.copyWith(color: Colors.black))),
-          if (uservalue?.clientInformation.district.isNotEmpty ?? false)
-            Text(uservalue?.clientInformation.district ?? '',
+          if (uservalue?.clientInformation.district case String district
+              when district.isNotEmpty)
+            Text(district,
                 style: style(
                     textStyle: context.textTheme.bodyLarge
                         ?.copyWith(color: Colors.black))),
-          if (uservalue?.clientInformation.region.isNotEmpty ?? false)
-            Text(uservalue?.clientInformation.region ?? '',
+          if (uservalue?.clientInformation.region case String region
+              when region.isNotEmpty)
+            Text(region,
                 style: style(
                     textStyle: context.textTheme.bodyLarge
                         ?.copyWith(color: Colors.black))),
@@ -163,11 +170,8 @@ class ReceiptWidget extends ConsumerWidget {
               name: 'TAX OFFICE',
               value: '${uservalue?.vfdaInformation.taxOffice}'),
           const SpaceBetween(),
-          if (customerName != null)
-            infoText(
-                name: 'CUSTOMER NAME',
-                value: '$customerName',
-                spaceBetween: true),
+          if (customerName case String name when name.isNotEmpty)
+            infoText(name: 'CUSTOMER NAME', value: name, spaceBetween: true),
           infoText(
               name: 'CUSTOMER ID TYPE',
               value: '$customerIdType',
@@ -177,10 +181,10 @@ class ReceiptWidget extends ConsumerWidget {
                 name: 'CUSTOMER ID', value: '$customerId', spaceBetween: true),
           if (vrn != null)
             infoText(name: 'CUSTOMER VRN', value: '$vrn', spaceBetween: true),
-          if (mobileNumber != null)
+          if (mobileNumber case String number when number.isNotEmpty)
             infoText(
                 name: 'CUSTOMER MOBILE',
-                value: '+255$mobileNumber',
+                value: '+255$number',
                 spaceBetween: true),
           const SpaceBetween(),
           infoText(
@@ -195,25 +199,6 @@ class ReceiptWidget extends ConsumerWidget {
               spaceBetween: true),
           const SpaceBetween(),
           stars,
-          // infoText(name: 'RCT NO', value: receiptNumber.toString()),
-          // infoText(name: 'Z NUMBER', value: zNumber.toString()),
-          // infoText(name: 'RCT DATE', value: dateTime.toString()),
-          // const SpaceBetween(times: 2),
-          // stars,
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     Flexible(fit: FlexFit.tight, child: titleText('DESCRIPTION')),
-          //     Flexible(
-          //       fit: FlexFit.tight,
-          //       child: titleText('QYT.', align: TextAlign.center),
-          //     ),
-          //     Flexible(
-          //         fit: FlexFit.tight,
-          //         child: titleText('PRICE', align: TextAlign.end))
-          //   ],
-          // ),
-          // divider,
           for (final item in items) ...[
             infoText(
               useColon: false,
@@ -222,69 +207,8 @@ class ReceiptWidget extends ConsumerWidget {
                   '*${formatNumber(item.amount / item.quantity)}',
               value: '${formatNumber(item.amount)}\t${item.taxCode}',
             ),
-            // Row(
-            //   children: [
-            //     Flexible(
-            //         fit: FlexFit.tight,
-            //         child: Text(item.name,
-            //             style: style(
-            //                 textStyle: context.textTheme.bodyMedium
-            //                     ?.copyWith(color: Colors.black)))),
-            //     Flexible(
-            //       fit: FlexFit.tight,
-            //       child: Text(
-            //         item.quantity.toString(),
-            //         style: style(
-            //             textStyle: context.textTheme.bodyMedium
-            //                 ?.copyWith(color: Colors.black)),
-            //         textAlign: TextAlign.center,
-            //       ),
-            //     ),
-            //     Flexible(
-            //       fit: FlexFit.tight,
-            //       child: Text(
-            //         '${formatNumber(item.amount)}'
-            //         '\t${item.taxCode}',
-            //         style: style(
-            //             textStyle: context.textTheme.bodyMedium
-            //                 ?.copyWith(color: Colors.black)),
-            //         textAlign: TextAlign.end,
-            //       ),
-            //     )
-            //   ],
-            // ),
-            // smallDivider,
           ],
           stars,
-          // infoText(
-          //   spaceBetween: true,
-          //   useColon: false,
-          //     name: 'TOTAL EXCLUSIVE OF TAX',
-          //     value: formatNumber(totalTaxExcl)),
-          //     infoText(
-          //   spaceBetween: true,
-          //   useColon: false,
-          //     name: 'DISCOUNT',
-          //     value: formatNumber(discount)),
-          // const SpaceBetween(),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     titleText('TOTAL TAX EXC'),
-          //     titleText(formatNumber(totalTaxExcl))
-          //   ],
-          // ),
-          // divider,
-          // const SpaceBetween(),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     titleText('DISCOUNT'),
-          //     titleText(formatNumber(discount))
-          //   ],
-          // ),
-          // divider,
-          // const SpaceBetween(),
           for (final value in vatRate) ...[
             infoText(
                 useColon: false,
@@ -292,15 +216,6 @@ class ReceiptWidget extends ConsumerWidget {
                 name: 'TAX\t\t\t${value.rate}\t-\t'
                     '${value.rate == 'A' ? '18' : '0'}%',
                 value: formatNumber(value.amount))
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //   children: [
-            //     titleText('TAX\t:\t${value.rate}'),
-            //     titleText(formatNumber(value.amount))
-            //   ],
-            // ),
-            // divider,
-            // const SpaceBetween()
           ],
           infoText(
             useColon: false,
@@ -314,26 +229,7 @@ class ReceiptWidget extends ConsumerWidget {
               spaceBetween: true,
               name: 'TOTAL INCLUSIVE OF TAX',
               value: formatNumber(totalTaxIncl)),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     titleText('TOTAL TAX'),
-          //     titleText(formatNumber(totalTax))
-          //   ],
-          // ),
-          // divider,
-          // const SpaceBetween(),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     titleText('TOTAL TAX INC'),
-          //     titleText(formatNumber(totalTaxIncl ?? 0))
-          //   ],
-          // ),
-          // divider,
           stars,
-          // const SpaceBetween(),
-          // infoText(name: name, value: value)
           Text(
             'RECEIPT VERIFICATION CODE',
             style: style(

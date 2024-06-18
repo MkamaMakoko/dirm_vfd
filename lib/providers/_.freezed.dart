@@ -426,6 +426,7 @@ abstract class _SignUpState extends SignUpState {
 /// @nodoc
 mixin _$NewReceiptState {
   int get currentStep => throw _privateConstructorUsedError;
+  UserInfo? get userInfo => throw _privateConstructorUsedError;
   CustomersState get customersState => throw _privateConstructorUsedError;
   PaymentType get paymentType => throw _privateConstructorUsedError;
   ItemsState get itemsState => throw _privateConstructorUsedError;
@@ -444,6 +445,7 @@ abstract class $NewReceiptStateCopyWith<$Res> {
   @useResult
   $Res call(
       {int currentStep,
+      UserInfo? userInfo,
       CustomersState customersState,
       PaymentType paymentType,
       ItemsState itemsState,
@@ -467,6 +469,7 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
   @override
   $Res call({
     Object? currentStep = null,
+    Object? userInfo = freezed,
     Object? customersState = null,
     Object? paymentType = null,
     Object? itemsState = null,
@@ -477,6 +480,10 @@ class _$NewReceiptStateCopyWithImpl<$Res, $Val extends NewReceiptState>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
+      userInfo: freezed == userInfo
+          ? _value.userInfo
+          : userInfo // ignore: cast_nullable_to_non_nullable
+              as UserInfo?,
       customersState: null == customersState
           ? _value.customersState
           : customersState // ignore: cast_nullable_to_non_nullable
@@ -523,6 +530,7 @@ abstract class _$$NewReceiptStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {int currentStep,
+      UserInfo? userInfo,
       CustomersState customersState,
       PaymentType paymentType,
       ItemsState itemsState,
@@ -546,6 +554,7 @@ class __$$NewReceiptStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? currentStep = null,
+    Object? userInfo = freezed,
     Object? customersState = null,
     Object? paymentType = null,
     Object? itemsState = null,
@@ -556,6 +565,10 @@ class __$$NewReceiptStateImplCopyWithImpl<$Res>
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
               as int,
+      userInfo: freezed == userInfo
+          ? _value.userInfo
+          : userInfo // ignore: cast_nullable_to_non_nullable
+              as UserInfo?,
       customersState: null == customersState
           ? _value.customersState
           : customersState // ignore: cast_nullable_to_non_nullable
@@ -582,6 +595,7 @@ class _$NewReceiptStateImpl extends _NewReceiptState
     with DiagnosticableTreeMixin {
   const _$NewReceiptStateImpl(
       {this.currentStep = 0,
+      required this.userInfo,
       required this.customersState,
       this.paymentType = PaymentType.cash,
       required this.itemsState,
@@ -591,6 +605,8 @@ class _$NewReceiptStateImpl extends _NewReceiptState
   @override
   @JsonKey()
   final int currentStep;
+  @override
+  final UserInfo? userInfo;
   @override
   final CustomersState customersState;
   @override
@@ -603,7 +619,7 @@ class _$NewReceiptStateImpl extends _NewReceiptState
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NewReceiptState(currentStep: $currentStep, customersState: $customersState, paymentType: $paymentType, itemsState: $itemsState, result: $result)';
+    return 'NewReceiptState(currentStep: $currentStep, userInfo: $userInfo, customersState: $customersState, paymentType: $paymentType, itemsState: $itemsState, result: $result)';
   }
 
   @override
@@ -612,6 +628,7 @@ class _$NewReceiptStateImpl extends _NewReceiptState
     properties
       ..add(DiagnosticsProperty('type', 'NewReceiptState'))
       ..add(DiagnosticsProperty('currentStep', currentStep))
+      ..add(DiagnosticsProperty('userInfo', userInfo))
       ..add(DiagnosticsProperty('customersState', customersState))
       ..add(DiagnosticsProperty('paymentType', paymentType))
       ..add(DiagnosticsProperty('itemsState', itemsState))
@@ -625,6 +642,8 @@ class _$NewReceiptStateImpl extends _NewReceiptState
             other is _$NewReceiptStateImpl &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
+            (identical(other.userInfo, userInfo) ||
+                other.userInfo == userInfo) &&
             (identical(other.customersState, customersState) ||
                 other.customersState == customersState) &&
             (identical(other.paymentType, paymentType) ||
@@ -635,8 +654,8 @@ class _$NewReceiptStateImpl extends _NewReceiptState
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, currentStep, customersState,
-      paymentType, itemsState, result);
+  int get hashCode => Object.hash(runtimeType, currentStep, userInfo,
+      customersState, paymentType, itemsState, result);
 
   @JsonKey(ignore: true)
   @override
@@ -649,6 +668,7 @@ class _$NewReceiptStateImpl extends _NewReceiptState
 abstract class _NewReceiptState extends NewReceiptState {
   const factory _NewReceiptState(
       {final int currentStep,
+      required final UserInfo? userInfo,
       required final CustomersState customersState,
       final PaymentType paymentType,
       required final ItemsState itemsState,
@@ -657,6 +677,8 @@ abstract class _NewReceiptState extends NewReceiptState {
 
   @override
   int get currentStep;
+  @override
+  UserInfo? get userInfo;
   @override
   CustomersState get customersState;
   @override

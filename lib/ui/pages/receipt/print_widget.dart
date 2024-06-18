@@ -83,9 +83,9 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
                 if (snapshot
                     case AsyncSnapshot(:final List<BluetoothDevice> data)) {
                   if (data.isEmpty) {
-                    return Column(
+                    return const Column(
                       children: [
-                        const SecondaryContainer(
+                        SecondaryContainer(
                           child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -97,8 +97,8 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
                                         ' and paired with your Bluetooth printer'))
                               ]),
                         ),
-                        const SpaceBetween(),
-                        rescanButton,
+                        SpaceBetween(),
+                        // rescanButton,
                       ],
                     );
                   }
@@ -177,10 +177,12 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
                         ),
                       ],
                     ),
-                  _ => rescanButton,
+                  _ => const SizedBox.shrink(),
                 };
               },
             ),
+            const SpaceBetween(),
+            rescanButton,
             const SpaceBetween(),
           ],
         ),

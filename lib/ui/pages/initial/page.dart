@@ -12,7 +12,8 @@ class InitialPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    ref.listen(userProvider, (_, state) {
+    ref.listen(userProvider, (preState, state) {
+      final user = preState?.value ?? state.value;
       final router = context.router;
       switch (state) {
         case AsyncError(:final error, :final stackTrace):
@@ -24,7 +25,7 @@ class InitialPage extends ConsumerWidget {
           {
             if (value == null) {
               router.navigate(const InitialLoginRoute());
-            } else {
+            } else if (user != null) {
               router.replace(const HomeRoute());
             }
           }

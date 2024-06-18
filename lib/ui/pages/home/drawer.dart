@@ -101,15 +101,17 @@ class _Drawer extends ConsumerWidget {
                 leading: const Icon(Icons.launch_rounded),
                 title: const Text('Privacy policy'),
                 onTap: () async => await urlLauncher(
-                    url: 'https://www.dirmvfd.co.tz', context: context),
+                    url:
+                        'https://dirmvfd.co.tz/dirmvfd-privacy-policy.html',
+                    context: context),
               ),
-              ListTile(
-                style: tileStyle,
-                leading: const Icon(Icons.launch_rounded),
-                title: const Text('Terms & conditions'),
-                onTap: () async => await urlLauncher(
-                    url: 'https://www.dirmvfd.co.tz', context: context),
-              ),
+              // ListTile(
+              //   style: tileStyle,
+              //   leading: const Icon(Icons.launch_rounded),
+              //   title: const Text('Terms & conditions'),
+              //   onTap: () async => await urlLauncher(
+              //       url: 'https://www.dirmvfd.co.tz', context: context),
+              // ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(
                   edgeInsertValue,
