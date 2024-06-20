@@ -74,10 +74,11 @@ class ReceiptWidget extends ConsumerWidget {
         required String value,
         bool spaceBetween = false,
         bool useColon = true}) {
-          final style=context.textTheme.bodyLarge?.copyWith(
-              // fontWeight: FontWeight.bold,
-              color: Colors.black,
-            );
+      final style = GoogleFonts.ibmPlexMono(
+          textStyle: context.textTheme.bodyLarge?.copyWith(
+        fontWeight: FontWeight.bold,
+        color: Colors.black,
+      ));
       name = '$name${useColon ? ':' : ''} ';
       if (spaceBetween) {
         return Row(
@@ -99,17 +100,29 @@ class ReceiptWidget extends ConsumerWidget {
           ],
         );
       }
-      return RichText(
-          text: TextSpan(children: [
-        TextSpan(
-            text: name,
-            style: GoogleFonts.ibmPlexMono(
-                textStyle: style)),
-        TextSpan(
-            text: value,
-            style: GoogleFonts.ibmPlexMono(
-                textStyle: style))
-      ]));
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+              child: Text(
+            name,
+            textAlign: TextAlign.end,
+            style: style,
+          )),
+          Expanded(
+              child: Text(
+            value,
+            textAlign: TextAlign.start,
+            style: style,
+          )),
+        ],
+      );
+      // return RichText(
+      //     text: TextSpan(children: [
+      //   TextSpan(text: name, style: GoogleFonts.ibmPlexMono(textStyle: style)),
+      //   TextSpan(text: value, style: GoogleFonts.ibmPlexMono(textStyle: style))
+      // ]));
     }
 
     Text titleText(String text,
@@ -133,18 +146,19 @@ class ReceiptWidget extends ConsumerWidget {
 
     return Container(
       color: Colors.white,
+      width: receiptWidth.toDouble(),
       child: Column(
         children: [
           titleText('***\t\t\tSTART OF LEGAL RECEIPT\t\t\t***', bold: true),
           const SpaceBetween(),
           SizedBox.square(
-              dimension: edgeInsertValue * 6,
+              dimension: edgeInsertValue * 10,
               child: Image.asset(assetAddress.traLogo)),
           const SpaceBetween(),
           Text(uservalue?.clientInformation.businessName ?? 'DIRM TECHWORKS',
               style: style(
-                  textStyle: context.textTheme.bodyLarge
-                      ?.copyWith(color: Colors.black))),
+                  textStyle: context.textTheme.titleLarge?.copyWith(
+                      color: Colors.black, fontWeight: FontWeight.bold))),
           if (uservalue?.clientInformation.district case String district
               when district.isNotEmpty)
             Text(district,
@@ -233,19 +247,21 @@ class ReceiptWidget extends ConsumerWidget {
           Text(
             'RECEIPT VERIFICATION CODE',
             style: style(
-                textStyle:
-                    context.textTheme.bodyLarge?.copyWith(color: Colors.black)),
+                textStyle: context.textTheme.bodyLarge?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            )),
           ),
           Text(
             verificationCode,
             style: style(
-                textStyle: context.textTheme.bodyMedium
-                    ?.copyWith(color: Colors.black)),
+                textStyle: context.textTheme.bodyMedium?.copyWith(
+                    color: Colors.black, fontWeight: FontWeight.bold)),
           ),
           const SpaceBetween(),
           QrImageView(data: verificationUrl, size: 200),
           const SpaceBetween(),
-          titleText('***\t\t\t\tEND OF LEGAL RECEIPT\t\t\t***'),
+          titleText('***\t\t\t\tEND OF LEGAL RECEIPT\t\t\t***', bold: true),
           const SpaceBetween(times: 4)
         ],
       ),

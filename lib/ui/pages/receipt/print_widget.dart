@@ -2,9 +2,9 @@ part of 'page.dart';
 
 class _PrinterWidget extends StatefulWidget {
   final Uint8List image;
-  final int width;
+  final int height;
   // final ReceiptResult result;
-  const _PrinterWidget(this.image, this.width);
+  const _PrinterWidget(this.image, this.height);
 
   @override
   State<_PrinterWidget> createState() => _PrinterWidgetState();
@@ -35,7 +35,6 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // void pop() => Navigator.pop(context);
     final rescanButton = SizedBox(
       width: double.maxFinite,
       child: FilledButton.tonalIcon(
@@ -155,25 +154,37 @@ class _PrinterWidgetState extends State<_PrinterWidget> {
                         const SpaceBetween(),
                         SizedBox(
                           width: double.maxFinite,
-                          child: FilledButton(
-                              onPressed: () async {
-                                try {
-                                  await bluetooth.printReceipt({}, [
-                                    LineText(
-                                        type: LineText.TYPE_IMAGE,
-                                        width: widget.width,
-                                        // width: 340,
-                                        // height: 640,
-                                        content: base64Encode(widget.image),
-                                        align: LineText.ALIGN_CENTER,
-                                        linefeed: 1)
-                                  ]);
-                                } catch (e) {
-                                  setState(() => error = e.toString());
-                                }
-                              },
-                              child: Text(
-                                  'Print with ${connectedDevice?.name ?? 'device'}')),
+                          child: FutureBuilder(
+                              future: bluetooth.isConnected,
+                              builder: (context, snapshot) {
+                                final canPrint = snapshot.data ?? false;
+                                return FilledButton(
+                                    onPressed: canPrint
+                                        ? () async {
+                                            try {
+                                              await bluetooth.printReceipt({}, [
+                                                LineText(
+                                                    type: LineText.TYPE_IMAGE,
+                                                    // width: widget.width,
+                                                    height: widget.height,
+                                                    // width: 340,
+                                                    width: receiptWidth,
+                                                    // height: 640,
+                                                    content: base64Encode(
+                                                        widget.image),
+                                                    align:
+                                                        LineText.ALIGN_CENTER,
+                                                    linefeed: 1)
+                                              ]);
+                                            } catch (e) {
+                                              setState(
+                                                  () => error = e.toString());
+                                            }
+                                          }
+                                        : null,
+                                    child: Text(
+                                        'Print with ${connectedDevice?.name ?? 'device'}'));
+                              }),
                         ),
                       ],
                     ),

@@ -14,6 +14,7 @@ import 'package:dirm_vfd/utils/launch_url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_to_pdf/export_delegate.dart';
 import 'package:flutter_to_pdf/flutter_to_pdf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:widgets_to_image/widgets_to_image.dart';
@@ -31,18 +32,18 @@ class ReceiptPage extends ConsumerStatefulWidget {
 class _ReceiptPageState extends ConsumerState<ReceiptPage> {
   final _controller = WidgetsToImageController();
   final key = GlobalKey();
-  Size size = const Size(350, 1000);
+  Size size = Size(receiptWidth.toDouble(), 1000);
   ExportDelegate exportDelegate = ExportDelegate(
     options: const ExportOptions(
       pageFormatOptions: PageFormatOptions.roll80(),
     ),
   );
 
+
+  static const receiptFrameId = 'receipt';
+
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final width =
-        (screenWidth - edgeInsertValue * 2) > 330 ? 330 : screenWidth.toInt();
     final provider = receiptProvider(id: widget.receiptId);
     final state = ref.watch(provider);
     final value = state.value;
@@ -69,9 +70,13 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
                 await _controller.capture().then((image) {
                   Navigator.pop(context);
                   if (image case Uint8List image) {
+                    final box =
+                        key.currentContext?.findRenderObject() as RenderBox;
+                    size = box.size;
                     showModalBottomSheet(
                         context: context,
-                        builder: (context) => _PrinterWidget(image, width));
+                        builder: (context) =>
+                            _PrinterWidget(image, size.width.toInt()));
                   }
                 });
               },
@@ -95,7 +100,7 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
                       context.waitDialog();
                       // print('exporting pdf...');
                       final pdf = await exportDelegate
-                          .exportToPdfDocument('receiptPdf');
+                          .exportToPdfDocument(receiptFrameId);
                       // print('sharing pdf...');
                       await Share.shareXFiles([
                         XFile.fromData(
@@ -125,12 +130,12 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
                   color: Colors.white,
                   padding: const EdgeInsets.all(edgeInsertValue),
                   child: ExportFrame(
-                      frameId: 'receiptPdf',
+                      frameId: receiptFrameId,
                       exportDelegate: exportDelegate,
                       child: WidgetsToImage(
                         controller: _controller,
                         child: CaptureWrapper(
-                            key: const Key('captureWidget'),
+                            key: const Key(receiptFrameId),
                             child: ReceiptWidget(
                               key: key,
                               vatRate: [
