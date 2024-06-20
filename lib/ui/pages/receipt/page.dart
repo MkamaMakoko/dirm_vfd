@@ -33,12 +33,11 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
   final _controller = WidgetsToImageController();
   final key = GlobalKey();
   Size size = Size(receiptWidth.toDouble(), 1000);
-  ExportDelegate exportDelegate = ExportDelegate(
-    options: const ExportOptions(
-      pageFormatOptions: PageFormatOptions.roll80(),
-    ),
-  );
-
+  final ExportDelegate exportDelegate = ExportDelegate(
+      // options: const ExportOptions(
+      //   pageFormatOptions: PageFormatOptions.roll80(),
+      // ),
+      );
 
   static const receiptFrameId = 'receipt';
 
@@ -53,15 +52,15 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
         context.snackBar(message: error.toString(), error: true);
       }
     });
-    exportDelegate = ExportDelegate(
-      options: ExportOptions(
-        pageFormatOptions: PageFormatOptions.custom(
-          width: size.width + edgeInsertValue * 2,
-          height: size.height,
-          marginAll: edgeInsertValue,
-        ),
-      ),
-    );
+    // exportDelegate = ExportDelegate(
+    //   options: ExportOptions(
+    //     pageFormatOptions: PageFormatOptions.custom(
+    //       width: size.width + edgeInsertValue * 2,
+    //       height: size.height,
+    //       marginAll: edgeInsertValue,
+    //     ),
+    //   ),
+    // );
     return Scaffold(
       floatingActionButton: value is FullReceipt
           ? FloatingActionButton.extended(
@@ -92,16 +91,20 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
               if (state case AsyncData(:final value)) ...[
                 IconButton.filledTonal(
                     onPressed: () async {
-                      setState(() {
-                        final box =
-                            key.currentContext?.findRenderObject() as RenderBox;
-                        size = box.size;
-                      });
+                      // setState(() {
+                      final box =
+                          key.currentContext?.findRenderObject() as RenderBox;
+                      // size = box.size;
+                      // });
                       context.waitDialog();
-                      // print('exporting pdf...');
-                      final pdf = await exportDelegate
-                          .exportToPdfDocument(receiptFrameId);
-                      // print('sharing pdf...');
+                      final pdf = await exportDelegate.exportToPdfDocument(
+                          receiptFrameId,
+                          overrideOptions: ExportOptions(
+                              pageFormatOptions: PageFormatOptions.custom(
+                            width: box.size.width,
+                            height: box.size.height,
+                            marginAll: edgeInsertValue,
+                          )));
                       await Share.shareXFiles([
                         XFile.fromData(
                           await pdf.save(),
@@ -128,49 +131,50 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
             SliverToBoxAdapter(
               child: Container(
                   color: Colors.white,
+                  key: key,
                   padding: const EdgeInsets.all(edgeInsertValue),
-                  child: ExportFrame(
+                  child: WidgetsToImage(
+                    controller: _controller,
+                    child: ExportFrame(
                       frameId: receiptFrameId,
                       exportDelegate: exportDelegate,
-                      child: WidgetsToImage(
-                        controller: _controller,
-                        child: CaptureWrapper(
-                            key: const Key(receiptFrameId),
-                            child: ReceiptWidget(
-                              key: key,
-                              vatRate: [
-                                for (final value in receipt.vatTotals)
-                                  (amount: value.taxAmount, rate: value.vatRate)
-                              ],
-                              items: [
-                                for (final item in receipt.items)
-                                  (
-                                    amount: item.amt,
-                                    name: item.desc,
-                                    quantity: item.qyt ?? 0,
-                                    taxCode:
-                                        (item.taxCode as int).getTaxCode.vatRate
-                                  )
-                              ],
-                              customerName: receipt.custName,
-                              customerId: receipt.custId,
-                              customerIdType:
-                                  (receipt.custIdType as int).idTypeLabel,
-                              vrn: receipt.vrn,
-                              mobileNumber: receipt.mobileNum,
-                              receiptNumber: receipt.rctNum,
-                              zNumber: receipt.zNum,
-                              dateTime: receipt.dateTime,
-                              totalTaxExcl: receipt.totalTaxExcl,
-                              totalTaxIncl: receipt.totalTaxIncl,
-                              // totalTax: receipt..,
-                              discount: receipt.discount,
-                              verificationCode:
-                                  receipt.traReceiptVerificationCode,
-                              verificationUrl:
-                                  receipt.traReceiptVerificationUrl,
-                            )),
-                      ))),
+                      child: CaptureWrapper(
+                          key: const Key(receiptFrameId),
+                          child: ReceiptWidget(
+                            // key: key,
+                            vatRate: [
+                              for (final value in receipt.vatTotals)
+                                (amount: value.taxAmount, rate: value.vatRate)
+                            ],
+                            items: [
+                              for (final item in receipt.items)
+                                (
+                                  amount: item.amt,
+                                  name: item.desc,
+                                  quantity: item.qyt ?? 0,
+                                  taxCode:
+                                      (item.taxCode as int).getTaxCode.vatRate
+                                )
+                            ],
+                            customerName: receipt.custName,
+                            customerId: receipt.custId,
+                            customerIdType:
+                                (receipt.custIdType as int).idTypeLabel,
+                            vrn: receipt.vrn,
+                            mobileNumber: receipt.mobileNum,
+                            receiptNumber: receipt.rctNum,
+                            zNumber: receipt.zNum,
+                            dateTime: receipt.dateTime,
+                            totalTaxExcl: receipt.totalTaxExcl,
+                            totalTaxIncl: receipt.totalTaxIncl,
+                            // totalTax: receipt..,
+                            discount: receipt.discount,
+                            verificationCode:
+                                receipt.traReceiptVerificationCode,
+                            verificationUrl: receipt.traReceiptVerificationUrl,
+                          )),
+                    ),
+                  )),
             )
         ],
       ),

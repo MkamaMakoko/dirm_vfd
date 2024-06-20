@@ -89,7 +89,7 @@ class AccountPage extends ConsumerWidget {
                           style: textTheme),
                       Text('Email: ${user.clientInformation.email}',
                           style: textTheme),
-                      Text('Mobile number: 0${user.clientInformation.mobile}',
+                      Text('Mobile number: ${user.clientInformation.mobile}',
                           style: textTheme),
                       Text(
                           'Physical address: ${user.clientInformation.physicalAddress}',
