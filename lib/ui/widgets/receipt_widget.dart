@@ -62,7 +62,8 @@ class ReceiptWidget extends ConsumerWidget {
     // final state = ref.watch(newReceiptProvider);
     final userState = ref.watch(userProvider);
     final stars = Text(
-        '----------------------------------------------------------------',
+        '--------------------------------------------------'
+        '--------------------------------------------------',
         maxLines: 1,
         overflow: TextOverflow.clip,
         style: style(
@@ -100,29 +101,30 @@ class ReceiptWidget extends ConsumerWidget {
           ],
         );
       }
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-              child: Text(
-            name,
-            textAlign: TextAlign.end,
-            style: style,
-          )),
-          Expanded(
-              child: Text(
-            value,
-            textAlign: TextAlign.start,
-            style: style,
-          )),
-        ],
-      );
-      // return RichText(
-      //     text: TextSpan(children: [
-      //   TextSpan(text: name, style: GoogleFonts.ibmPlexMono(textStyle: style)),
-      //   TextSpan(text: value, style: GoogleFonts.ibmPlexMono(textStyle: style))
-      // ]));
+      // return Row(
+      //   mainAxisAlignment: MainAxisAlignment.center,
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     Expanded(
+      //         child: Text(
+      //       name,
+      //       textAlign: TextAlign.end,
+      //       style: style,
+      //     )),
+      //     Expanded(
+      //         child: Text(
+      //       value,
+      //       textAlign: TextAlign.start,
+      //       style: style,
+      //     )),
+      //   ],
+      // );
+      return RichText(
+        textAlign: TextAlign.center,
+          text: TextSpan(children: [
+        TextSpan(text: name, style: GoogleFonts.ibmPlexMono(textStyle: style)),
+        TextSpan(text: value, style: GoogleFonts.ibmPlexMono(textStyle: style))
+      ]));
     }
 
     Text titleText(String text,
@@ -172,7 +174,7 @@ class ReceiptWidget extends ConsumerWidget {
                     textStyle: context.textTheme.bodyLarge
                         ?.copyWith(color: Colors.black))),
           infoText(
-              name: 'TEL', value: '+255${uservalue?.clientInformation.mobile}'),
+              name: 'TEL', value: '${uservalue?.clientInformation.mobile}'),
           infoText(name: 'TIN', value: '${uservalue?.vfdaInformation.tin}'),
           if (vrn != null)
             infoText(name: 'VRN', value: '${uservalue?.vfdaInformation.vrn}'),

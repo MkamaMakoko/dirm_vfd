@@ -12,7 +12,7 @@ class _PrinterWidget extends StatefulWidget {
 
 class _PrinterWidgetState extends State<_PrinterWidget> {
   final bluetooth = BluetoothPrint.instance;
-  static const waitTime = Duration(seconds: 4);
+  static const waitTime = Duration(seconds: 8);
   BluetoothDevice? connectedDevice;
   String? error;
   @override
