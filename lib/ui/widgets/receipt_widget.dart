@@ -101,24 +101,6 @@ class ReceiptWidget extends ConsumerWidget {
           ],
         );
       }
-      // return Row(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   crossAxisAlignment: CrossAxisAlignment.start,
-      //   children: [
-      //     Expanded(
-      //         child: Text(
-      //       name,
-      //       textAlign: TextAlign.end,
-      //       style: style,
-      //     )),
-      //     Expanded(
-      //         child: Text(
-      //       value,
-      //       textAlign: TextAlign.start,
-      //       style: style,
-      //     )),
-      //   ],
-      // );
       return RichText(
         textAlign: TextAlign.center,
           text: TextSpan(children: [
