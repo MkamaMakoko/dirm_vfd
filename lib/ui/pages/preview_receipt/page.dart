@@ -10,15 +10,11 @@ import 'package:dirm_vfd/ui/widgets/secondary_container.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
-import 'package:dirm_vfd/utils/format_number.dart';
 import 'package:dirm_vfd/utils/launch_url.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 part 'printer_widget.dart';
-part 'receipt_widget.dart';
 
 @RoutePage()
 class PreviewReceiptPage extends ConsumerWidget {
@@ -97,7 +93,7 @@ class PreviewReceiptPage extends ConsumerWidget {
                 for (final item
                     in value?.itemsState.selectedItems ?? <SelectedItemState>[])
                   (
-                    amount: item.totalPrice,
+                    amount: item.price,
                     name: item.item.name,
                     quantity: item.quantity,
                     taxCode: item.taxCode.vatRate
