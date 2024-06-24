@@ -70,8 +70,8 @@ class NewReceipt extends _$NewReceipt {
                         'id': item.item.id,
                         'desc': item.item.name,
                         'qty': item.quantity,
-                        'taxCode': item.item.taxCode.valueNumber,
-                        'amt': item.totalPrice,
+                        'taxCode': item.taxCode.valueNumber,
+                        'amt': item.price,
                         'discount': item.discount,
                       }
                   ],
@@ -88,7 +88,7 @@ class NewReceipt extends _$NewReceipt {
                     // if (value.customersState.customer?.vrn.isNotEmpty ?? false)
                     for (final item in value.itemsState.selectedItems)
                       {
-                        "vatRate": item.item.taxCode.vatRate,
+                        "vatRate": item.taxCode.vatRate,
                         "nettAmount": item.totalPrice - item.discount,
                         "taxAmount":
                             (_user?.vfdaInformation.isVatRegistered ?? false)

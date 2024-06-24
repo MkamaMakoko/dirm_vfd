@@ -51,7 +51,11 @@ Future<http.Response> _post(
   //   print(token);
   //   print('\nEND TOKEN');
   // }
-  print(body);
+  if (kDebugMode) {
+    print('GOING BODY\n');
+    print(body);
+    print('\nEND GOING BODY');
+  }
   return await http
       .post(_url(endpoint: endpoint), body: jsonEncode(body), headers: {
     if (token != null) 'Authorization': 'Bearer $token',

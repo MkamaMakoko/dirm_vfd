@@ -202,8 +202,8 @@ class ReceiptWidget extends ConsumerWidget {
               useColon: false,
               spaceBetween: true,
               name: '${item.name}\t\t${item.quantity}'
-                  '*${formatNumber(item.amount / item.quantity)}',
-              value: '${formatNumber(item.amount)}\t${item.taxCode}',
+                  '*${formatNumber(item.amount)}',
+              value: '${formatNumber(item.amount*item.quantity)}\t${item.taxCode}',
             ),
           ],
           stars,
