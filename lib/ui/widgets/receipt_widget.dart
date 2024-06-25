@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
@@ -7,7 +9,6 @@ import 'package:dirm_vfd/utils/format_number.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class ReceiptWidget extends ConsumerWidget {
@@ -58,7 +59,9 @@ class ReceiptWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    const style = GoogleFonts.ibmPlexMono;
+    const fontFamily = 'MerchantCopy';
+    // const style = TextStyle(fontFamily: fontFamily, color: Colors.black);
+    // const style = GoogleFonts.ibmPlexMono;
     // final state = ref.watch(newReceiptProvider);
     final userState = ref.watch(userProvider);
     final stars = Text(
@@ -66,20 +69,23 @@ class ReceiptWidget extends ConsumerWidget {
         '--------------------------------------------------',
         maxLines: 1,
         overflow: TextOverflow.clip,
-        style: style(
-            textStyle:
-                context.textTheme.labelMedium?.copyWith(color: Colors.black)));
+        style: context.textTheme.labelMedium
+            ?.copyWith(color: Colors.black, fontFamily: fontFamily));
 
     Widget infoText(
         {required String name,
         required String value,
         bool spaceBetween = false,
         bool useColon = true}) {
-      final style = GoogleFonts.ibmPlexMono(
-          textStyle: context.textTheme.bodyLarge?.copyWith(
-        fontWeight: FontWeight.bold,
-        color: Colors.black,
-      ));
+      // final style = GoogleFonts.ibmPlexMono(
+      //     textStyle: context.textTheme.bodyLarge?.copyWith(
+      //   fontWeight: FontWeight.bold,
+      //   color: Colors.black,
+      // ));
+      final style = context.textTheme.bodyLarge
+          ?.copyWith(fontFamily: fontFamily, color: Colors.black, fontSize: 26
+              // fontWeight: FontWeight.w500,
+              );
       name = '$name${useColon ? ':' : ''} ';
       if (spaceBetween) {
         return Row(
@@ -102,21 +108,24 @@ class ReceiptWidget extends ConsumerWidget {
         );
       }
       return RichText(
-        textAlign: TextAlign.center,
+          textAlign: TextAlign.center,
           text: TextSpan(children: [
-        TextSpan(text: name, style: GoogleFonts.ibmPlexMono(textStyle: style)),
-        TextSpan(text: value, style: GoogleFonts.ibmPlexMono(textStyle: style))
-      ]));
+            TextSpan(text: name, style: style),
+            TextSpan(text: value, style: style)
+          ]));
     }
 
     Text titleText(String text,
-            {TextAlign align = TextAlign.start, bool bold = false}) =>
+            {TextAlign align = TextAlign.start,
+            bool bold = false,
+            double fontSize = 28}) =>
         Text(text,
             textAlign: align,
-            style: style(
-                textStyle: context.textTheme.labelLarge?.copyWith(
-                    color: Colors.black,
-                    fontWeight: bold ? FontWeight.bold : null)));
+            style: context.textTheme.labelLarge?.copyWith(
+                color: Colors.black,
+                fontFamily: fontFamily,
+                fontSize: fontSize,
+                fontWeight: bold ? FontWeight.w700 : null));
     final uservalue = userState.value;
     ref.listen(newReceiptProvider, (_, state) {
       if (state case AsyncError(:final error, :final stackTrace)) {
@@ -128,126 +137,131 @@ class ReceiptWidget extends ConsumerWidget {
       }
     });
 
-    return Container(
-      color: Colors.white,
-      width: receiptWidth.toDouble(),
-      child: Column(
-        children: [
-          titleText('***\t\t\tSTART OF LEGAL RECEIPT\t\t\t***', bold: true),
-          const SpaceBetween(),
-          SizedBox.square(
-              dimension: edgeInsertValue * 10,
-              child: Image.asset(assetAddress.traLogo)),
-          const SpaceBetween(),
-          Text(uservalue?.clientInformation.businessName ?? 'DIRM TECHWORKS',
-              style: style(
-                  textStyle: context.textTheme.titleLarge?.copyWith(
-                      color: Colors.black, fontWeight: FontWeight.bold))),
-          if (uservalue?.clientInformation.district case String district
-              when district.isNotEmpty)
-            Text(district,
-                style: style(
-                    textStyle: context.textTheme.bodyLarge
-                        ?.copyWith(color: Colors.black))),
-          if (uservalue?.clientInformation.region case String region
-              when region.isNotEmpty)
-            Text(region,
-                style: style(
-                    textStyle: context.textTheme.bodyLarge
-                        ?.copyWith(color: Colors.black))),
-          infoText(
-              name: 'TEL', value: '${uservalue?.clientInformation.mobile}'),
-          infoText(name: 'TIN', value: '${uservalue?.vfdaInformation.tin}'),
-          if (vrn != null)
-            infoText(name: 'VRN', value: '${uservalue?.vfdaInformation.vrn}'),
-          infoText(
-              name: 'SERIAL NUMBER',
-              value: '${uservalue?.vfdaInformation.certKey}'),
-          infoText(name: 'UIN', value: '${uservalue?.vfdaInformation.uin}'),
-          infoText(
-              name: 'TAX OFFICE',
-              value: '${uservalue?.vfdaInformation.taxOffice}'),
-          const SpaceBetween(),
-          if (customerName case String name when name.isNotEmpty)
-            infoText(name: 'CUSTOMER NAME', value: name, spaceBetween: true),
-          infoText(
-              name: 'CUSTOMER ID TYPE',
-              value: '$customerIdType',
-              spaceBetween: true),
-          if (customerId != null)
+    return Center(
+      child: Container(
+        constraints: BoxConstraints.tightFor(width: receiptWidth.toDouble()),
+        color: Colors.white,
+        // width: receiptWidth.toDouble(),
+        child: Column(
+          children: [
+            titleText('***\t\t\tSTART OF LEGAL RECEIPT\t\t\t***', bold: true, fontSize: 24),
+            const SpaceBetween(),
+            SizedBox.square(
+                dimension: edgeInsertValue * 10,
+                child: Image.asset(assetAddress.traLogo)),
+            const SpaceBetween(),
+            Consumer(builder: (context, ref, child) {
+              final selectedBranch = ref.watch(selectedBranchProvider
+                  .select((state) => state.value?.name ?? 'DIRM TECHWORKS'));
+              return titleText(selectedBranch, bold: true, fontSize: 30);
+            }),
+            if (uservalue?.clientInformation.district case String district
+                when district.isNotEmpty)
+              titleText(district),
+            if (uservalue?.clientInformation.region case String region
+                when region.isNotEmpty)
+              titleText(region),
             infoText(
-                name: 'CUSTOMER ID', value: '$customerId', spaceBetween: true),
-          if (vrn != null)
-            infoText(name: 'CUSTOMER VRN', value: '$vrn', spaceBetween: true),
-          if (mobileNumber case String number when number.isNotEmpty)
+                name: 'TEL', value: '${uservalue?.clientInformation.mobile}'),
+            infoText(name: 'TIN', value: '${uservalue?.vfdaInformation.tin}'),
+            if (vrn != null)
+              infoText(name: 'VRN', value: '${uservalue?.vfdaInformation.vrn}'),
             infoText(
-                name: 'CUSTOMER MOBILE',
-                value: '+255$number',
+                name: 'SERIAL NUMBER',
+                value: '${uservalue?.vfdaInformation.certKey}'),
+            infoText(name: 'UIN', value: '${uservalue?.vfdaInformation.uin}'),
+            infoText(
+                name: 'TAX OFFICE',
+                value: '${uservalue?.vfdaInformation.taxOffice}'),
+            const SpaceBetween(),
+            if (customerName case String name when name.isNotEmpty)
+              infoText(name: 'CUSTOMER NAME', value: name, spaceBetween: true),
+            infoText(
+                name: 'CUSTOMER ID TYPE',
+                value: '$customerIdType',
                 spaceBetween: true),
-          const SpaceBetween(),
-          infoText(
-              name: 'RECEIPT NUMBER',
-              value: '$receiptNumber',
-              spaceBetween: true),
-          infoText(name: 'ZNO', value: '$zNumber', spaceBetween: true),
-          infoText(
-              useColon: false,
-              name: 'RECEIPT DATE: ${formatDateOnly(timeString: dateTime)}',
-              value: 'TIME: ${formatTimeOnly(timeString: dateTime)}',
-              spaceBetween: true),
-          const SpaceBetween(),
-          stars,
-          for (final item in items) ...[
+            if (customerId != null)
+              infoText(
+                  name: 'CUSTOMER ID',
+                  value: '$customerId',
+                  spaceBetween: true),
+            if (vrn != null)
+              infoText(name: 'CUSTOMER VRN', value: '$vrn', spaceBetween: true),
+            if (mobileNumber case String number when number.isNotEmpty)
+              infoText(
+                  name: 'CUSTOMER MOBILE',
+                  value: '+255$number',
+                  spaceBetween: true),
+            const SpaceBetween(),
+            infoText(
+                name: 'RECEIPT NUMBER',
+                value: '$receiptNumber',
+                spaceBetween: true),
+            infoText(name: 'ZNO', value: '$zNumber', spaceBetween: true),
+            infoText(
+                useColon: false,
+                name: 'RECEIPT DATE: ${formatDateOnly(timeString: dateTime)}',
+                value: 'TIME: ${formatTimeOnly(timeString: dateTime)}',
+                spaceBetween: true),
+            const SpaceBetween(),
+            stars,
+            for (final item in items) ...[
+              infoText(
+                useColon: false,
+                spaceBetween: true,
+                name: '${item.name}\t\t${item.quantity}'
+                    '*${formatNumber(item.amount)}',
+                value:
+                    '${formatNumber(item.amount * item.quantity)}\t${item.taxCode}',
+              ),
+            ],
+            stars,
+            for (final value in vatRate) ...[
+              infoText(
+                  useColon: false,
+                  spaceBetween: true,
+                  name: 'TAX\t\t\t${value.rate}\t-\t'
+                      '${value.rate == 'A' ? '18' : '0'}%',
+                  value: formatNumber(value.amount))
+            ],
             infoText(
               useColon: false,
               spaceBetween: true,
-              name: '${item.name}\t\t${item.quantity}'
-                  '*${formatNumber(item.amount)}',
-              value: '${formatNumber(item.amount*item.quantity)}\t${item.taxCode}',
+              name: 'TOTAL TAX',
+              value: formatNumber(totalTax),
             ),
-          ],
-          stars,
-          for (final value in vatRate) ...[
+            stars,
             infoText(
                 useColon: false,
                 spaceBetween: true,
-                name: 'TAX\t\t\t${value.rate}\t-\t'
-                    '${value.rate == 'A' ? '18' : '0'}%',
-                value: formatNumber(value.amount))
+                name: 'TOTAL INCLUSIVE OF TAX',
+                value: formatNumber(totalTaxIncl)),
+            stars,
+            // Text(
+            //   'RECEIPT VERIFICATION CODE',
+            //   style: context.textTheme.bodyLarge?.copyWith(
+            //       color: Colors.black,
+            //       fontWeight: FontWeight.w700,
+            //       fontSize: 24,
+            //       fontFamily: fontFamily),
+            // ),
+            titleText('RECEIPT VERIFICATION CODE', bold: true),
+            // Text(
+            //   verificationCode,
+            //   style: context.textTheme.bodyMedium?.copyWith(
+            //     fontFamily: fontFamily,
+            //     color: Colors.black,
+            //     fontWeight: FontWeight.w700,
+            //   ),
+            // ),
+            titleText(verificationCode, fontSize: 24),
+            const SpaceBetween(),
+            QrImageView(data: verificationUrl, size: 200),
+            const SpaceBetween(),
+            titleText('***\t\t\t\tEND OF LEGAL RECEIPT\t\t\t***', bold: true,fontSize: 24),
+            const SpaceBetween(times: 4)
           ],
-          infoText(
-            useColon: false,
-            spaceBetween: true,
-            name: 'TOTAL TAX',
-            value: formatNumber(totalTax),
-          ),
-          stars,
-          infoText(
-              useColon: false,
-              spaceBetween: true,
-              name: 'TOTAL INCLUSIVE OF TAX',
-              value: formatNumber(totalTaxIncl)),
-          stars,
-          Text(
-            'RECEIPT VERIFICATION CODE',
-            style: style(
-                textStyle: context.textTheme.bodyLarge?.copyWith(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            )),
-          ),
-          Text(
-            verificationCode,
-            style: style(
-                textStyle: context.textTheme.bodyMedium?.copyWith(
-                    color: Colors.black, fontWeight: FontWeight.bold)),
-          ),
-          const SpaceBetween(),
-          QrImageView(data: verificationUrl, size: 200),
-          const SpaceBetween(),
-          titleText('***\t\t\t\tEND OF LEGAL RECEIPT\t\t\t***', bold: true),
-          const SpaceBetween(times: 4)
-        ],
+        ),
       ),
     );
   }

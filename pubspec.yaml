@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 0.1.6+11
+version: 0.1.7+12
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -51,7 +51,7 @@ dependencies:
   url_launcher: ^6.2.6
   flutter_native_splash: ^2.4.0
   qr_flutter: ^4.1.0
-  google_fonts: ^6.2.1
+  # google_fonts: ^6.2.1
   share_plus: ^9.0.0
   pdf: ^3.10.8
   flutter_to_pdf: ^0.2.1
@@ -97,6 +97,14 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+  fonts:
+    - family: MerchantCopy
+      fonts:
+        - asset: assets/fonts/merchant-copy.ttf
+        - asset: assets/fonts/merchant-copy-doublesize.ttf
+          weight: 700
+        - asset: assets/fonts/merchant-copy-wide.ttf
+          weight: 600
   # fonts:
   #   - family: Schyler
   #     fonts:
