@@ -1,6 +1,6 @@
 final class ZReport {
   final int id;
-  final String netAmount,
+  final dynamic netAmount,
       taxAmount,
       gross,
       time,
@@ -42,4 +42,27 @@ final class ZReport {
       status: map['status'],
       createdAt: map['createdAt'],
       updatedAt: map['updatedAt']);
+  ZReportStatus get zReportStatus => switch (status) {
+    2=>ZReportStatus.sent,
+    3=>ZReportStatus.fail,
+    4=>ZReportStatus.blocked,
+    5=>ZReportStatus.excluded,
+    1||_=>ZReportStatus.pending,
+  };
+}
+
+enum ZReportStatus {
+  pending,
+  sent,
+  fail,
+  blocked,
+  excluded;
+
+  String get label => switch (this) {
+        ZReportStatus.pending => 'Pending',
+        ZReportStatus.sent => 'Sent',
+        ZReportStatus.blocked => 'Blocked by TRA',
+        ZReportStatus.excluded => 'Excluded',
+    ZReportStatus.fail => 'Failed',
+      };
 }

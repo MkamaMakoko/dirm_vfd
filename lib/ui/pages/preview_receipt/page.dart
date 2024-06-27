@@ -96,7 +96,8 @@ class PreviewReceiptPage extends ConsumerWidget {
                     amount: item.price,
                     name: item.item.name,
                     quantity: item.quantity,
-                    taxCode: item.taxCode.vatRate
+                    taxCode: item.taxCode.vatRate,
+                    discount:item.discount
                   )
               ],
               customerName: value?.customersState.customer?.name ?? '',

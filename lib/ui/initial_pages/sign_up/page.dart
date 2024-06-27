@@ -92,7 +92,7 @@ class InitialSignUpPage extends ConsumerWidget {
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Email',
-              prefixIcon: Icon(Icons.alternate_email_rounded),
+              prefixIcon: Icon(Icons.email_rounded),
             ),
           ),
           const SpaceBetween(),
@@ -126,7 +126,7 @@ class InitialSignUpPage extends ConsumerWidget {
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Password',
-              prefixIcon: Icon(Icons.password_rounded),
+              prefixIcon: Icon(Icons.key_rounded),
             ),
           ),
           const SpaceBetween(),
@@ -144,7 +144,7 @@ class InitialSignUpPage extends ConsumerWidget {
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Confirm password',
-              prefixIcon: Icon(Icons.password_rounded),
+              prefixIcon: Icon(Icons.key_rounded),
             ),
           ),
           const SpaceBetween(),

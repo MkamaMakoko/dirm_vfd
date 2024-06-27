@@ -117,12 +117,30 @@ class _MyReceiptsPageState extends ConsumerState<MyReceiptsPage> {
                       context.router.push(ReceiptRoute(receiptId: receipt.id)),
                   titleAlignment: ListTileTitleAlignment.center,
                   isThreeLine: true,
-                  leading: CircleAvatar(
-                      backgroundColor: context.colorScheme.secondaryContainer,
-                      child: Text(receipt.id.toString())),
+                  // leading: CircleAvatar(
+                  //     backgroundColor: context.colorScheme.secondaryContainer,
+                  //     child: Text(receipt.id.toString())),
                   // trailing: const Text('Tsh 300,000.00'),
-                  title: Text(
-                    receipt.custName ?? '(Unnamed customer)',
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: edgeInsertValue / 2,
+                              vertical: edgeInsertValue / 8),
+                          decoration: BoxDecoration(
+                              color: context.colorScheme.secondaryContainer,
+                              borderRadius:
+                                  BorderRadius.circular(edgeInsertValue/4)),
+                          child: Text(
+                            'Receipt:\t${receipt.id.toString()}',
+                            style: context.textTheme.labelLarge?.copyWith(
+                                color:
+                                    context.colorScheme.onSecondaryContainer),
+                          )),
+                      Text(receipt.custName ?? '(Unnamed customer)'),
+                    ],
                   ),
                   subtitle: RichText(
                       text: TextSpan(children: [

@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:dirm_vfd/objects/z_report.dart';
 import 'package:dirm_vfd/providers/_.dart';
 import 'package:dirm_vfd/ui/widgets/search_anchor/widget.dart';
+import 'package:dirm_vfd/ui/widgets/space_between.dart';
 import 'package:dirm_vfd/utils/_.dart';
 import 'package:dirm_vfd/utils/context_extension.dart';
+import 'package:dirm_vfd/utils/format_number.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 part 'report_tile.dart';
@@ -114,12 +117,14 @@ class _ZReportsPageState extends ConsumerState<ZReportsPage> {
                 //   ], style: context.textTheme.bodyMedium)),
                 // );
                 return _ReportTile(
+                  id: zReport.id,
                   initiallyExpanded: index == 0,
                   date: zReport.date,
-                  daily: zReport.dailyTotal,
-                  net: zReport.netAmount,
-                  tax: zReport.taxAmount,
-                  gross: zReport.gross,
+                  status:zReport.zReportStatus,
+                  daily: formatNumber(zReport.dailyTotal),
+                  net: formatNumber(zReport.netAmount),
+                  tax: formatNumber(zReport.taxAmount),
+                  gross: formatNumber(zReport.gross),
                 );
               },
             )

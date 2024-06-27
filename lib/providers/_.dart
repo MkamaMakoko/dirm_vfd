@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:bluetooth_print/bluetooth_print.dart';
 import 'package:bluetooth_print/bluetooth_print_model.dart';
 import 'package:dirm_vfd/objects/_.dart';
@@ -63,8 +64,10 @@ Future<http.Response> _post(
   });
 }
 
-Uri _url({required String endpoint}) =>
-    Uri.parse('https://testapp.africaner.online/mobile_apps/v1/$endpoint');
+const _baseUrl = kDebugMode
+    ? 'https://testapp.africaner.online/mobile_apps/v1'
+    : 'https://api.dirmvfd.co.tz/mobile_apps/v1';
+Uri _url({required String endpoint}) => Uri.parse('$_baseUrl/$endpoint');
 
 ({
   Map<String, dynamic> body,
@@ -73,6 +76,8 @@ Uri _url({required String endpoint}) =>
   String? statusDesc,
   dynamic data,
 }) _response(http.Response response) {
+  const connectionError = 'Network error\n'
+      'Connect to reliable internet connection, or try again later';
   if (kDebugMode) {
     print('START RESPONSE\n\n');
     print(response.statusCode);
@@ -94,6 +99,10 @@ Uri _url({required String endpoint}) =>
       statusDesc: statusDesc,
       data: body['data']
     );
+  } on http.ClientException {
+    throw connectionError;
+  } on SocketException {
+    throw connectionError;
   } catch (error) {
     if (kDebugMode) rethrow;
     throw 'Unexpected error occurred';

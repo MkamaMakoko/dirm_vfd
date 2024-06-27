@@ -68,6 +68,11 @@ class __AddItemState extends ConsumerState<_AddItem> {
     final number = double.tryParse(discountTEC.text);
     if (number == null) return 'Invalid discount';
     if (number < 0) return 'Discount cannot be less than to 0.0';
+    final price = double.tryParse(priceTEC.text);
+    if (price != null && number >= price) {
+      return 'Discount must be less than price';
+    }
+
     return null;
   }
 
@@ -234,7 +239,7 @@ class __AddItemState extends ConsumerState<_AddItem> {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           autovalidateMode: _autoValidateMode,
-          // validator: (_) => value?.priceValidator,
+          // validator: (_) => discountValidator,
           // onEditingComplete: onSubmit,
           decoration: const InputDecoration(
             labelText: 'Discount price',
