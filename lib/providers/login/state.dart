@@ -7,6 +7,6 @@ class LoginState with _$LoginState {
       _LoginState;
 
   String? get emailValidator => validateEmail(email);
-  String? get passwordValidator => validatePassword(password);
+  String? get passwordValidator => null;
   bool get canSubmit => emailValidator == null && passwordValidator == null;
 }

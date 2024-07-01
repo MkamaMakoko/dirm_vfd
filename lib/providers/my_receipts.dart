@@ -25,9 +25,12 @@ Future<MyReceiptsResults> myReceipts(MyReceiptsRef ref,
       receipts: [
         for (final map in response.data as Iterable) Receipt.fromMap(map)
       ]..sort((a, b) {
-          final int ia = a.id;
-          final int ib = b.id;
-          return ia < ib ? 0 : 1;
+          // final int ia = a.id;
+          // final int ib = b.id;
+          // return ia < ib ? 0 : 1;
+          final dateA = DateTime.tryParse(a.dateTime) ?? DateTime.now();
+          final dateB = DateTime.tryParse(b.dateTime) ?? DateTime.now();
+          return dateA.isAfter(dateB) ? -1 : 1;
         }),
       received: received,
       totalPages: totalPages,
@@ -56,7 +59,9 @@ Future<MyReceiptsResults> searchReceipts(SearchReceiptsRef ref,
     num? maxmum,
     num? minimum,
     PaymentType? paymentType,
-    String? tin,int page = 1, int size = 50}) async {
+    String? tin,
+    int page = 1,
+    int size = 50}) async {
   final selectedBranch = await ref.watch(selectedBranchProvider.future);
   final token =
       await ref.watch(userProvider.selectAsync((value) => value?.token));

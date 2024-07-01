@@ -128,54 +128,69 @@ class _ReceiptPageState extends ConsumerState<ReceiptPage> {
               ),
             ),
           if (value case FullReceipt receipt)
-            SliverToBoxAdapter(
-              child: Container(
-                  color: Colors.white,
-                  key: key,
-                  padding: const EdgeInsets.all(edgeInsertValue),
-                  child: WidgetsToImage(
-                    controller: _controller,
-                    child: ExportFrame(
-                      frameId: receiptFrameId,
-                      exportDelegate: exportDelegate,
-                      child: CaptureWrapper(
-                          key: const Key(receiptFrameId),
-                          child: ReceiptWidget(
-                            // key: key,
-                            vatRate: [
-                              for (final value in receipt.vatTotals)
-                                (amount: value.taxAmount, rate: value.vatRate)
-                            ],
-                            items: [
-                              for (final item in receipt.items)
-                                (
-                                  amount: item.amt,
-                                  name: item.desc,
-                                  quantity: item.qyt ?? 0,
-                                  taxCode:
-                                      (item.taxCode as int).getTaxCode.vatRate,
-                                  discount: item.discount
-                                )
-                            ],
-                            customerName: receipt.custName,
-                            customerId: receipt.custId,
-                            customerIdType:
-                                (receipt.custIdType as int).idTypeLabel,
-                            vrn: receipt.vrn,
-                            mobileNumber: receipt.mobileNum,
-                            receiptNumber: receipt.rctNum,
-                            zNumber: receipt.zNum,
-                            dateTime: receipt.dateTime,
-                            totalTaxExcl: receipt.totalTaxExcl,
-                            totalTaxIncl: receipt.totalTaxIncl,
-                            // totalTax: receipt..,
-                            discount: receipt.discount,
-                            verificationCode:
-                                receipt.traReceiptVerificationCode,
-                            verificationUrl: receipt.traReceiptVerificationUrl,
-                          )),
-                    ),
-                  )),
+      
+            SliverConstrainedCrossAxis(
+              maxExtent: receiptWidth.toDouble(),
+              sliver: SliverToBoxAdapter(
+                child: Container(
+                    color: Colors.white,
+                    key: key,
+                    padding: const EdgeInsets.all(edgeInsertValue),
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints.tightFor(
+                            width: receiptWidth.toDouble()),
+                        child: WidgetsToImage(
+                          controller: _controller,
+                          child: ExportFrame(
+                            frameId: receiptFrameId,
+                            exportDelegate: exportDelegate,
+                            child: CaptureWrapper(
+                                key: const Key(receiptFrameId),
+                                child: ReceiptWidget(
+                                  // key: key,
+                                  vatRate: [
+                                    for (final value in receipt.vatTotals)
+                                      (
+                                        amount: value.taxAmount,
+                                        rate: value.vatRate
+                                      )
+                                  ],
+                                  items: [
+                                    for (final item in receipt.items)
+                                      (
+                                        amount: item.amt,
+                                        name: item.desc,
+                                        quantity: item.qyt ?? 0,
+                                        taxCode: (item.taxCode as int)
+                                            .getTaxCode
+                                            .vatRate,
+                                        discount: item.discount
+                                      )
+                                  ],
+                                  customerName: receipt.custName,
+                                  customerId: receipt.custId,
+                                  customerIdType:
+                                      (receipt.custIdType as int).idTypeLabel,
+                                  vrn: receipt.vrn,
+                                  mobileNumber: receipt.mobileNum,
+                                  receiptNumber: receipt.rctNum,
+                                  zNumber: receipt.zNum,
+                                  dateTime: receipt.dateTime,
+                                  totalTaxExcl: receipt.totalTaxExcl,
+                                  totalTaxIncl: receipt.totalTaxIncl,
+                                  // totalTax: receipt..,
+                                  discount: receipt.discount,
+                                  verificationCode:
+                                      receipt.traReceiptVerificationCode,
+                                  verificationUrl:
+                                      receipt.traReceiptVerificationUrl,
+                                )),
+                          ),
+                        ),
+                      ),
+                    )),
+              ),
             )
         ],
       ),
